@@ -46,6 +46,7 @@ Supabase Auth is the only identity authority. Every user-owned record carries a 
 
 - `supabase/migrations/20261121221153_initial_morphfolio_schema.sql`
 - `supabase/migrations/20261121221228_harden_rls_and_index_foreign_keys.sql`
+- `supabase/migrations/20261121221724_lock_down_api_privileges.sql`
 
 The security advisor returned no findings after hardening. The performance advisor no longer reports unindexed foreign keys; its remaining unused-index notices are expected while the tables are empty and should be reassessed after real workload exists.
 
