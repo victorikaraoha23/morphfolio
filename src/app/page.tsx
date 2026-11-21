@@ -78,7 +78,7 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
       <div className="mt-5 flex flex-wrap gap-2">
         {project.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}
       </div>
-      <a href={project.href} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center gap-2 border-t border-border pt-5 text-xs font-bold text-brand">
+      <a href={project.href} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center gap-2 border-t border-line pt-5 text-xs font-bold text-brand">
         <span className="mt-6">{project.action}</span><ExternalLink size={13} className="mt-6" aria-hidden="true" />
       </a>
     </article>
@@ -133,7 +133,7 @@ export default function Home() {
                 <div className="eyebrow mb-6 flex items-center gap-2"><Sparkles size={14} aria-hidden="true" /> Current focus</div>
                 <h2 className="text-2xl font-semibold leading-tight tracking-[-.05em]">Learning by building real products.</h2>
                 <p className="mt-4 text-sm leading-6 text-muted">My work currently sits around practical AI applications, developer tools, and the engineering behind dependable software.</p>
-                <div className="mt-7 border-t border-border pt-6">
+                <div className="mt-7 border-t border-line pt-6">
                   <p className="text-[10px] font-bold uppercase tracking-[.14em] text-muted">Tools I'm working with</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {currentTools.map((tool) => <span className="tag" key={tool}>{tool}</span>)}
@@ -157,7 +157,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="work" className="section-divider bg-surface/40 py-20 sm:py-24">
+        <section id="work" className="section-divider bg-panel/40 py-20 sm:py-24">
           <div className="shell">
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
               <div><div className="eyebrow mb-4">Selected projects</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-5xl">Built, being built, explored.</h2></div>
