@@ -1,110 +1,144 @@
 # MorphFolio — System Architecture
 
-**Status:** Architecture baseline  
-**Pattern:** Modular monolith, SaaS-ready boundaries
+**Status:** Personal-first architecture baseline  
+**Pattern:** Modular monolith with a single owner and a future-compatible domain boundary
 
-## 1. Technology decisions
+## 1. Product architecture decision
+
+MorphFolio is initially one public personal portfolio with one private owner/admin account. Do not implement public signup, tenant switching, organizations, billing, or customer workspaces.
+
+Keep domain modules and ownership boundaries clean enough that a future multi-user product can be considered separately, but do not add abstractions that only serve hypothetical SaaS requirements.
+
+The public website reads explicitly published portfolio content. The private dashboard manages drafts and published versions. AI and GitHub integrations assist the owner; neither has authority to publish content independently.
+
+## 2. Technology decisions
 
 | Concern | Decision | Notes |
 |---|---|---|
-| Web application | Next.js App Router | Server-first React application |
+| Web application | Next.js App Router | Server-first rendering |
 | Language | TypeScript | Strict mode |
-| Styling | Tailwind CSS | Design tokens and responsive UI |
-| UI primitives | shadcn/ui + Radix | Accessible, composable components |
-| Icons | Lucide | Consistent icon set |
-| Motion | Motion | Use sparingly and respect reduced-motion |
-| Database | Supabase PostgreSQL | Persistent domain data |
-| Authentication | Supabase Auth | Owner/admin authentication |
-| GitHub | GitHub App + REST API | Read-only permissions initially |
-| AI gateway | OpenRouter | Provider/model abstraction |
+| Styling | Tailwind CSS 4 | Semantic design tokens from the approved palette |
+| UI primitives | Accessible primitives / Radix where useful | Avoid unnecessary component dependencies |
+| Icons | Lucide | Consistent iconography |
+| Motion | Lightweight motion library or CSS | Subtle; respect reduced motion |
+| Database | Supabase PostgreSQL | Owner-managed content and private operational data |
+| Authentication | Supabase Auth | Private owner-only access |
+| File storage | Supabase Storage | Portfolio media and CV with explicit policies |
+| GitHub | GitHub App + REST API | Read-only initial permissions |
+| AI gateway | OpenRouter | Model/provider configuration isolated |
 | AI SDK | Vercel AI SDK + OpenRouter provider | Typed model calls |
-| Validation | Zod | Runtime boundary validation |
-| Automation | GitHub Actions | CI and scheduled jobs initially |
+| Validation | Zod | Runtime validation at boundaries |
+| Email | Provider selected before contact-notification implementation | Server-side delivery only |
+| Analytics | Privacy-conscious provider selected before analytics phase | Aggregated reporting |
 | Tests | Vitest + Playwright | Unit/integration and browser E2E |
-| Hosting | Vercel | Initial hosting target |
-| Error monitoring | Sentry (later) | Add when production needs justify it |
+| Hosting | Vercel | Production and preview deployments |
+| Monitoring | Error monitoring selected for production | Add with operational readiness |
 
-## 2. High-level architecture
+## 3. High-level architecture
 
 ```mermaid
 flowchart TD
-  GH[GitHub App / REST API] --> SYNC[GitHub Synchronizer]
-  SYNC --> NORM[Repository Normalizer]
-  NORM --> DB[(Supabase PostgreSQL)]
-  DB --> ANALYST[AI Project Analyst]
-  ANALYST --> OR[OpenRouter]
-  OR --> VALIDATE[Zod + Domain Validation]
-  VALIDATE --> PROFILES[Evidence-backed Project Profiles]
-  PROFILES --> ARCH[Portfolio Architect]
-  ARCH --> CONFIG[Versioned Portfolio Configuration]
-  CONFIG --> PREVIEW[Preview Renderer]
-  PREVIEW --> APPROVAL{Owner Approval}
-  APPROVAL -->|Approve| PUBLISH[Publish Approved Version]
-  APPROVAL -->|Reject| KEEP[Keep Previous Published Version]
-  PUBLISH --> PUBLIC[Public Portfolio]
-  PUBLISH --> HISTORY[Version / Evolution History]
+  VISITOR[Public visitor] --> WEB[Public Next.js portfolio]
+  WEB --> PUB[Published content read path]
+  PUB --> DB[(Supabase PostgreSQL)]
+  OWNER[Owner] --> AUTH[Supabase Auth]
+  AUTH --> ADMIN[Private admin dashboard]
+  ADMIN --> CMS[Content and publishing module]
+  CMS --> DB
+  ADMIN --> GH[GitHub App integration]
+  GH --> SYNC[Repository synchronization]
+  SYNC --> EVIDENCE[Normalized metadata and evidence]
+  EVIDENCE --> DB
+  ADMIN --> AI[AI Portfolio Assistant]
+  AI --> OR[OpenRouter]
+  OR --> VALIDATE[Zod and evidence checks]
+  VALIDATE --> DRAFT[Private draft content]
+  DRAFT --> REVIEW[Owner preview and approval]
+  REVIEW -->|Publish| PUB
+  REVIEW -->|Reject or edit| DRAFT
+  VISITOR --> CONTACT[Contact form]
+  CONTACT --> INBOX[Private Supabase inbox]
+  INBOX --> EMAIL[Owner email notification]
+  WEB --> ANALYTICS[Privacy-conscious analytics]
+  ADMIN --> ANALYTICS_DASH[Private analytics dashboard]
 ```
 
-## 3. Architectural boundaries
+## 4. Domain modules
 
-### GitHub module
-Owns GitHub App authentication, installation discovery, repository listing, repository selection, API pagination, rate-limit handling, and webhook verification.
+### Public portfolio
+Owns localized public routes, navigation, profile presentation, project listing/detail pages, resume, services, FAQ, contact UI, metadata, and published-content queries.
 
-### Intelligence module
-Owns prompt construction, model selection, structured generation, evidence extraction, confidence metadata, retries, and AI cost accounting.
+### Content management
+Owns owner-editable records, media metadata, translations, drafts, previews, publication state, version history, and restore behavior.
 
-### Portfolio module
-Owns project profiles, layout policies, design preferences, rendering configuration, and public portfolio queries.
+### GitHub integration
+Owns GitHub App installation, repository discovery, explicit repository selection, pagination, rate-limit handling, synchronization, and evidence snapshots. Use read-only permissions initially.
 
-### Evolution module
-Owns run lifecycle, idempotency, proposals, approvals, publication, audit history, and rollback.
+### Intelligence
+Owns prompt construction, model selection, structured generation, evidence extraction, confidence/risk metadata, independent review, retries, and AI cost accounting. Models receive no write tools or secret access.
 
-### Database module
-Owns Supabase server client construction, typed queries, migrations, and access policies.
+### Contact and notifications
+Owns form validation, abuse prevention, private submission storage, inbox state, email notifications, and delivery retry/status.
 
-## 4. AI boundary
+### Analytics
+Owns privacy-conscious event collection and aggregated reporting. Do not expose visitor-level records to public routes.
 
-The AI returns typed domain data. It does not return executable JSX, JavaScript, CSS, SQL, shell commands, or arbitrary code. All AI output is treated as untrusted input.
+### Identity and database
+Owns Supabase SSR clients, server-side identity checks, typed queries, migrations, storage policies, and RLS.
 
-The pipeline is:
+## 5. Public/private data boundary
 
-1. Build a bounded evidence packet from selected repository data.
+- Public routes read only published content and explicitly public fields.
+- Draft content, private messages, GitHub credentials, AI evidence packets, analytics details, and owner settings remain private.
+- Do not grant anonymous direct access to owner tables simply to simplify rendering.
+- Use a narrowly scoped server-side published-content read path.
+- Public media URLs must be intentionally public; private uploads must remain protected.
+- Preview links must be owner-authorized and must not reveal drafts to anonymous visitors.
+
+## 6. AI boundary
+
+The AI returns typed content drafts and recommendations. It does not return executable JSX, JavaScript, CSS, SQL, or application code.
+
+Pipeline:
+1. Build a bounded evidence packet from selected repository data and owner-approved context.
 2. Call the configured OpenRouter model.
 3. Parse structured output.
 4. Validate with Zod.
-5. Apply deterministic rules and evidence checks.
-6. Persist a draft proposal.
-7. Require owner review before publication.
+5. Verify evidence references and apply deterministic policy checks.
+6. Persist a private draft with provenance.
+7. Allow owner review, editing, approval, and publishing.
 
-## 5. Data flow and consistency
+Repository content is untrusted and may contain prompt injection. Analysis models receive no tools, GitHub write access, code execution, secrets, or direct publishing permissions.
 
-- Synchronization writes normalized repository snapshots with source timestamps.
-- Analysis runs are idempotent for a repository revision and prompt/schema version.
-- Project profiles are versioned or auditable.
-- A portfolio configuration has draft, approved, and published states.
-- A failed run never overwrites the current published configuration.
-- Public rendering reads only approved published configuration and explicitly public project fields.
+## 7. Publishing and version consistency
 
-## 6. Background execution
+- Every content item has explicit draft/published state or participates in a versioned published snapshot.
+- Draft changes never affect public rendering.
+- Publishing is an explicit owner action.
+- Record publication actor, timestamp, and version.
+- Keep the last known-good published state if a write, AI run, or synchronization fails.
+- Support rollback/restore with an auditable event.
 
-Initial execution uses GitHub Actions for scheduled/manual synchronization and CI. Webhooks may trigger a secured application endpoint later. Do not rely on a long-running request inside a serverless route for an unbounded batch.
+## 8. Multilingual model
 
-For larger workloads, introduce a durable queue only when measured execution duration, retries, or concurrency require it.
+English is the default locale; French and Hausa are launch locales. Store locale-aware content with explicit translation completeness. Use fallback behavior for missing translations, but do not mark fallback text as a completed translation.
 
-## 7. Environment configuration
+Public URLs, metadata, canonical links, hreflang, and sitemap entries must be locale-aware.
 
-Document variable names in `.env.example`. Expected server-only variables include:
+## 9. Background execution
 
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` (or publishable key where applicable)
-- `SUPABASE_SERVICE_ROLE_KEY` (server only; never expose to browser)
-- `OPENROUTER_API_KEY`
-- `OPENROUTER_ANALYSIS_MODEL`
-- `OPENROUTER_ARCHITECT_MODEL`
-- `GITHUB_APP_ID`
-- `GITHUB_APP_PRIVATE_KEY`
-- `GITHUB_WEBHOOK_SECRET`
-- `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` only if required by the selected OAuth flow
-- `APP_URL`
+Use bounded server actions/routes for short operations. Use scheduled jobs or a durable execution mechanism for repository synchronization, large AI analysis, retries, and email delivery when needed. Do not rely on long-running serverless requests for unbounded work.
 
-Never commit actual values.
+Introduce a queue only when measured duration, retry requirements, or concurrency justify it.
+
+## 10. Security and operational requirements
+
+- Supabase Auth is the only identity authority.
+- Verify owner identity server-side for every protected operation.
+- RLS is mandatory for private tables.
+- Keep service-role credentials, GitHub private keys/tokens, and AI keys server-side.
+- Rate-limit login, contact, AI, sync, and upload operations.
+- Validate external inputs and uploaded media.
+- Do not log secrets or message bodies unnecessarily.
+- Keep an audit trail for GitHub connection, sync, AI approval, publish, restore, and contact state changes.
+- Configure backups, error monitoring, and deployment checks before production launch.
