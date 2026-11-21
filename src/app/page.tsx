@@ -34,7 +34,7 @@ const projects = [
     number: "03",
     name: "AgentsChat",
     type: "OPEN-SOURCE EXPLORATION",
-    status: "EXPERIMENTAL",
+    status: "IN DEVELOPMENT",
     description: "A hosted AI-agent workspace for turning plain-language requests into executed work.",
     tags: ["TypeScript", "AI Agents", "Automation"],
     href: "https://github.com/victorikaraoha23/Agentschat",
@@ -53,7 +53,7 @@ function Brand() {
   return (
     <a href="#top" className="flex items-center gap-2.5" aria-label="Victor Ikaraoha home">
       <span className="grid h-8 w-8 place-items-center rounded-xl border border-lime-200/20 bg-lime-300/10 text-lime-200"><Sparkles size={16} /></span>
-      <span className="text-[13px] font-semibold tracking-[-.035em]">VI<span className="text-lime-300">.</span></span>
+      <span className="text-[13px] font-semibold tracking-[-.035em]">Victor Ikaraoha<span className="text-lime-300">.</span></span>
     </a>
   );
 }
