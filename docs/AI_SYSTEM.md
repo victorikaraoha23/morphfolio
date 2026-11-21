@@ -2,9 +2,9 @@
 
 ## 1. Provider strategy
 
-OpenRouter is the initial model gateway. Model identifiers are configured through environment variables and must not be hard-coded into domain logic.
+OpenRouter is the initial model gateway, accessed through `@openrouter/ai-sdk-provider` and the Vercel AI SDK. Model identifiers are configured through environment variables and must not be hard-coded into domain logic.
 
-The AI integration is isolated behind an internal interface so the gateway or SDK can be replaced without changing project-analysis and portfolio domain modules.
+The integration is isolated in `src/lib/ai/openrouter.ts`. Domain modules call typed services and do not construct provider clients directly. This keeps the gateway and model implementation replaceable.
 
 ## 2. Workloads
 
@@ -37,6 +37,8 @@ Each factual statement should reference one or more evidence records. Inferences
 
 Repository content is untrusted data. It must never be treated as system or developer instructions. Delimit source text, remove unnecessary content, limit token budgets, and instruct models to extract facts only. Do not give analysis models tools that can write to GitHub, execute code, access secrets, or mutate production data.
 
+The first repository analyst implementation receives a bounded JSON evidence packet, has no tools, uses a dedicated system instruction, and verifies all returned evidence IDs against the supplied packet.
+
 ## 5. Output validation
 
 - Use Zod schemas for every model output.
@@ -61,3 +63,7 @@ Repository content is untrusted data. It must never be treated as system or deve
 ## 7. Publication policy
 
 AI output always begins as a draft. Owner approval is required for v1 publication. A future hybrid policy may auto-apply low-risk metadata refreshes while retaining approval for copy, featured-project, and layout changes.
+
+## 8. Current implementation status
+
+The repository analyst is implemented as a server-only service in `src/modules/intelligence/analyze-repository.ts`. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. It is not exposed through a public route; authentication, rate limiting, and owner authorization must be implemented before adding an endpoint.
