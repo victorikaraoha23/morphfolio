@@ -47,12 +47,19 @@ Open [http://localhost:3000](http://localhost:3000).
 - Server-only OpenRouter provider configuration.
 - Zod schemas for repository evidence packets and generated project profiles.
 - Repository analyst service with bounded output, evidence-ID validation, and a request timeout.
+- Supabase browser/server client utilities using cookie-based SSR sessions and the publishable key.
+- Server-side identity lookup using `auth.getUser()`; protected operations must not trust browser-supplied user IDs.
+- Initial Supabase schema migration prepared with owner-scoped RLS, evidence-linked project profiles, evolution runs, portfolio versions, and append-only approval history.
 
-The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. GitHub connection, Supabase persistence, authenticated dashboard, and publication workflow remain future milestones.
+The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. The schema migration is committed but still needs to be applied and verified against the restored Supabase project. GitHub installation flow, authenticated dashboard, persisted end-to-end analysis, and public publishing remain future milestones.
 
 ## Environment variables
 
-See [.env.example](.env.example). Keep all secrets server-side. Never commit `.env.local`, GitHub private keys, Supabase service-role keys or OpenRouter API keys.
+See [.env.example](.env.example). Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from the Supabase project. Keep all secrets server-side. Never commit `.env.local`, GitHub private keys, Supabase secret/service-role keys or OpenRouter API keys.
+
+## Database foundation
+
+See [the data model](docs/DATA_MODEL.md) and the initial migration in `supabase/migrations/`. The migration intentionally does not grant anonymous access to private portfolio data. Public portfolio delivery will be implemented as a separate, explicitly scoped read path.
 
 ## Quality checks
 
