@@ -59,14 +59,14 @@ export default async function DashboardPage() {
           <article className="surface-card p-6">
             <div className="eyebrow">01 / GitHub</div>
             <h2 className="mt-4 text-xl font-semibold tracking-[-.04em]">Connect your repositories</h2>
-            <p className="mt-2 text-sm leading-6 text-white/45">GitHub App installation and repository selection are the next integration milestone.</p>
+            <p className="mt-2 text-sm leading-6 text-muted">GitHub App installation and repository selection are the next integration milestone.</p>
             <span className="mt-6 inline-flex rounded-full status-pill">Not connected yet</span>
           </article>
-          <article className="panel p-6">
+          <article className="surface-card p-6">
             <div className="eyebrow">02 / Portfolio</div>
             <h2 className="mt-4 text-xl font-semibold tracking-[-.04em]">Review your project profiles</h2>
-            <p className="mt-2 text-sm leading-6 text-white/45">Generated descriptions will be linked to repository evidence and require your approval before publishing.</p>
-            <span className="mt-6 inline-flex rounded-full border border-white/10 px-3 py-1.5 text-[10px] text-white/45">Waiting for repositories</span>
+            <p className="mt-2 text-sm leading-6 text-muted">Generated descriptions will be linked to repository evidence and require your approval before publishing.</p>
+            <span className="mt-6 inline-flex rounded-full border border-white/10 px-3 py-1.5 text-[10px] text-muted">Waiting for repositories</span>
           </article>
         </section>
       </div>
