@@ -120,7 +120,7 @@ create table public.project_profiles (
   foreign key (repository_id, user_id)
     references public.repositories(id, user_id) on delete cascade,
   foreign key (snapshot_id, user_id, repository_id)
-    references public.repository_snapshots(id, user_id, repository_id) on delete restrict,
+    references public.repository_snapshots(id, user_id, repository_id) on delete cascade,
   constraint project_profiles_technologies_array check (jsonb_typeof(technologies) = 'array'),
   constraint project_profiles_highlights_array check (jsonb_typeof(highlights) = 'array'),
   constraint project_profiles_claims_array check (jsonb_typeof(claims) = 'array')
@@ -192,9 +192,9 @@ create table public.portfolio_versions (
   foreign key (portfolio_id, user_id)
     references public.portfolios(id, user_id) on delete cascade,
   foreign key (evolution_run_id, user_id)
-    references public.evolution_runs(id, user_id) on delete set null,
+    references public.evolution_runs(id, user_id) on delete restrict,
   foreign key (based_on_version_id, user_id)
-    references public.portfolio_versions(id, user_id) on delete set null,
+    references public.portfolio_versions(id, user_id) on delete restrict,
   constraint portfolio_versions_configuration_object check (jsonb_typeof(configuration) = 'object')
 );
 
