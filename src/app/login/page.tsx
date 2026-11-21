@@ -72,7 +72,7 @@ export default function LoginPage() {
         {error ? <p role="alert" className="mt-5 rounded-xl border notice-error">{error}</p> : null}
 
         <p className="mt-8 text-xs text-muted">
-          Your session is secured by Supabase Auth. <Link href="/" className="text-white/65 hover:text-brand">Return to portfolio</Link>
+          Your session is secured by Supabase Auth. <Link href="/" className="text-brand hover:underline">Return to portfolio</Link>
         </p>
       </section>
     </main>
