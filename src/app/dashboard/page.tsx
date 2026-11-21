@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { getAuthenticatedUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
+import { isPortfolioOwner } from "@/lib/supabase/owner";
 
 async function signOut() {
   "use server";
@@ -17,6 +18,11 @@ export default async function DashboardPage() {
 
   if (!user) {
     redirect("/login");
+  }
+
+  if (!isPortfolioOwner(user.email)) {
+    await supabase.auth.signOut();
+    redirect("/login?error=unauthorized");
   }
 
   const { data: profile, error } = await supabase
@@ -43,7 +49,7 @@ export default async function DashboardPage() {
       </header>
 
       <div className="shell py-14 sm:py-20">
-        <div className="eyebrow mb-4">Your workspace</div>
+        <div className="eyebrow mb-4">Portfolio management</div>
         <h1 className="text-4xl font-semibold tracking-[-.065em] sm:text-5xl">Welcome, {displayName}.</h1>
         <p className="mt-4 max-w-xl text-sm leading-6 text-white/45">
           Your account is connected. The next step is linking GitHub so MorphFolio can inspect selected repositories and build evidence-backed project profiles.
