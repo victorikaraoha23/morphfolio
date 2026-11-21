@@ -1,7 +1,7 @@
 import {
   ArrowDownRight,
   ArrowUpRight,
-  ArrowUpRightFromSquare,
+  ExternalLink,
   Github,
   MoveUpRight,
   Sparkles
