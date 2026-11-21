@@ -51,7 +51,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - Server-side identity lookup using `auth.getUser()`; protected operations must not trust browser-supplied user IDs.
 - Initial Supabase schema migration prepared with owner-scoped RLS, evidence-linked project profiles, evolution runs, portfolio versions, and append-only approval history.
 
-The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. The schema migration is committed but still needs to be applied and verified against the restored Supabase project. GitHub installation flow, authenticated dashboard, persisted end-to-end analysis, and public publishing remain future milestones.
+The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. The initial schema and hardening migrations are applied to the dedicated Supabase project. All 11 tables have RLS enabled; security advisors report no findings, and the foreign-key index advisories have been addressed. GitHub installation flow, authenticated dashboard, persisted end-to-end analysis, and public publishing remain future milestones.
 
 ## Environment variables
 
