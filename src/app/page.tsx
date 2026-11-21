@@ -12,42 +12,9 @@ import {
 } from "lucide-react";
 
 import { ThemeToggle } from "@/components/theme-toggle";
+import { projects } from "@/lib/portfolio/projects";
 
-const projects = [
-  {
-    number: "01",
-    name: "AI Slop Checker",
-    category: "AI product",
-    status: "Live",
-    description: "A web product focused on examining content for signs of low-quality or machine-generated output.",
-    tags: ["AI", "Web application", "Content analysis"],
-    href: "https://ai-slop-checker-five.vercel.app/",
-    action: "Visit live product",
-    featured: true
-  },
-  {
-    number: "02",
-    name: "Blueprint AI",
-    category: "Developer tool",
-    status: "In development",
-    description: "An AI-assisted product-planning tool designed to turn rough software ideas into researched, structured, implementation-ready blueprints.",
-    tags: ["Next.js", "LLM workflows", "Supabase"],
-    href: "https://github.com/victorikaraoha23",
-    action: "Explore GitHub",
-    featured: true
-  },
-  {
-    number: "03",
-    name: "AgentsChat",
-    category: "AI agents",
-    status: "Experimental",
-    description: "An exploration of an AI-agent workspace for coordinating conversational requests and software-agent workflows.",
-    tags: ["TypeScript", "AI agents", "Automation"],
-    href: "https://github.com/victorikaraoha23/Agentschat",
-    action: "View repository",
-    featured: false
-  }
-];
+
 
 const capabilities = [
   { icon: Bot, title: "AI-powered applications", description: "Integrating language models and structured AI workflows into useful software." },
@@ -95,7 +62,7 @@ export default function Home() {
           <Brand />
           <nav className="hidden items-center gap-7 md:flex" aria-label="Main navigation">
             <a className="nav-link" href="#about">About</a>
-            <a className="nav-link" href="#work">Projects</a>
+            <a className="nav-link" href="/projects">Projects</a>
             <a className="nav-link" href="#capabilities">Capabilities</a>
             <a className="nav-link" href="#contact">Contact</a>
           </nav>
@@ -174,7 +141,7 @@ export default function Home() {
               <a href="https://github.com/victorikaraoha23?tab=repositories" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-brand">Browse GitHub repositories <ArrowUpRight size={14} aria-hidden="true" /></a>
             </div>
             <div className="mt-10 grid gap-4 lg:grid-cols-3">
-              {projects.map((project) => <ProjectCard key={project.name} project={project} />)}
+              {projects.filter((project) => project.featured).map((project) => <ProjectCard key={project.name} project={project} />)}
             </div>
           </div>
         </section>
