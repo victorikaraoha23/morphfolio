@@ -80,7 +80,7 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
         {project.tags.map((tag) => <span key={tag} className="rounded-full border border-white/[.08] px-2.5 py-1 text-[10px] text-white/45">{tag}</span>)}
       </div>
       <a href={project.href} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 border-t border-white/[.07] pt-4 text-[11px] font-semibold text-white/65 transition group-hover:text-lime-200">
-        {project.action} <ArrowUpRightFromSquare size={12} />
+        {project.action} <ExternalLink size={12} />
       </a>
     </article>
   );
