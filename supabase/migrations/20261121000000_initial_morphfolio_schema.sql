@@ -268,7 +268,7 @@ begin
     execute format('create policy %I on public.%I for update to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id)', table_name || '_update_own', table_name);
     execute format('create policy %I on public.%I for delete to authenticated using ((select auth.uid()) = user_id)', table_name || '_delete_own', table_name);
   end loop;
-end
+end;
 $;
 
 -- Approval history is append-only and written by trusted server-side code.
