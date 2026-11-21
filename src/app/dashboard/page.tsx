@@ -40,7 +40,7 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen">
       <header className="section-divider">
-        <div shell flex h-[72px] items-center justify-between>
+        <div className="shell flex h-[72px] items-center justify-between">
           <Link href="/" className="text-sm font-semibold tracking-[-.03em]">MorphFolio<span className="text-brand">.</span></Link>
           <form action={signOut}>
             <button type="submit" className="secondary-button !px-3 !py-2 text-[11px]">Sign out</button>
@@ -66,7 +66,7 @@ export default async function DashboardPage() {
             <div className="eyebrow">02 / Portfolio</div>
             <h2 className="mt-4 text-xl font-semibold tracking-[-.04em]">Review your project profiles</h2>
             <p className="mt-2 text-sm leading-6 text-muted">Generated descriptions will be linked to repository evidence and require your approval before publishing.</p>
-            <span className="mt-6 inline-flex rounded-full border border-white/10 px-3 py-1.5 text-[10px] text-muted">Waiting for repositories</span>
+            <span className="mt-6 inline-flex rounded-full status-pill">Waiting for repositories</span>
           </article>
         </section>
       </div>
