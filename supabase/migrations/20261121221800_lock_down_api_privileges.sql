@@ -23,17 +23,11 @@ grant select, insert on public.approval_events to service_role;
 -- Remove those defaults for both roles that create application objects.
 alter default privileges for role postgres in schema public
   revoke all on tables from anon, authenticated, service_role;
-alter default privileges for role supabase_admin in schema public
-  revoke all on tables from anon, authenticated, service_role;
 
 alter default privileges for role postgres in schema public
   revoke all on sequences from anon, authenticated, service_role;
-alter default privileges for role supabase_admin in schema public
-  revoke all on sequences from anon, authenticated, service_role;
 
 alter default privileges for role postgres in schema public
-  revoke execute on functions from anon, authenticated;
-alter default privileges for role supabase_admin in schema public
   revoke execute on functions from anon, authenticated;
 
 revoke all on all sequences in schema public from anon, authenticated, service_role;
