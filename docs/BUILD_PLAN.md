@@ -18,10 +18,12 @@
 
 ## Phase 1 — Design system and public portfolio shell
 
-- [ ] Implement semantic light/dark design tokens exactly matching the approved palette.
-- [ ] Implement system theme preference and manual override.
-- [ ] Build responsive navigation, footer, VI identity assets, and accessible primitives.
-- [ ] Build the homepage hero and section layout.
+**Current progress:** The approved palette, light/dark theme behavior, responsive homepage shell, and searchable/filterable projects index are implemented. Remaining public routes, project case studies, command palette, multilingual UI, and full accessibility/performance verification are still outstanding.
+
+- [x] Implement semantic light/dark design tokens exactly matching the approved palette.
+- [x] Implement system theme preference and manual override.
+- [x] Build responsive navigation, footer, VI monogram, and initial accessible navigation/theme controls.
+- [x] Build the homepage hero and initial About, selected projects, capabilities, and contact sections.
 - [ ] Build About, Projects index, Project detail, Services, Resume, and Contact routes.
 - [ ] Add responsive states, loading/empty/error states, and reduced-motion behavior.
 - [ ] Add command palette and mobile navigation.
@@ -45,7 +47,7 @@
 
 - [ ] Populate About, skills, experience/timeline, education, services, FAQ, and contact sections from database content.
 - [ ] Implement featured project selection and manual ordering (3–4 on homepage by default).
-- [ ] Implement project categories, search, and lifecycle status labels.
+- [x] Implement the projects index with category filters, search, and lifecycle status labels.
 - [ ] Build detailed project case-study templates with architecture and media support.
 - [ ] Build the public resume page and print stylesheet.
 - [ ] Implement social links and editable availability.
