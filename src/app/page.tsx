@@ -1,86 +1,86 @@
 import {
-  ArrowDownRight,
+  ArrowDown,
   ArrowUpRight,
+  Bot,
+  Code2,
   ExternalLink,
   Github,
-  MoveUpRight,
-  Sparkles
+  Layers3,
+  Mail,
+  Sparkles,
+  Workflow
 } from "lucide-react";
+
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const projects = [
   {
     number: "01",
     name: "AI Slop Checker",
-    type: "AI PRODUCT",
-    status: "LIVE",
-    description: "A forensic lab for machine-made content, analyzing AI text, websites, documents and screenshots.",
-    tags: ["AI", "Web", "Product"],
+    category: "AI product",
+    status: "Live",
+    description: "A web product focused on examining content for signs of low-quality or machine-generated output.",
+    tags: ["AI", "Web application", "Content analysis"],
     href: "https://ai-slop-checker-five.vercel.app/",
     action: "Visit live product",
-    accent: "lime"
+    featured: true
   },
   {
     number: "02",
     name: "Blueprint AI",
-    type: "DEVELOPER TOOL",
-    status: "IN DEVELOPMENT",
-    description: "Turns rough software ideas into researched, validated, implementation-ready blueprints.",
-    tags: ["Next.js", "LLMs", "Supabase"],
+    category: "Developer tool",
+    status: "In development",
+    description: "An AI-assisted product-planning tool designed to turn rough software ideas into researched, structured, implementation-ready blueprints.",
+    tags: ["Next.js", "LLM workflows", "Supabase"],
     href: "https://github.com/victorikaraoha23",
     action: "Explore GitHub",
-    accent: "violet"
+    featured: true
   },
   {
     number: "03",
     name: "AgentsChat",
-    type: "OPEN-SOURCE EXPLORATION",
-    status: "IN DEVELOPMENT",
-    description: "A hosted AI-agent workspace for turning plain-language requests into executed work.",
-    tags: ["TypeScript", "AI Agents", "Automation"],
+    category: "AI agents",
+    status: "Experimental",
+    description: "An exploration of an AI-agent workspace for coordinating conversational requests and software-agent workflows.",
+    tags: ["TypeScript", "AI agents", "Automation"],
     href: "https://github.com/victorikaraoha23/Agentschat",
     action: "View repository",
-    accent: "blue"
+    featured: false
   }
 ];
 
-const focusAreas = [
-  { number: "01", title: "AI engineering", text: "LLM integrations, structured outputs, and useful AI-powered applications." },
-  { number: "02", title: "Autonomous software", text: "Building systems that can handle repeatable work with less manual intervention." },
-  { number: "03", title: "Product engineering", text: "Turning rough ideas into dependable, maintainable software products." }
+const capabilities = [
+  { icon: Bot, title: "AI-powered applications", description: "Integrating language models and structured AI workflows into useful software." },
+  { icon: Code2, title: "Web application development", description: "Building responsive product experiences with modern web technologies." },
+  { icon: Workflow, title: "Automation and agents", description: "Exploring systems that coordinate repeatable tasks and reduce manual work." },
+  { icon: Layers3, title: "Product engineering", description: "Turning early ideas into scoped, maintainable software products." }
 ];
+
+const currentTools = ["TypeScript", "JavaScript", "Next.js", "React", "Supabase", "OpenRouter", "AI SDK"];
 
 function Brand() {
   return (
-    <a href="#top" className="flex items-center gap-2.5" aria-label="Victor Ikaraoha home">
-      <span className="grid h-8 w-8 place-items-center rounded-xl border border-lime-200/20 bg-lime-300/10 text-lime-200"><Sparkles size={16} /></span>
-      <span className="text-[13px] font-semibold tracking-[-.035em]">Victor Ikaraoha<span className="text-lime-300">.</span></span>
+    <a href="#home" className="flex items-center gap-3" aria-label="Victor Ikaraoha — home">
+      <span className="brand-mark" aria-hidden="true">VI</span>
+      <span className="text-sm font-bold tracking-[-.04em]">Victor Ikaraoha<span className="text-primary">.</span></span>
     </a>
   );
 }
 
 function ProjectCard({ project }: { project: (typeof projects)[number] }) {
-  const accent = project.accent === "lime"
-    ? "border-lime-200/15 bg-lime-200/[.06] text-lime-200"
-    : project.accent === "violet"
-      ? "border-violet-200/15 bg-violet-200/[.06] text-violet-200"
-      : "border-sky-200/15 bg-sky-200/[.06] text-sky-200";
-
   return (
-    <article className="panel group flex h-full flex-col p-6 transition duration-300 hover:-translate-y-1 hover:border-white/20 sm:p-7">
-      <div className="flex items-center justify-between">
-        <span className="text-[11px] font-medium tracking-[.12em] text-white/35">{project.number} / {project.type}</span>
-        <span className={`rounded-full border px-2.5 py-1 text-[8px] font-bold tracking-[.12em] ${accent}`}>{project.status}</span>
+    <article className="project-card group">
+      <div className="flex items-start justify-between gap-3">
+        <span className="eyebrow">{project.number} / {project.category}</span>
+        <span className="status-pill">{project.status}</span>
       </div>
-      <div className="mt-10 flex items-end justify-between gap-3">
-        <h3 className="text-[25px] font-semibold tracking-[-.055em] text-white sm:text-[29px]">{project.name}</h3>
-        <span className={`mb-1 grid h-9 w-9 shrink-0 place-items-center rounded-xl border ${accent}`}><MoveUpRight size={16} /></span>
+      <h3 className="mt-9 text-2xl font-semibold tracking-[-.055em]">{project.name}</h3>
+      <p className="mt-3 text-sm leading-6 text-muted">{project.description}</p>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {project.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}
       </div>
-      <p className="mt-3 min-h-[54px] text-[13px] leading-6 text-white/48">{project.description}</p>
-      <div className="mt-6 flex flex-wrap gap-2">
-        {project.tags.map((tag) => <span key={tag} className="rounded-full border border-white/[.08] px-2.5 py-1 text-[10px] text-white/45">{tag}</span>)}
-      </div>
-      <a href={project.href} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 border-t border-white/[.07] pt-4 text-[11px] font-semibold text-white/65 transition group-hover:text-lime-200">
-        {project.action} <ExternalLink size={12} />
+      <a href={project.href} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center gap-2 border-t border-border pt-5 text-xs font-bold text-primary">
+        <span className="mt-6">{project.action}</span><ExternalLink size={13} className="mt-6" aria-hidden="true" />
       </a>
     </article>
   );
@@ -88,74 +88,126 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
 
 export default function Home() {
   return (
-    <main id="top" className="relative min-h-screen overflow-hidden">
-      <div className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[760px]" />
-      <header className="relative z-10 border-b border-white/[.06]">
-        <div className="shell flex h-[72px] items-center justify-between">
+    <>
+      <a href="#main-content" className="skip-link">Skip to content</a>
+      <header className="site-header">
+        <div className="shell flex h-[76px] items-center justify-between gap-4">
           <Brand />
-          <nav className="hidden items-center gap-8 text-[12px] text-white/48 md:flex" aria-label="Main navigation">
-            <a className="transition hover:text-white" href="#work">Selected work</a>
-            <a className="transition hover:text-white" href="#focus">What I focus on</a>
-            <a className="transition hover:text-white" href="#about">About</a>
+          <nav className="hidden items-center gap-7 md:flex" aria-label="Main navigation">
+            <a className="nav-link" href="#about">About</a>
+            <a className="nav-link" href="#work">Projects</a>
+            <a className="nav-link" href="#capabilities">Capabilities</a>
+            <a className="nav-link" href="#contact">Contact</a>
           </nav>
-          <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="secondary-button !px-3 !py-2 text-[11px]">GitHub profile <ArrowUpRight size={12} /></a>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <a href="#contact" className="primary-button !min-h-10 !px-4 !text-xs">Let's talk <ArrowUpRight size={13} aria-hidden="true" /></a>
+          </div>
         </div>
       </header>
 
-      <section className="shell relative grid gap-12 pb-24 pt-24 sm:pt-32 lg:grid-cols-[1.2fr_.8fr] lg:items-end lg:pb-32">
-        <div className="relative z-10">
-          <div className="eyebrow mb-7 flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-lime-300 shadow-[0_0_12px_#b8f36b]" /> SOFTWARE BUILDER · AI ENGINEERING</div>
-          <h1 className="max-w-[760px] text-[clamp(3.4rem,8vw,6.8rem)] font-semibold leading-[.94] tracking-[-.08em]">Building useful<br /><span className="text-lime-300">software</span> for what&apos;s<br />next.</h1>
-          <p className="mt-8 max-w-[530px] text-[15px] leading-7 text-white/50">I build practical software products and explore the intersection of AI engineering, automation, and autonomous systems.</p>
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <a href="#work" className="primary-button">Explore selected work <ArrowDownRight size={14} /></a>
-            <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="secondary-button"><Github size={14} /> GitHub profile <ArrowUpRight size={12} /></a>
+      <main id="main-content">
+        <section id="home" className="relative overflow-hidden pb-20 pt-20 sm:pb-28 sm:pt-28">
+          <div className="hero-grid pointer-events-none absolute inset-x-0 top-0 h-[650px]" />
+          <div className="shell relative grid gap-12 lg:grid-cols-[1.25fr_.75fr] lg:items-center">
+            <div>
+              <div className="eyebrow mb-7 flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-primary" /> Software development · AI engineering</div>
+              <h1 className="max-w-[780px] text-[clamp(3.3rem,8vw,6.8rem)] font-semibold leading-[.96] tracking-[-.085em]">
+                Building software<br />with <span className="text-primary">purpose.</span>
+              </h1>
+              <p className="mt-8 max-w-[590px] text-base leading-8 text-muted sm:text-lg">
+                I'm Victor Ikaraoha. I build software products and explore how AI, automation, and thoughtful engineering can turn ideas into useful tools.
+              </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <a href="#work" className="primary-button">Explore my work <ArrowDown size={15} aria-hidden="true" /></a>
+                <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="secondary-button"><Github size={15} aria-hidden="true" /> GitHub profile <ArrowUpRight size={13} aria-hidden="true" /></a>
+              </div>
+              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted">
+                <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-success" /> Building and learning in public</span>
+                <span>Based in Nigeria</span>
+              </div>
+            </div>
+
+            <aside className="surface-card relative overflow-hidden p-7 sm:p-8" aria-label="Current focus">
+              <div className="absolute -right-14 -top-14 h-48 w-48 rounded-full bg-primary-soft blur-3xl" />
+              <div className="relative">
+                <div className="eyebrow mb-6 flex items-center gap-2"><Sparkles size={14} aria-hidden="true" /> Current focus</div>
+                <h2 className="text-2xl font-semibold leading-tight tracking-[-.05em]">Learning by building real products.</h2>
+                <p className="mt-4 text-sm leading-6 text-muted">My work currently sits around practical AI applications, developer tools, and the engineering behind dependable software.</p>
+                <div className="mt-7 border-t border-border pt-6">
+                  <p className="text-[10px] font-bold uppercase tracking-[.14em] text-muted">Tools I'm working with</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {currentTools.map((tool) => <span className="tag" key={tool}>{tool}</span>)}
+                  </div>
+                </div>
+              </div>
+            </aside>
           </div>
-        </div>
-        <aside id="about" className="panel relative overflow-hidden p-6 sm:p-7">
-          <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-lime-300/[.07] blur-3xl" />
-          <div className="relative">
-            <div className="eyebrow mb-5">A little about me</div>
-            <h2 className="text-xl font-semibold tracking-[-.04em]">Curious by default.<br /><span className="text-white/45">Intentional by design.</span></h2>
-            <p className="mt-4 text-[12px] leading-6 text-white/45">I enjoy taking ideas apart, understanding the problem beneath them, and building software that makes the solution useful. My current work is centered on AI-powered products and developer tools.</p>
-            <div className="mt-7 border-t border-white/[.08] pt-5">
-              <div className="text-[10px] tracking-[.12em] text-white/30">CURRENTLY EXPLORING</div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {["TypeScript", "Next.js", "LLM systems", "AI agents", "Automation"].map((item) => <span key={item} className="rounded-full border border-white/[.09] bg-white/[.025] px-2.5 py-1.5 text-[10px] text-white/55">{item}</span>)}
+        </section>
+
+        <section id="about" className="section-divider py-20 sm:py-24">
+          <div className="shell grid gap-10 lg:grid-cols-[.7fr_1.3fr]">
+            <div><div className="eyebrow mb-4">About</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-4xl">Curious about how things work. Motivated to build what comes next.</h2></div>
+            <div className="max-w-2xl">
+              <p className="text-base leading-8 text-muted">I'm a software developer focused on learning through building. I enjoy breaking down complex ideas, understanding the problem behind them, and turning what I learn into practical software.</p>
+              <p className="mt-5 text-base leading-8 text-muted">I'm especially interested in AI engineering, LLM integrations, autonomous workflows, and the craft of building products that are useful, understandable, and maintainable.</p>
+              <div className="mt-7 flex flex-wrap gap-2">
+                {["Independent software projects", "AI engineering", "Continuous learning"].map((item) => <span className="tag" key={item}>{item}</span>)}
               </div>
             </div>
           </div>
-        </aside>
-      </section>
+        </section>
 
-      <section id="work" className="border-y border-white/[.06] bg-white/[.015] py-20 sm:py-24">
-        <div className="shell">
-          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-            <div><div className="eyebrow mb-4">Selected work</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-4xl">Things I&apos;m building.</h2></div>
-            <a href="https://github.com/victorikaraoha23?tab=repositories" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[11px] text-white/45 transition hover:text-lime-200">Browse all repositories <ArrowUpRight size={13} /></a>
+        <section id="work" className="section-divider bg-surface/40 py-20 sm:py-24">
+          <div className="shell">
+            <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+              <div><div className="eyebrow mb-4">Selected projects</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-5xl">Built, being built, explored.</h2></div>
+              <a href="https://github.com/victorikaraoha23?tab=repositories" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-primary">Browse GitHub repositories <ArrowUpRight size={14} aria-hidden="true" /></a>
+            </div>
+            <div className="mt-10 grid gap-4 lg:grid-cols-3">
+              {projects.map((project) => <ProjectCard key={project.name} project={project} />)}
+            </div>
           </div>
-          <div className="mt-10 grid gap-3 lg:grid-cols-3">
-            {projects.map((project) => <ProjectCard key={project.name} project={project} />)}
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="focus" className="shell py-20 sm:py-24">
-        <div className="grid gap-12 lg:grid-cols-[.75fr_1.25fr]">
-          <div><div className="eyebrow mb-4">Areas of focus</div><h2 className="text-3xl font-semibold tracking-[-.055em] sm:text-4xl">Where I&apos;m putting my energy.</h2><p className="mt-4 max-w-[340px] text-sm leading-6 text-white/45">Learning through building, shipping, and improving real software.</p></div>
-          <div className="divide-y divide-white/[.08] border-y border-white/[.08]">
-            {focusAreas.map((item) => <div key={item.number} className="grid gap-3 py-6 sm:grid-cols-[54px_1fr]"><span className="pt-1 text-[11px] text-lime-200">{item.number}</span><div><h3 className="text-[15px] font-semibold tracking-[-.025em]">{item.title}</h3><p className="mt-2 max-w-[460px] text-[12px] leading-5 text-white/42">{item.text}</p></div></div>)}
+        <section id="capabilities" className="section-divider py-20 sm:py-24">
+          <div className="shell">
+            <div className="max-w-2xl"><div className="eyebrow mb-4">Areas of focus</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-5xl">What I'm working towards.</h2><p className="mt-5 text-sm leading-7 text-muted">These are the areas shaping my current learning and project work. They describe my direction, not a claim of mastery.</p></div>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+              {capabilities.map(({ icon: Icon, title, description }, index) => (
+                <article className="surface-card p-6 sm:p-7" key={title}>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary"><Icon size={19} aria-hidden="true" /></div>
+                  <div className="mt-6 text-xs font-bold text-primary">0{index + 1}</div>
+                  <h3 className="mt-2 text-xl font-semibold tracking-[-.04em]">{title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted">{description}</p>
+                </article>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <footer className="border-t border-white/[.06] py-8">
+        <section id="contact" className="section-divider py-20 sm:py-24">
+          <div className="shell">
+            <div className="surface-card relative overflow-hidden p-8 sm:p-12">
+              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary-soft blur-3xl" />
+              <div className="relative max-w-2xl">
+                <div className="eyebrow mb-4">Get in touch</div>
+                <h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-5xl">Have an idea worth building?</h2>
+                <p className="mt-5 text-sm leading-7 text-muted">I'm open to thoughtful conversations about software, AI, collaboration, and interesting problems.</p>
+                <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="primary-button mt-8">Connect on GitHub <ArrowUpRight size={14} aria-hidden="true" /></a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="section-divider py-8">
         <div className="shell flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <Brand />
-          <p className="text-[11px] text-white/30">Made with curiosity and a bias toward building.</p>
-          <a aria-label="GitHub" href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="text-white/40 transition hover:text-lime-200"><Github size={15} /></a>
+          <p className="text-xs text-muted">© {new Date().getFullYear()} Victor Ikaraoha. Built with intention.</p>
+          <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" aria-label="GitHub profile" className="text-muted transition hover:text-primary"><Github size={17} aria-hidden="true" /></a>
         </div>
       </footer>
-    </main>
+    </>
   );
 }
