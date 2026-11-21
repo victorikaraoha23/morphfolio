@@ -139,3 +139,17 @@ button { font: inherit; }
 }
 .mobile-menu summary::-webkit-details-marker { display: none; }
 .mobile-menu-panel { box-shadow: var(--shadow-soft); }
+
+.form-input {
+  width: 100%; border: 1px solid var(--color-border); border-radius: 12px;
+  background: var(--color-bg); padding: 12px 15px; color: var(--color-text);
+  font-size: 14px; outline: none; transition: border-color .18s ease;
+}
+.form-input::placeholder { color: var(--color-text-muted); opacity: .7; }
+.form-input:focus { border-color: var(--color-primary); }
+.notice-success, .notice-error {
+  margin-top: 1.25rem; border-radius: 12px; padding: 12px;
+  font-size: 13px; line-height: 1.5;
+}
+.notice-success { border: 1px solid color-mix(in srgb, var(--color-success) 35%, transparent); background: color-mix(in srgb, var(--color-success) 10%, var(--color-bg)); color: var(--color-success); }
+.notice-error { border: 1px solid color-mix(in srgb, var(--color-error) 35%, transparent); background: color-mix(in srgb, var(--color-error) 10%, var(--color-bg)); color: var(--color-error); }
