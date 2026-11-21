@@ -260,8 +260,7 @@ begin
     'project_profile_evidence',
     'evolution_runs',
     'portfolios',
-    'portfolio_versions',
-    'approval_events'
+    'portfolio_versions'
   ]
   loop
     execute format('create policy %I on public.%I for select to authenticated using ((select auth.uid()) = user_id)', table_name || '_select_own', table_name);
@@ -270,7 +269,11 @@ begin
     execute format('create policy %I on public.%I for delete to authenticated using ((select auth.uid()) = user_id)', table_name || '_delete_own', table_name);
   end loop;
 end
-$$;
+$;
+
+-- Approval history is append-only and written by trusted server-side code.
+create policy "approval_events_select_own" on public.approval_events
+  for select to authenticated using ((select auth.uid()) = user_id);
 
 grant select, insert, update, delete on
   public.profiles,
@@ -282,9 +285,11 @@ grant select, insert, update, delete on
   public.project_profile_evidence,
   public.evolution_runs,
   public.portfolios,
-  public.portfolio_versions,
-  public.approval_events
+  public.portfolio_versions
 to authenticated;
+
+grant select on public.approval_events to authenticated;
+revoke insert, update, delete on public.approval_events from authenticated;
 
 comment on table public.github_connections is 'GitHub App installation metadata only; never store installation access tokens or private keys here.';
 comment on table public.evidence_items is 'Bounded, attributable evidence used to support generated project profile claims.';
