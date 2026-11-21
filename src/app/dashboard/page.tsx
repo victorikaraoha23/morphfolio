@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { getAuthenticatedUser } from "@/lib/supabase/auth";
+import { createClient } from "@/lib/supabase/server";
 
 async function signOut() {
   "use server";
