@@ -51,7 +51,7 @@ export function ProjectsExplorer() {
             key={item}
             onClick={() => setCategory(item)}
             aria-pressed={category === item}
-            className={`rounded-full border px-4 py-2 text-xs font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${category === item ? "border-brand bg-brand-soft text-brand" : "border-line bg-surface text-muted hover:border-brand hover:text-foreground"}`}
+            className={`rounded-full border px-4 py-2 text-xs font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${category === item ? "border-brand bg-brand-soft text-brand" : "border-line bg-panel text-muted hover:border-brand hover:text-foreground"}`}
           >
             {item}
           </button>
