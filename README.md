@@ -49,13 +49,14 @@ Open [http://localhost:3000](http://localhost:3000).
 - Repository analyst service with bounded output, evidence-ID validation, and a request timeout.
 - Supabase browser/server client utilities using cookie-based SSR sessions and the publishable key.
 - Server-side identity lookup using `auth.getUser()`; protected operations must not trust browser-supplied user IDs.
+- Passwordless email-link sign-in, PKCE callback handling, profile upsert, and an authenticated dashboard with sign-out.
 - Initial Supabase schema migration prepared with owner-scoped RLS, evidence-linked project profiles, evolution runs, portfolio versions, and append-only approval history.
 
-The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. The initial schema and hardening migrations are applied to the dedicated Supabase project. All 11 tables have RLS enabled; security advisors report no findings, and the foreign-key index advisories have been addressed. GitHub installation flow, authenticated dashboard, persisted end-to-end analysis, and public publishing remain future milestones.
+The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. The initial schema and hardening migrations are applied to the dedicated Supabase project. All 11 tables have RLS enabled; security advisors report no findings, and the foreign-key index advisories have been addressed. GitHub installation flow, repository synchronization, persisted end-to-end analysis, and public publishing remain future milestones.
 
 ## Environment variables
 
-See [.env.example](.env.example). Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from the Supabase project. Keep all secrets server-side. Never commit `.env.local`, GitHub private keys, Supabase secret/service-role keys or OpenRouter API keys.
+See [.env.example](.env.example). Set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, and `NEXT_PUBLIC_APP_URL`. In Supabase Auth URL Configuration, set the Site URL to your deployed app and allow the callback URL `<your-app-url>/auth/callback` (plus `http://localhost:3000/auth/callback` for local development). Keep all secrets server-side. Never commit `.env.local`, GitHub private keys, Supabase secret/service-role keys or OpenRouter API keys.
 
 ## Database foundation
 
