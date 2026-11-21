@@ -269,7 +269,7 @@ begin
     execute format('create policy %I on public.%I for delete to authenticated using ((select auth.uid()) = user_id)', table_name || '_delete_own', table_name);
   end loop;
 end;
-$;
+$$;
 
 -- Approval history is append-only and written by trusted server-side code.
 create policy "approval_events_select_own" on public.approval_events
