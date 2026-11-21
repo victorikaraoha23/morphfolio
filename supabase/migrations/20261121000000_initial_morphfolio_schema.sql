@@ -290,6 +290,9 @@ to authenticated;
 
 grant select on public.approval_events to authenticated;
 revoke insert, update, delete on public.approval_events from authenticated;
+-- Trusted server-side code may append audit records, but cannot rewrite or erase them.
+grant select, insert on public.approval_events to service_role;
+revoke update, delete on public.approval_events from service_role;
 
 comment on table public.github_connections is 'GitHub App installation metadata only; never store installation access tokens or private keys here.';
 comment on table public.evidence_items is 'Bounded, attributable evidence used to support generated project profile claims.';
