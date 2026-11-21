@@ -3,11 +3,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "MorphFolio — Your work, intelligently presented",
+    default: "Victor Ikaraoha — Software Builder & AI Engineering",
     template: "%s | MorphFolio"
   },
   description:
-    "An AI-powered developer portfolio that understands your GitHub projects and evolves how your work is presented.",
+    "Selected software projects and explorations in AI engineering, automation, and autonomous software.",
   applicationName: "MorphFolio"
 };
 
