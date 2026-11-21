@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { getAuthenticatedUser } from "@/lib/supabase/auth";
-import { createClient } from "@/lib/supabase/server";
 
 async function signOut() {
   "use server";
@@ -13,13 +12,12 @@ async function signOut() {
 }
 
 export default async function DashboardPage() {
-  const { user } = await getAuthenticatedUser();
+  const { supabase, user } = await getAuthenticatedUser();
 
   if (!user) {
     redirect("/login");
   }
 
-  const { supabase } = await getAuthenticatedUser();
   const { data: profile, error } = await supabase
     .from("profiles")
     .select("display_name, username")
