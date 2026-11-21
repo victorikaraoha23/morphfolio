@@ -1,100 +1,133 @@
 # MorphFolio — Build Plan
 
-## Delivery approach
+**Product baseline:** Personal-first, single-owner portfolio  
+**Delivery principle:** Build the public portfolio and owner content workflow before advanced automation. Keep each phase deployable and testable.
 
-Build a working vertical slice before adding breadth. Every phase must have demonstrable acceptance criteria and automated checks where applicable.
+## Phase 0 — Requirements and foundation
 
-## Phase 0 — Foundation (current)
+- [x] Confirm personal-first product direction.
+- [x] Define the public portfolio requirements and excluded features.
+- [x] Establish the brand palette and theme behavior.
+- [x] Establish Supabase Auth, owner-only access, and RLS foundation.
+- [x] Establish GitHub read-only and AI evidence-safety principles.
+- [ ] Align architecture and data model with the approved PRD.
+- [ ] Add the design token implementation and verify both themes.
+- [ ] Add a reproducible dependency lockfile and confirm CI.
 
-- [x] Confirm repository and product direction.
-- [x] Establish product requirements.
-- [x] Establish architecture and security baseline.
-- [x] Establish AI system policy.
-- [ ] Add application scaffold and CI.
-- [ ] Confirm initial design direction and tokens.
+**Exit criteria:** the PRD, architecture, data model, and build plan describe the same product; baseline CI is green.
 
-**Exit criteria:** repository contains the approved project rules and a buildable application scaffold with CI.
+## Phase 1 — Design system and public portfolio shell
 
-## Phase 1 — Public portfolio shell
+- [ ] Implement semantic light/dark design tokens exactly matching the approved palette.
+- [ ] Implement system theme preference and manual override.
+- [ ] Build responsive navigation, footer, VI identity assets, and accessible primitives.
+- [ ] Build the homepage hero and section layout.
+- [ ] Build About, Projects index, Project detail, Services, Resume, and Contact routes.
+- [ ] Add responsive states, loading/empty/error states, and reduced-motion behavior.
+- [ ] Add command palette and mobile navigation.
+- [ ] Create fixture content with clearly identified sample data; do not invent personal achievements.
 
-- [ ] Create responsive public portfolio landing page.
-- [ ] Add project listing and project detail route.
-- [ ] Implement Starter, Growth, and Engineering Hub renderers.
-- [ ] Define design tokens and accessible primitives.
-- [ ] Add loading, empty, and error states.
-- [ ] Add metadata and social preview basics.
+**Exit criteria:** every public route renders consistently on mobile and desktop in both themes; core interactions are keyboard accessible.
 
-**Exit criteria:** all three layouts render from fixture data; responsive and accessibility checks pass.
+## Phase 2 — Public content model and CMS foundation
 
-## Phase 2 — Owner dashboard and Supabase
+- [ ] Design migrations for portfolio content: profile, sections, projects, case studies, skills, services, experience, education, FAQs, social links, availability, translations, and media metadata.
+- [ ] Preserve owner-scoped access and RLS; public reads must expose only published records.
+- [ ] Implement draft, preview, publish, unpublish, and restore/version behavior.
+- [ ] Build dashboard navigation and CRUD workflows for core content.
+- [ ] Add media upload validation and Supabase Storage policies.
+- [ ] Add CV upload and public download handling.
+- [ ] Add preview mode that does not leak draft content publicly.
 
-- [ ] Configure Supabase server and browser clients safely.
-- [ ] Add initial SQL migrations.
-- [ ] Implement owner authentication.
-- [ ] Add profile and design preferences.
-- [ ] Add RLS policies and database tests.
-- [ ] Build dashboard navigation and settings.
+**Exit criteria:** owner can manage all core portfolio content without editing code; anonymous visitors can access only published content.
 
-**Exit criteria:** owner can authenticate and manage private settings; unauthenticated users cannot access protected data.
+## Phase 3 — Core public experience
 
-## Phase 3 — GitHub connection and synchronization
+- [ ] Populate About, skills, experience/timeline, education, services, FAQ, and contact sections from database content.
+- [ ] Implement featured project selection and manual ordering (3–4 on homepage by default).
+- [ ] Implement project categories, search, and lifecycle status labels.
+- [ ] Build detailed project case-study templates with architecture and media support.
+- [ ] Build the public resume page and print stylesheet.
+- [ ] Implement social links and editable availability.
+- [ ] Implement the GitHub activity summary without a separate open-source contributions page.
 
-- [ ] Create GitHub App and document permission setup.
-- [ ] Implement secure installation connection.
-- [ ] List accessible repositories.
-- [ ] Allow explicit repository selection.
-- [ ] Synchronize metadata, languages, topics, releases, and README.
-- [ ] Handle pagination, rate limits, retries, and idempotency.
-- [ ] Record sync history.
+**Exit criteria:** all approved public content is database-driven and the site can present a complete, coherent portfolio.
 
-**Exit criteria:** owner can select repositories and synchronize normalized records without exposing credentials.
+## Phase 4 — Contact workflow and notifications
 
-## Phase 4 — OpenRouter intelligence
+- [ ] Implement contact form with inquiry type and server-side validation.
+- [ ] Add rate limiting, spam/abuse protection, and safe error responses.
+- [ ] Persist submissions privately in Supabase.
+- [ ] Send owner email notifications through a selected email provider.
+- [ ] Build private contact inbox with read/unread and response status.
+- [ ] Add notification failure handling and retry/observability.
 
-- [ ] Implement provider adapter and environment-based model IDs.
-- [ ] Add evidence packet construction and size limits.
-- [ ] Add project-profile Zod schema.
-- [ ] Generate summaries and categories.
-- [ ] Verify evidence references and reject unsupported claims.
-- [ ] Record model usage, prompt/schema versions, and outcomes.
-- [ ] Add provider timeout and retry policy.
+**Exit criteria:** a visitor can submit a valid enquiry; it is stored privately, the owner is notified, and the inbox can manage it.
 
-**Exit criteria:** selected repository fixtures produce validated project profiles; malformed and unsupported claims are rejected.
+## Phase 5 — Multilingual content and SEO
 
-## Phase 5 — Portfolio Architect and evolution history
+- [ ] Implement English, French, and Hausa locales; English is default.
+- [ ] Add language switcher and preserve locale across navigation.
+- [ ] Add translation fields/workflows for all public content types.
+- [ ] Add translation completeness and fallback behavior.
+- [ ] Implement locale-aware metadata, canonical URLs, and hreflang.
+- [ ] Add Open Graph metadata/images, structured data, sitemap, and robots.txt.
+- [ ] Verify custom domain canonical behavior and Vercel preview indexing policy.
 
-- [ ] Define versioned portfolio configuration schema.
-- [ ] Implement deterministic layout policy.
-- [ ] Add AI recommendations with constrained choices.
-- [ ] Add draft preview.
-- [ ] Add approve/reject/edit workflow.
-- [ ] Record immutable evolution events.
-- [ ] Implement rollback.
+**Exit criteria:** all three locales work across public routes; translated content and metadata are crawlable and correctly linked.
 
-**Exit criteria:** a proposal can be previewed, approved, published, and rolled back; failed runs cannot replace the published version.
+## Phase 6 — GitHub connection and repository synchronization
 
-## Phase 6 — Automation and operational readiness
+- [ ] Complete GitHub App installation/callback flow.
+- [ ] Confirm least-privilege read-only permissions.
+- [ ] List accessible repositories and allow explicit owner selection.
+- [ ] Exclude forks and archived repositories by default, with override.
+- [ ] Synchronize metadata, README, topics, languages, releases, and safe activity data.
+- [ ] Handle pagination, rate limits, retries, idempotency, and sync history.
+- [ ] Keep imported content private until owner approval.
 
-- [ ] Add manual and scheduled synchronization.
-- [ ] Add secure webhook-triggered sync when ready.
-- [ ] Add concurrency and duplicate-run prevention.
-- [ ] Add bounded retries and failure notifications.
-- [ ] Add CI for lint, typecheck, tests, and build.
-- [ ] Configure Vercel preview and production environments.
-- [ ] Add monitoring and cost controls.
+**Exit criteria:** owner can connect GitHub, select repositories, synchronize evidence, and review it without exposing credentials or publishing automatically.
 
-**Exit criteria:** repeatable deployment and safe recovery from failed synchronization or AI provider outages.
+## Phase 7 — AI Portfolio Assistant
 
-## Phase 7 — Advanced features
+- [ ] Implement typed workflows for project analysis and content drafting.
+- [ ] Generate evidence-linked project descriptions and case-study drafts.
+- [ ] Suggest skill evidence and project categories.
+- [ ] Draft biography, services, FAQ content, and translations.
+- [ ] Add independent review for material factual claims.
+- [ ] Validate all outputs with Zod and deterministic rules.
+- [ ] Track model, prompt/schema version, evidence, usage, and outcome.
+- [ ] Add cost limits, timeouts, retries, and request throttles.
+- [ ] Integrate drafts into the approval workflow.
 
-Only after the core workflow is stable:
-- Automated screenshots.
-- Technology and project relationship graphs.
-- Contribution timeline.
-- Rich technical case studies.
-- Multiple themes and custom domains.
-- Multi-user SaaS onboarding and billing.
+**Exit criteria:** AI can produce useful private drafts from grounded evidence; unsupported claims are flagged/rejected and nothing publishes without owner approval.
+
+## Phase 8 — Analytics and operational readiness
+
+- [ ] Select privacy-conscious analytics provider and document data collection/retention.
+- [ ] Build private analytics overview and date filtering.
+- [ ] Add aggregated popular pages/projects, referrers, and geographic reporting where available.
+- [ ] Add contact conversion metrics without exposing visitor personal data.
+- [ ] Add error monitoring and operational alerts.
+- [ ] Configure backups and recovery checks.
+- [ ] Add automated unit, integration, RLS, and browser tests.
+- [ ] Verify Vercel production and preview environments, secrets, and callback URLs.
+- [ ] Run accessibility, security, SEO, and performance audits.
+
+**Exit criteria:** production deployment is observable, recoverable, secure, accessible, and meets release acceptance criteria.
+
+## Future phase — SaaS evaluation
+
+Do not build public registration, multi-tenancy, billing, or customer workspaces during the personal-first release. Revisit only after validating the portfolio experience and operational model with the single-owner product.
 
 ## Definition of done
 
-A feature is not done until its behavior is documented, inputs are validated, authorization is enforced, relevant tests pass, failure states are handled, and no secrets are exposed.
+A feature is complete only when:
+- Its requirements and behavior are documented.
+- Inputs are validated and authorization is enforced.
+- Public/private data boundaries are tested.
+- Loading, empty, success, and failure states are handled.
+- Accessibility and responsive behavior are considered.
+- Relevant automated checks pass.
+- Secrets and personal data are not exposed.
+- The deployed behavior is verified rather than assumed.
