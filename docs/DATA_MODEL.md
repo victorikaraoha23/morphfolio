@@ -1,6 +1,6 @@
 # MorphFolio — Data Model
 
-**Status:** Initial schema and hardening migrations applied and verified on the dedicated Supabase project.
+**Status:** Initial identity, repository-evidence, and portfolio-version foundation applied and verified. This is not yet the complete content-management schema required by the personal-first PRD. Additional content, translation, media, contact inbox, and analytics migrations are planned in the build plan.
 
 ## Identity and ownership
 
@@ -49,6 +49,20 @@ Supabase Auth is the only identity authority. Every user-owned record carries a 
 - `supabase/migrations/20261121221724_lock_down_api_privileges.sql`
 
 The security advisor returned no findings after hardening. The performance advisor no longer reports unindexed foreign keys; its remaining unused-index notices are expected while the tables are empty and should be reassessed after real workload exists.
+
+## Planned content-domain expansion
+
+The current 11-table foundation does not yet represent the full portfolio CMS. Before implementing dashboard CRUD, design and migrate owner-scoped records for:
+
+- Profile and site settings, social links, availability, and section configuration.
+- Projects, case studies, project categories, featured ordering, and public lifecycle status.
+- Skills and skill categories, services, FAQs, work experience, career timeline, education, and certifications.
+- Locale-aware translations for English, French, and Hausa, with explicit translation completeness and fallback rules.
+- Media metadata for screenshots, galleries, videos, diagrams, and the downloadable CV; actual file bytes belong in Supabase Storage with separate access policies.
+- Contact submissions and notification delivery status, kept private from anonymous visitors.
+- Analytics configuration and aggregated reporting references; avoid storing unnecessary visitor-level personal data.
+
+Do not treat this list as already implemented tables. Define relationships, constraints, indexes, retention, publication rules, and RLS before writing migrations. Public queries must expose only published content through a narrowly scoped read path.
 
 ## Deliberate omissions in this first migration
 
