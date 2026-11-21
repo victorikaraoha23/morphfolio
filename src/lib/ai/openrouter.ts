@@ -13,8 +13,10 @@ export function getOpenRouter() {
 
   cachedProvider ??= createOpenRouter({
     apiKey,
-    appName: "MorphFolio",
-    appUrl: process.env.NEXT_PUBLIC_APP_URL
+    headers: {
+      "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+      "X-Title": "MorphFolio"
+    }
   });
 
   return cachedProvider;
