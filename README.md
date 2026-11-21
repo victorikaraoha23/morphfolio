@@ -23,14 +23,14 @@ The first release is a **single-user product with SaaS-ready boundaries**. It wi
 - Tailwind CSS 4 + Lucide React
 - Supabase (PostgreSQL, Auth, Storage where needed)
 - GitHub App + GitHub REST API
-- OpenRouter + Vercel AI SDK + Zod
+- OpenRouter + Vercel AI SDK 7 + Zod 4
 - GitHub Actions
-- Vitest + Playwright
+- Vitest + Playwright (to be introduced with the test milestone)
 - Vercel deployment
 
 ## Getting started
 
-Requirements: Node.js 20.9 or newer and npm.
+Requirements: Node.js 22 or newer and npm 10+.
 
 ```bash
 npm install
@@ -40,7 +40,15 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-The current milestone delivers the application shell and public product landing page. GitHub OAuth, persistence and AI analysis are implemented in subsequent milestones.
+## Current implementation
+
+- Next.js application shell and dark MorphFolio landing page.
+- CI workflow for linting, TypeScript checks, and production builds.
+- Server-only OpenRouter provider configuration.
+- Zod schemas for repository evidence packets and generated project profiles.
+- Repository analyst service with bounded output, evidence-ID validation, and a request timeout.
+
+The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. GitHub connection, Supabase persistence, authenticated dashboard, and publication workflow remain future milestones.
 
 ## Environment variables
 
