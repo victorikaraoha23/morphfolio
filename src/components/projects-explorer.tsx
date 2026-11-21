@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowUpRight, ExternalLink, Search, X } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight, Search, X } from "lucide-react";
 
 import { projects } from "@/lib/portfolio/projects";
 
