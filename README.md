@@ -1,12 +1,12 @@
 # MorphFolio
 
-**A self-evolving AI-powered developer portfolio.**
+**A personal AI-assisted developer portfolio for Victor Ikaraoha.**
 
-MorphFolio connects to a developer's GitHub account, analyzes selected repositories, turns verifiable project evidence into polished project profiles, and recommends portfolio presentation changes as the developer's work grows.
+MorphFolio presents Victor's software development and AI engineering work through project case studies, skills, services, experience, education, and a professional resume. A private owner dashboard manages the public portfolio, while GitHub integration and AI assistance help organize evidence and draft content for owner review.
 
 ## Product direction
 
-The first release is a **single-user product with SaaS-ready boundaries**. It will prove the complete workflow for one portfolio before introducing multi-user billing or commercial administration.
+The first release is a **single-owner personal portfolio**. There is no public registration, multi-user workspace, billing, or customer onboarding. The architecture should remain straightforward and maintainable, with future SaaS expansion treated as a separate product decision.
 
 ## Core principles
 
