@@ -131,3 +131,11 @@ button { font: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+.mobile-menu summary {
+  display: inline-flex; min-height: 40px; align-items: center; gap: 8px; cursor: pointer;
+  list-style: none; border: 1px solid var(--color-border); border-radius: 999px;
+  background: var(--color-surface); padding: 0 13px; color: var(--color-text); font-size: 12px; font-weight: 650;
+}
+.mobile-menu summary::-webkit-details-marker { display: none; }
+.mobile-menu-panel { box-shadow: var(--shadow-soft); }
