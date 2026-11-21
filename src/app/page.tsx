@@ -1,21 +1,8 @@
-import {
-  ArrowDown,
-  ArrowUpRight,
-  Bot,
-  Code2,
-  ExternalLink,
-  Github,
-  Layers3,
-  Menu,
-  Sparkles,
-  Workflow
-} from "lucide-react";
+import { ArrowDown, ArrowUpRight, Bot, Code2, Github, Layers3, Sparkles, Workflow } from "lucide-react";
 
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { projects } from "@/lib/portfolio/projects";
-
-
 
 const capabilities = [
   { icon: Bot, title: "AI-powered applications", description: "Integrating language models and structured AI workflows into useful software." },
@@ -26,66 +13,19 @@ const capabilities = [
 
 const currentTools = ["TypeScript", "JavaScript", "Next.js", "React", "Supabase", "OpenRouter", "AI SDK"];
 
-function ProjectCard({ project }: { project: (typeof projects)[number] }) {
-  return (
-    <article className="project-card group">
-      <div className="flex items-start justify-between gap-3">
-        <span className="eyebrow">{project.number} / {project.category}</span>
-        <span className="status-pill">{project.status}</span>
-      </div>
-      <h3 className="mt-9 text-2xl font-semibold tracking-[-.055em]">{project.name}</h3>
-      <p className="mt-3 text-sm leading-6 text-muted">{project.description}</p>
-      <div className="mt-5 flex flex-wrap gap-2">
-        {project.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}
-      </div>
-      <a href={project.href} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center gap-2 border-t border-line pt-5 text-xs font-bold text-brand">
-        <span className="mt-6">{project.action}</span><ExternalLink size={13} className="mt-6" aria-hidden="true" />
-      </a>
-    </article>
-  );
-}
-
 export default function Home() {
   return (
     <>
       <a href="#main-content" className="skip-link">Skip to content</a>
-      <header className="site-header">
-        <div className="shell flex h-[76px] items-center justify-between gap-4">
-          <Brand />
-          <nav className="hidden items-center gap-7 md:flex" aria-label="Main navigation">
-            <a className="nav-link" href="#about">About</a>
-            <a className="nav-link" href="/projects">Projects</a>
-            <a className="nav-link" href="#capabilities">Capabilities</a>
-            <a className="nav-link" href="#contact">Contact</a>
-          </nav>
-          <details className="mobile-menu relative md:hidden">
-            <summary aria-label="Open navigation menu"><Menu size={19} aria-hidden="true" /><span>Menu</span></summary>
-            <nav className="mobile-menu-panel absolute right-0 top-12 z-50 flex min-w-44 flex-col gap-4 rounded-2xl border border-line bg-background p-5 shadow-xl" aria-label="Mobile navigation">
-              <a className="nav-link" href="#about">About</a>
-              <a className="nav-link" href="#work">Projects</a>
-              <a className="nav-link" href="#capabilities">Capabilities</a>
-              <a className="nav-link" href="#contact">Contact</a>
-            </nav>
-          </details>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <a href="#contact" className="primary-button !min-h-10 !px-4 !text-xs">Let's talk <ArrowUpRight size={13} aria-hidden="true" /></a>
-          </div>
-        </div>
-      </header>
-
+      <SiteHeader />
       <main id="main-content">
         <section id="home" className="relative overflow-hidden pb-20 pt-20 sm:pb-28 sm:pt-28">
           <div className="hero-grid pointer-events-none absolute inset-x-0 top-0 h-[650px]" />
           <div className="shell relative grid gap-12 lg:grid-cols-[1.25fr_.75fr] lg:items-center">
             <div>
               <div className="eyebrow mb-7 flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-brand" /> Software development · AI engineering</div>
-              <h1 className="max-w-[780px] text-[clamp(3.3rem,8vw,6.8rem)] font-semibold leading-[.96] tracking-[-.085em]">
-                Building software<br />with <span className="text-brand">purpose.</span>
-              </h1>
-              <p className="mt-8 max-w-[590px] text-base leading-8 text-muted sm:text-lg">
-                I'm Victor Ikaraoha. I build software products and explore how AI, automation, and thoughtful engineering can turn ideas into useful tools.
-              </p>
+              <h1 className="max-w-[780px] text-[clamp(3.3rem,8vw,6.8rem)] font-semibold leading-[.96] tracking-[-.085em]">Building software<br />with <span className="text-brand">purpose.</span></h1>
+              <p className="mt-8 max-w-[590px] text-base leading-8 text-muted sm:text-lg">I'm Victor Ikaraoha. I build software products and explore how AI, automation, and thoughtful engineering can turn ideas into useful tools.</p>
               <div className="mt-9 flex flex-wrap gap-3">
                 <a href="#work" className="primary-button">Explore my work <ArrowDown size={15} aria-hidden="true" /></a>
                 <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="secondary-button"><Github size={15} aria-hidden="true" /> GitHub profile <ArrowUpRight size={13} aria-hidden="true" /></a>
@@ -95,7 +35,6 @@ export default function Home() {
                 <span>Based in Nigeria</span>
               </div>
             </div>
-
             <aside className="surface-card relative overflow-hidden p-7 sm:p-8" aria-label="Current focus">
               <div className="absolute -right-14 -top-14 h-48 w-48 rounded-full bg-brand-soft blur-3xl" />
               <div className="relative">
@@ -104,9 +43,7 @@ export default function Home() {
                 <p className="mt-4 text-sm leading-6 text-muted">My work currently sits around practical AI applications, developer tools, and the engineering behind dependable software.</p>
                 <div className="mt-7 border-t border-line pt-6">
                   <p className="text-[10px] font-bold uppercase tracking-[.14em] text-muted">Tools I'm working with</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {currentTools.map((tool) => <span className="tag" key={tool}>{tool}</span>)}
-                  </div>
+                  <div className="mt-4 flex flex-wrap gap-2">{currentTools.map((tool) => <span className="tag" key={tool}>{tool}</span>)}</div>
                 </div>
               </div>
             </aside>
@@ -119,9 +56,7 @@ export default function Home() {
             <div className="max-w-2xl">
               <p className="text-base leading-8 text-muted">I'm a software developer focused on learning through building. I enjoy breaking down complex ideas, understanding the problem behind them, and turning what I learn into practical software.</p>
               <p className="mt-5 text-base leading-8 text-muted">I'm especially interested in AI engineering, LLM integrations, autonomous workflows, and the craft of building products that are useful, understandable, and maintainable.</p>
-              <div className="mt-7 flex flex-wrap gap-2">
-                {["Independent software projects", "AI engineering", "Continuous learning"].map((item) => <span className="tag" key={item}>{item}</span>)}
-              </div>
+              <div className="mt-7 flex flex-wrap gap-2">{["Independent software projects", "AI engineering", "Continuous learning"].map((item) => <span className="tag" key={item}>{item}</span>)}</div>
             </div>
           </div>
         </section>
@@ -130,10 +65,18 @@ export default function Home() {
           <div className="shell">
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
               <div><div className="eyebrow mb-4">Selected projects</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-5xl">Built, being built, explored.</h2></div>
-              <a href="https://github.com/victorikaraoha23?tab=repositories" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-brand">Browse GitHub repositories <ArrowUpRight size={14} aria-hidden="true" /></a>
+              <a href="/projects" className="inline-flex items-center gap-2 text-sm font-semibold text-brand">Explore all projects <ArrowUpRight size={14} aria-hidden="true" /></a>
             </div>
             <div className="mt-10 grid gap-4 lg:grid-cols-3">
-              {projects.filter((project) => project.featured).map((project) => <ProjectCard key={project.name} project={project} />)}
+              {projects.filter((project) => project.featured).map((project) => (
+                <article className="project-card group" key={project.slug}>
+                  <div className="flex items-start justify-between gap-3"><span className="eyebrow">{project.number} / {project.category}</span><span className="status-pill">{project.status}</span></div>
+                  <h3 className="mt-9 text-2xl font-semibold tracking-[-.055em]">{project.name}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted">{project.description}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">{project.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+                  <a href={`/projects/${project.slug}`} className="mt-auto inline-flex items-center gap-2 border-t border-line pt-5 text-xs font-bold text-brand"><span className="mt-6">Read project details</span><ArrowUpRight size={13} className="mt-6" aria-hidden="true" /></a>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -168,14 +111,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-
-      <footer className="section-divider py-8">
-        <div className="shell flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-          <Brand />
-          <p className="text-xs text-muted">© {new Date().getFullYear()} Victor Ikaraoha. Built with intention.</p>
-          <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" aria-label="GitHub profile" className="text-muted transition hover:text-brand"><Github size={17} aria-hidden="true" /></a>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }
