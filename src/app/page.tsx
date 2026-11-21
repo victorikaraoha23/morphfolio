@@ -3,8 +3,6 @@ import {
   ArrowUpRight,
   ArrowUpRightFromSquare,
   Github,
-  Linkedin,
-  Mail,
   MoveUpRight,
   Sparkles
 } from "lucide-react";
@@ -15,7 +13,7 @@ const projects = [
     name: "AI Slop Checker",
     type: "AI PRODUCT",
     status: "LIVE",
-    description: "A tool focused on identifying low-quality, generic AI-generated content.",
+    description: "A forensic lab for machine-made content, analyzing AI text, websites, documents and screenshots.",
     tags: ["AI", "Web", "Product"],
     href: "https://ai-slop-checker-five.vercel.app/",
     action: "Visit live product",
@@ -37,7 +35,7 @@ const projects = [
     name: "AgentsChat",
     type: "OPEN-SOURCE EXPLORATION",
     status: "EXPERIMENTAL",
-    description: "An agent-oriented workspace exploring how AI assistants and software workflows can work together.",
+    description: "A hosted AI-agent workspace for turning plain-language requests into executed work.",
     tags: ["TypeScript", "AI Agents", "Automation"],
     href: "https://github.com/victorikaraoha23/Agentschat",
     action: "View repository",
@@ -100,7 +98,7 @@ export default function Home() {
             <a className="transition hover:text-white" href="#focus">What I focus on</a>
             <a className="transition hover:text-white" href="#about">About</a>
           </nav>
-          <a href="mailto:hello@morphfolio.dev" className="secondary-button !px-3 !py-2 text-[11px]">Get in touch <ArrowUpRight size={12} /></a>
+          <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="secondary-button !px-3 !py-2 text-[11px]">GitHub profile <ArrowUpRight size={12} /></a>
         </div>
       </header>
 
@@ -155,7 +153,7 @@ export default function Home() {
         <div className="shell flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <Brand />
           <p className="text-[11px] text-white/30">Made with curiosity and a bias toward building.</p>
-          <div className="flex items-center gap-4 text-white/40"><a aria-label="GitHub" href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="transition hover:text-lime-200"><Github size={15} /></a><a aria-label="LinkedIn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer" className="transition hover:text-lime-200"><Linkedin size={15} /></a><a aria-label="Email" href="mailto:hello@morphfolio.dev" className="transition hover:text-lime-200"><Mail size={15} /></a></div>
+          <a aria-label="GitHub" href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="text-white/40 transition hover:text-lime-200"><Github size={15} /></a>
         </div>
       </footer>
     </main>
