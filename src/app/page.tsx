@@ -6,6 +6,7 @@ import {
   ExternalLink,
   Github,
   Layers3,
+  Menu,
   Sparkles,
   Workflow
 } from "lucide-react";
@@ -98,6 +99,15 @@ export default function Home() {
             <a className="nav-link" href="#capabilities">Capabilities</a>
             <a className="nav-link" href="#contact">Contact</a>
           </nav>
+          <details className="mobile-menu relative md:hidden">
+            <summary aria-label="Open navigation menu"><Menu size={19} aria-hidden="true" /><span>Menu</span></summary>
+            <nav className="mobile-menu-panel absolute right-0 top-12 z-50 flex min-w-44 flex-col gap-4 rounded-2xl border border-line bg-background p-5 shadow-xl" aria-label="Mobile navigation">
+              <a className="nav-link" href="#about">About</a>
+              <a className="nav-link" href="#work">Projects</a>
+              <a className="nav-link" href="#capabilities">Capabilities</a>
+              <a className="nav-link" href="#contact">Contact</a>
+            </nav>
+          </details>
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <a href="#contact" className="primary-button !min-h-10 !px-4 !text-xs">Let's talk <ArrowUpRight size={13} aria-hidden="true" /></a>
