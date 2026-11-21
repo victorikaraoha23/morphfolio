@@ -41,17 +41,17 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16">
-      <div className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[600px]" />
-      <section className="panel relative z-10 w-full max-w-md p-7 sm:p-9">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4 py-16">
+      <div className="hero-grid pointer-events-none absolute inset-x-0 top-0 h-[600px]" />
+      <section className="surface-card relative z-10 w-full max-w-md p-7 sm:p-9">
         <Link href="/" className="eyebrow">MorphFolio</Link>
-        <h1 className="mt-8 text-3xl font-semibold tracking-[-.06em]">Sign in to your workspace.</h1>
-        <p className="mt-3 text-sm leading-6 text-white/45">
+        <h1 className="mt-8 text-3xl font-semibold tracking-[-.06em]">Owner sign-in.</h1>
+        <p className="mt-3 text-sm leading-6 text-muted">
           Use a passwordless email link to manage your repositories, project profiles, and portfolio.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-          <label htmlFor="email" className="block text-xs font-medium text-white/65">Email address</label>
+          <label htmlFor="email" className="block text-xs font-medium text-muted">Email address</label>
           <input
             id="email"
             name="email"
@@ -61,18 +61,18 @@ export default function LoginPage() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder="you@example.com"
-            className="w-full rounded-xl border border-white/10 bg-black/25 px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/25 focus:border-lime-300/50"
+            className="form-input"
           />
           <button type="submit" disabled={isSending} className="primary-button w-full disabled:cursor-not-allowed disabled:opacity-60">
             {isSending ? "Sending link..." : "Email me a sign-in link"}
           </button>
         </form>
 
-        {message ? <p role="status" className="mt-5 rounded-xl border border-lime-300/20 bg-lime-300/[.06] p-3 text-sm text-lime-100">{message}</p> : null}
-        {error ? <p role="alert" className="mt-5 rounded-xl border border-red-300/20 bg-red-300/[.06] p-3 text-sm text-red-100">{error}</p> : null}
+        {message ? <p role="status" className="mt-5 rounded-xl border notice-success">{message}</p> : null}
+        {error ? <p role="alert" className="mt-5 rounded-xl border notice-error">{error}</p> : null}
 
-        <p className="mt-8 text-xs text-white/35">
-          Your session is secured by Supabase Auth. <Link href="/" className="text-white/65 hover:text-lime-200">Return to portfolio</Link>
+        <p className="mt-8 text-xs text-muted">
+          Your session is secured by Supabase Auth. <Link href="/" className="text-white/65 hover:text-brand">Return to portfolio</Link>
         </p>
       </section>
     </main>
