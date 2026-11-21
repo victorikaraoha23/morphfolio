@@ -3,17 +3,17 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Victor Ikaraoha — Software Builder & AI Engineering",
+    default: "Victor Ikaraoha — Software Developer & AI Engineering",
     template: "%s | MorphFolio"
   },
   description:
-    "Selected software projects and explorations in AI engineering, automation, and autonomous software.",
+    "The personal portfolio of Victor Ikaraoha: software projects, AI engineering explorations, developer tools, and practical software building.",
   applicationName: "MorphFolio"
 };
 
 export const viewport: Viewport = {
-  themeColor: "#090b0a",
-  colorScheme: "dark"
+  themeColor: "#F7F6F2",
+  colorScheme: "light dark"
 };
 
 export default function RootLayout({
@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );
