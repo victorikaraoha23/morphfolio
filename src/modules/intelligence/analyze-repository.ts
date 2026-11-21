@@ -42,7 +42,7 @@ export async function analyzeRepository(
     throw new Error("Repository evidence contains duplicate IDs.");
   }
 
-  const model = getOpenRouter()(getAnalysisModelId());
+  const model = getOpenRouter().chat(getAnalysisModelId());
   const { output } = await generateText({
     model,
     instructions: ANALYSIS_INSTRUCTIONS,
