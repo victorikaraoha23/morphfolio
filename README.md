@@ -17,10 +17,10 @@ The first release is a **single-user product with SaaS-ready boundaries**. It wi
 - **Provider independence:** OpenRouter is the initial AI gateway; model IDs are configuration, not application logic.
 - **Safe failure:** Failed analysis must never replace the last known-good published portfolio.
 
-## Planned stack
+## Stack
 
 - Next.js App Router + React + TypeScript
-- Tailwind CSS + shadcn/ui + Lucide
+- Tailwind CSS 4 + Lucide React
 - Supabase (PostgreSQL, Auth, Storage where needed)
 - GitHub App + GitHub REST API
 - OpenRouter + Vercel AI SDK + Zod
@@ -28,25 +28,31 @@ The first release is a **single-user product with SaaS-ready boundaries**. It wi
 - Vitest + Playwright
 - Vercel deployment
 
-## Product workflow
+## Getting started
 
-1. Owner authenticates and connects GitHub.
-2. Owner selects repositories to include.
-3. Synchronizer retrieves permitted metadata and README content.
-4. AI creates structured project profiles with evidence references.
-5. Portfolio architect proposes featured projects and a layout configuration.
-6. Zod and application-level rules validate the proposal.
-7. Owner reviews and approves the change.
-8. The renderer publishes the approved configuration.
-9. Every evolution run and published version is recorded for audit and rollback.
+Requirements: Node.js 20.9 or newer and npm.
 
-## Repository status
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
 
-This repository is at the **foundation / specification stage**. Implementation must follow the acceptance criteria in [docs/BUILD_PLAN.md](docs/BUILD_PLAN.md). Do not add production secrets to the repository.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Local development
+The current milestone delivers the application shell and public product landing page. GitHub OAuth, persistence and AI analysis are implemented in subsequent milestones.
 
-The application scaffold and exact dependency versions will be added in the next implementation milestone. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [AGENTS.md](AGENTS.md) before making architectural changes.
+## Environment variables
+
+See [.env.example](.env.example). Keep all secrets server-side. Never commit `.env.local`, GitHub private keys, Supabase service-role keys or OpenRouter API keys.
+
+## Quality checks
+
+```bash
+npm run lint
+npm run typecheck
+npm run build
+```
 
 ## Documentation
 
@@ -55,3 +61,4 @@ The application scaffold and exact dependency versions will be added in the next
 - [AI system design](docs/AI_SYSTEM.md)
 - [Security model](docs/SECURITY.md)
 - [Build plan and acceptance criteria](docs/BUILD_PLAN.md)
+- [Engineering rules](AGENTS.md)
