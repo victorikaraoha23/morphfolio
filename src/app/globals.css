@@ -38,6 +38,7 @@
   --color-background: var(--color-bg);
   --color-foreground: var(--color-text);
   --color-muted-foreground: var(--color-text-muted);
+  --color-muted: var(--color-text-muted);
   --color-panel: var(--color-surface);
   --color-line: var(--color-border);
   --color-brand: var(--color-primary);
