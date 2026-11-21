@@ -11,7 +11,8 @@ import {
   Workflow
 } from "lucide-react";
 
-import { ThemeToggle } from "@/components/theme-toggle";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { projects } from "@/lib/portfolio/projects";
 
 
@@ -24,15 +25,6 @@ const capabilities = [
 ];
 
 const currentTools = ["TypeScript", "JavaScript", "Next.js", "React", "Supabase", "OpenRouter", "AI SDK"];
-
-function Brand() {
-  return (
-    <a href="#home" className="flex items-center gap-3" aria-label="Victor Ikaraoha — home">
-      <span className="brand-mark" aria-hidden="true">VI</span>
-      <span className="text-sm font-bold tracking-[-.04em]">Victor Ikaraoha<span className="text-brand">.</span></span>
-    </a>
-  );
-}
 
 function ProjectCard({ project }: { project: (typeof projects)[number] }) {
   return (
