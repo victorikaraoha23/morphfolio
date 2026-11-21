@@ -6,7 +6,6 @@ import {
   ExternalLink,
   Github,
   Layers3,
-  Mail,
   Sparkles,
   Workflow
 } from "lucide-react";
@@ -62,7 +61,7 @@ function Brand() {
   return (
     <a href="#home" className="flex items-center gap-3" aria-label="Victor Ikaraoha — home">
       <span className="brand-mark" aria-hidden="true">VI</span>
-      <span className="text-sm font-bold tracking-[-.04em]">Victor Ikaraoha<span className="text-primary">.</span></span>
+      <span className="text-sm font-bold tracking-[-.04em]">Victor Ikaraoha<span className="text-brand">.</span></span>
     </a>
   );
 }
@@ -79,7 +78,7 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
       <div className="mt-5 flex flex-wrap gap-2">
         {project.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}
       </div>
-      <a href={project.href} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center gap-2 border-t border-border pt-5 text-xs font-bold text-primary">
+      <a href={project.href} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center gap-2 border-t border-border pt-5 text-xs font-bold text-brand">
         <span className="mt-6">{project.action}</span><ExternalLink size={13} className="mt-6" aria-hidden="true" />
       </a>
     </article>
@@ -111,9 +110,9 @@ export default function Home() {
           <div className="hero-grid pointer-events-none absolute inset-x-0 top-0 h-[650px]" />
           <div className="shell relative grid gap-12 lg:grid-cols-[1.25fr_.75fr] lg:items-center">
             <div>
-              <div className="eyebrow mb-7 flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-primary" /> Software development · AI engineering</div>
+              <div className="eyebrow mb-7 flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-brand" /> Software development · AI engineering</div>
               <h1 className="max-w-[780px] text-[clamp(3.3rem,8vw,6.8rem)] font-semibold leading-[.96] tracking-[-.085em]">
-                Building software<br />with <span className="text-primary">purpose.</span>
+                Building software<br />with <span className="text-brand">purpose.</span>
               </h1>
               <p className="mt-8 max-w-[590px] text-base leading-8 text-muted sm:text-lg">
                 I'm Victor Ikaraoha. I build software products and explore how AI, automation, and thoughtful engineering can turn ideas into useful tools.
@@ -123,13 +122,13 @@ export default function Home() {
                 <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="secondary-button"><Github size={15} aria-hidden="true" /> GitHub profile <ArrowUpRight size={13} aria-hidden="true" /></a>
               </div>
               <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted">
-                <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-success" /> Building and learning in public</span>
+                <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-positive" /> Building and learning in public</span>
                 <span>Based in Nigeria</span>
               </div>
             </div>
 
             <aside className="surface-card relative overflow-hidden p-7 sm:p-8" aria-label="Current focus">
-              <div className="absolute -right-14 -top-14 h-48 w-48 rounded-full bg-primary-soft blur-3xl" />
+              <div className="absolute -right-14 -top-14 h-48 w-48 rounded-full bg-brand-soft blur-3xl" />
               <div className="relative">
                 <div className="eyebrow mb-6 flex items-center gap-2"><Sparkles size={14} aria-hidden="true" /> Current focus</div>
                 <h2 className="text-2xl font-semibold leading-tight tracking-[-.05em]">Learning by building real products.</h2>
@@ -162,7 +161,7 @@ export default function Home() {
           <div className="shell">
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
               <div><div className="eyebrow mb-4">Selected projects</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-5xl">Built, being built, explored.</h2></div>
-              <a href="https://github.com/victorikaraoha23?tab=repositories" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-primary">Browse GitHub repositories <ArrowUpRight size={14} aria-hidden="true" /></a>
+              <a href="https://github.com/victorikaraoha23?tab=repositories" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-brand">Browse GitHub repositories <ArrowUpRight size={14} aria-hidden="true" /></a>
             </div>
             <div className="mt-10 grid gap-4 lg:grid-cols-3">
               {projects.map((project) => <ProjectCard key={project.name} project={project} />)}
@@ -176,8 +175,8 @@ export default function Home() {
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
               {capabilities.map(({ icon: Icon, title, description }, index) => (
                 <article className="surface-card p-6 sm:p-7" key={title}>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary"><Icon size={19} aria-hidden="true" /></div>
-                  <div className="mt-6 text-xs font-bold text-primary">0{index + 1}</div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-soft text-brand"><Icon size={19} aria-hidden="true" /></div>
+                  <div className="mt-6 text-xs font-bold text-brand">0{index + 1}</div>
                   <h3 className="mt-2 text-xl font-semibold tracking-[-.04em]">{title}</h3>
                   <p className="mt-3 text-sm leading-6 text-muted">{description}</p>
                 </article>
@@ -189,7 +188,7 @@ export default function Home() {
         <section id="contact" className="section-divider py-20 sm:py-24">
           <div className="shell">
             <div className="surface-card relative overflow-hidden p-8 sm:p-12">
-              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary-soft blur-3xl" />
+              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand-soft blur-3xl" />
               <div className="relative max-w-2xl">
                 <div className="eyebrow mb-4">Get in touch</div>
                 <h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-5xl">Have an idea worth building?</h2>
@@ -205,7 +204,7 @@ export default function Home() {
         <div className="shell flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <Brand />
           <p className="text-xs text-muted">© {new Date().getFullYear()} Victor Ikaraoha. Built with intention.</p>
-          <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" aria-label="GitHub profile" className="text-muted transition hover:text-primary"><Github size={17} aria-hidden="true" /></a>
+          <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" aria-label="GitHub profile" className="text-muted transition hover:text-brand"><Github size={17} aria-hidden="true" /></a>
         </div>
       </footer>
     </>
