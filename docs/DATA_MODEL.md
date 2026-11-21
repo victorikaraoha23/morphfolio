@@ -1,6 +1,6 @@
 # MorphFolio — Data Model
 
-**Status:** Initial schema migration prepared; application to the hosted project is pending project restoration.
+**Status:** Initial schema and hardening migrations applied and verified on the dedicated Supabase project.
 
 ## Identity and ownership
 
@@ -41,6 +41,13 @@ Supabase Auth is the only identity authority. Every user-owned record carries a 
 5. The portfolio architect proposes a new portfolio configuration version.
 6. The owner reviews and approves or rejects the proposal.
 7. Only an approved version may be published; a failed run must not replace the last known-good published version.
+
+## Migration files
+
+- `supabase/migrations/20261121221153_initial_morphfolio_schema.sql`
+- `supabase/migrations/20261121221228_harden_rls_and_index_foreign_keys.sql`
+
+The security advisor returned no findings after hardening. The performance advisor no longer reports unindexed foreign keys; its remaining unused-index notices are expected while the tables are empty and should be reassessed after real workload exists.
 
 ## Deliberate omissions in this first migration
 
