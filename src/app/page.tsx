@@ -1,127 +1,162 @@
 import {
   ArrowDownRight,
   ArrowUpRight,
+  ArrowUpRightFromSquare,
   Github,
-  Layers3,
-  LockKeyhole,
-  Orbit,
-  ScanSearch,
-  Sparkles,
-  WandSparkles
+  Linkedin,
+  Mail,
+  MoveUpRight,
+  Sparkles
 } from "lucide-react";
 
 const projects = [
-  { name: "AI Slop Checker", detail: "Detect low-quality, generic AI-generated writing", stack: ["TypeScript", "React", "AI"], status: "Live", color: "lime", mark: "AS" },
-  { name: "Blueprint AI", detail: "Turn rough software ideas into implementation-ready blueprints", stack: ["Next.js", "Supabase", "LLMs"], status: "Building", color: "violet", mark: "BP" },
-  { name: "AgentsChat", detail: "An agent-oriented workspace for conversational workflows", stack: ["TypeScript", "Agents", "API"], status: "Exploring", color: "blue", mark: "AC" }
+  {
+    number: "01",
+    name: "AI Slop Checker",
+    type: "AI PRODUCT",
+    status: "LIVE",
+    description: "A tool focused on identifying low-quality, generic AI-generated content.",
+    tags: ["AI", "Web", "Product"],
+    href: "https://ai-slop-checker-five.vercel.app/",
+    action: "Visit live product",
+    accent: "lime"
+  },
+  {
+    number: "02",
+    name: "Blueprint AI",
+    type: "DEVELOPER TOOL",
+    status: "IN DEVELOPMENT",
+    description: "Turns rough software ideas into researched, validated, implementation-ready blueprints.",
+    tags: ["Next.js", "LLMs", "Supabase"],
+    href: "https://github.com/victorikaraoha23",
+    action: "Explore GitHub",
+    accent: "violet"
+  },
+  {
+    number: "03",
+    name: "AgentsChat",
+    type: "OPEN-SOURCE EXPLORATION",
+    status: "EXPERIMENTAL",
+    description: "An agent-oriented workspace exploring how AI assistants and software workflows can work together.",
+    tags: ["TypeScript", "AI Agents", "Automation"],
+    href: "https://github.com/victorikaraoha23/Agentschat",
+    action: "View repository",
+    accent: "blue"
+  }
+];
+
+const focusAreas = [
+  { number: "01", title: "AI engineering", text: "LLM integrations, structured outputs, and useful AI-powered applications." },
+  { number: "02", title: "Autonomous software", text: "Building systems that can handle repeatable work with less manual intervention." },
+  { number: "03", title: "Product engineering", text: "Turning rough ideas into dependable, maintainable software products." }
 ];
 
 function Brand() {
   return (
-    <a href="#" className="flex items-center gap-2.5" aria-label="MorphFolio home">
-      <span className="grid h-8 w-8 place-items-center rounded-xl border border-lime-200/20 bg-lime-300/10 text-lime-200"><Orbit size={17} /></span>
-      <span className="text-[15px] font-semibold tracking-[-.04em]">morph<span className="text-lime-300">folio</span></span>
+    <a href="#top" className="flex items-center gap-2.5" aria-label="Victor Ikaraoha home">
+      <span className="grid h-8 w-8 place-items-center rounded-xl border border-lime-200/20 bg-lime-300/10 text-lime-200"><Sparkles size={16} /></span>
+      <span className="text-[13px] font-semibold tracking-[-.035em]">VI<span className="text-lime-300">.</span></span>
     </a>
   );
 }
 
-function ProjectPreview() {
+function ProjectCard({ project }: { project: (typeof projects)[number] }) {
+  const accent = project.accent === "lime"
+    ? "border-lime-200/15 bg-lime-200/[.06] text-lime-200"
+    : project.accent === "violet"
+      ? "border-violet-200/15 bg-violet-200/[.06] text-violet-200"
+      : "border-sky-200/15 bg-sky-200/[.06] text-sky-200";
+
   return (
-    <div className="panel relative overflow-hidden p-3 shadow-[0_32px_120px_rgba(0,0,0,.45)] sm:p-4">
-      <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-lime-300/[.08] blur-3xl" />
-      <div className="relative flex items-center justify-between border-b border-white/[.07] px-2 pb-3">
-        <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-lime-300" /><span className="text-[11px] font-medium text-white/80">Portfolio preview</span></div>
-        <div className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-lime-300" /><span className="text-[10px] text-lime-200">Synced just now</span></div>
+    <article className="panel group flex h-full flex-col p-6 transition duration-300 hover:-translate-y-1 hover:border-white/20 sm:p-7">
+      <div className="flex items-center justify-between">
+        <span className="text-[11px] font-medium tracking-[.12em] text-white/35">{project.number} / {project.type}</span>
+        <span className={`rounded-full border px-2.5 py-1 text-[8px] font-bold tracking-[.12em] ${accent}`}>{project.status}</span>
       </div>
-      <div className="relative grid gap-4 py-5 sm:grid-cols-[.82fr_1.18fr] sm:gap-5 sm:py-7">
-        <div className="flex flex-col justify-between px-2">
-          <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 px-2.5 py-1 text-[9px] text-white/55"><span className="h-1.5 w-1.5 rounded-full bg-lime-300" /> AVAILABLE FOR SELECT PROJECTS</div>
-            <div className="text-[27px] font-semibold leading-[1.08] tracking-[-.06em] text-white sm:text-[34px]">Building useful<br /><span className="text-lime-300">things with AI.</span></div>
-            <p className="mt-3 max-w-[230px] text-[11px] leading-5 text-white/45">Developer focused on practical AI products, autonomous software and thoughtful engineering.</p>
-          </div>
-          <div className="mt-6 flex items-center gap-2 text-[10px] text-white/45"><Github size={12} /> github.com/victorikaraoha23 <ArrowUpRight size={10} /></div>
-        </div>
-        <div className="rounded-xl border border-white/[.07] bg-black/20 p-3">
-          <div className="mb-3 flex items-center justify-between"><span className="text-[10px] font-semibold text-white/75">Selected work</span><span className="text-[9px] text-white/35">03 projects</span></div>
-          <div className="space-y-2">
-            {projects.map((project) => (
-              <div key={project.name} className="project-row flex items-center gap-3 rounded-lg border border-white/[.055] p-2.5">
-                <div className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg text-[9px] font-bold ${project.color === "lime" ? "bg-lime-300/10 text-lime-200" : project.color === "violet" ? "bg-violet-300/10 text-violet-200" : "bg-sky-300/10 text-sky-200"}`}>{project.mark}</div>
-                <div className="min-w-0 flex-1"><div className="truncate text-[10px] font-semibold text-white/85">{project.name}</div><div className="mt-0.5 truncate text-[9px] text-white/35">{project.detail}</div></div>
-                <span className={`shrink-0 rounded-full px-2 py-1 text-[8px] ${project.status === "Live" ? "bg-lime-300/10 text-lime-200" : "bg-white/[.06] text-white/45"}`}>{project.status}</span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-3 flex items-center justify-between px-1 text-[9px] text-white/35"><span>Curated from GitHub</span><span className="flex items-center gap-1 text-lime-200"><Sparkles size={10} /> AI organized</span></div>
-        </div>
+      <div className="mt-10 flex items-end justify-between gap-3">
+        <h3 className="text-[25px] font-semibold tracking-[-.055em] text-white sm:text-[29px]">{project.name}</h3>
+        <span className={`mb-1 grid h-9 w-9 shrink-0 place-items-center rounded-xl border ${accent}`}><MoveUpRight size={16} /></span>
       </div>
-      <div className="relative flex flex-wrap items-center justify-between gap-3 rounded-xl border border-lime-200/10 bg-lime-200/[.045] px-3 py-2.5">
-        <div className="flex items-center gap-2 text-[10px] text-white/65"><WandSparkles size={13} className="text-lime-200" /> <span>Evolution proposal ready for review</span></div>
-        <span className="rounded-full border border-lime-200/20 px-2 py-1 text-[8px] font-semibold text-lime-200">REVIEW CHANGE <ArrowUpRight size={9} className="ml-1 inline" /></span>
+      <p className="mt-3 min-h-[54px] text-[13px] leading-6 text-white/48">{project.description}</p>
+      <div className="mt-6 flex flex-wrap gap-2">
+        {project.tags.map((tag) => <span key={tag} className="rounded-full border border-white/[.08] px-2.5 py-1 text-[10px] text-white/45">{tag}</span>)}
       </div>
-    </div>
+      <a href={project.href} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 border-t border-white/[.07] pt-4 text-[11px] font-semibold text-white/65 transition group-hover:text-lime-200">
+        {project.action} <ArrowUpRightFromSquare size={12} />
+      </a>
+    </article>
   );
 }
 
-const capabilities = [
-  { icon: ScanSearch, title: "Understands your work", description: "Reads repository metadata and documentation to build evidence-backed project profiles." },
-  { icon: WandSparkles, title: "Thinks about presentation", description: "Chooses what to feature and how to organize your portfolio as your body of work grows." },
-  { icon: LockKeyhole, title: "Keeps you in control", description: "Reviews every meaningful proposal, preserves published versions and never invents achievements." }
-];
-
 export default function Home() {
   return (
-    <main className="relative min-h-screen overflow-hidden">
+    <main id="top" className="relative min-h-screen overflow-hidden">
       <div className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[760px]" />
       <header className="relative z-10 border-b border-white/[.06]">
         <div className="shell flex h-[72px] items-center justify-between">
           <Brand />
-          <nav className="hidden items-center gap-8 text-[12px] text-white/50 md:flex" aria-label="Main navigation">
-            <a className="transition hover:text-white" href="#how-it-works">How it works</a>
-            <a className="transition hover:text-white" href="#capabilities">Capabilities</a>
-            <a className="transition hover:text-white" href="https://github.com/victorikaraoha23/morphfolio">GitHub <ArrowUpRight className="ml-1 inline" size={11} /></a>
+          <nav className="hidden items-center gap-8 text-[12px] text-white/48 md:flex" aria-label="Main navigation">
+            <a className="transition hover:text-white" href="#work">Selected work</a>
+            <a className="transition hover:text-white" href="#focus">What I focus on</a>
+            <a className="transition hover:text-white" href="#about">About</a>
           </nav>
-          <a href="https://github.com/victorikaraoha23/morphfolio" className="secondary-button !px-3 !py-2 text-[11px]"><Github size={13} /> View repository</a>
+          <a href="mailto:hello@morphfolio.dev" className="secondary-button !px-3 !py-2 text-[11px]">Get in touch <ArrowUpRight size={12} /></a>
         </div>
       </header>
 
-      <section className="shell relative grid gap-14 pb-24 pt-20 sm:pt-28 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:gap-12 lg:pb-32 lg:pt-32">
+      <section className="shell relative grid gap-12 pb-24 pt-24 sm:pt-32 lg:grid-cols-[1.2fr_.8fr] lg:items-end lg:pb-32">
         <div className="relative z-10">
-          <div className="eyebrow mb-6 flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-lime-300 shadow-[0_0_12px_#b8f36b]" /> A portfolio that grows with you</div>
-          <h1 className="max-w-[620px] text-[clamp(3.2rem,7vw,5.8rem)] font-semibold leading-[.98] tracking-[-.075em]">Your work,<br /> <span className="text-lime-300">intelligently</span><br /> presented.</h1>
-          <p className="mt-7 max-w-[430px] text-[15px] leading-7 text-white/50">MorphFolio understands the projects behind your GitHub profile, turns them into clear stories, and evolves your portfolio as your engineering journey moves forward.</p>
+          <div className="eyebrow mb-7 flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-lime-300 shadow-[0_0_12px_#b8f36b]" /> SOFTWARE BUILDER · AI ENGINEERING</div>
+          <h1 className="max-w-[760px] text-[clamp(3.4rem,8vw,6.8rem)] font-semibold leading-[.94] tracking-[-.08em]">Building useful<br /><span className="text-lime-300">software</span> for what&apos;s<br />next.</h1>
+          <p className="mt-8 max-w-[530px] text-[15px] leading-7 text-white/50">I build practical software products and explore the intersection of AI engineering, automation, and autonomous systems.</p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <a href="https://github.com/victorikaraoha23/morphfolio" className="primary-button">Explore the project <ArrowUpRight size={15} /></a>
-            <a href="#how-it-works" className="secondary-button">See how it works <ArrowDownRight size={14} /></a>
+            <a href="#work" className="primary-button">Explore selected work <ArrowDownRight size={14} /></a>
+            <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="secondary-button"><Github size={14} /> GitHub profile <ArrowUpRight size={12} /></a>
           </div>
-          <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] text-white/35"><span className="flex items-center gap-1.5"><Github size={12} /> GitHub connected</span><span className="h-1 w-1 rounded-full bg-white/20" /><span className="flex items-center gap-1.5"><LockKeyhole size={11} /> Owner-controlled</span><span className="h-1 w-1 rounded-full bg-white/20" /><span className="flex items-center gap-1.5"><Sparkles size={11} /> AI-assisted</span></div>
         </div>
-        <div className="relative"><div className="absolute -inset-8 rounded-full bg-lime-300/[.055] blur-3xl" /><ProjectPreview /></div>
+        <aside id="about" className="panel relative overflow-hidden p-6 sm:p-7">
+          <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-lime-300/[.07] blur-3xl" />
+          <div className="relative">
+            <div className="eyebrow mb-5">A little about me</div>
+            <h2 className="text-xl font-semibold tracking-[-.04em]">Curious by default.<br /><span className="text-white/45">Intentional by design.</span></h2>
+            <p className="mt-4 text-[12px] leading-6 text-white/45">I enjoy taking ideas apart, understanding the problem beneath them, and building software that makes the solution useful. My current work is centered on AI-powered products and developer tools.</p>
+            <div className="mt-7 border-t border-white/[.08] pt-5">
+              <div className="text-[10px] tracking-[.12em] text-white/30">CURRENTLY EXPLORING</div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {["TypeScript", "Next.js", "LLM systems", "AI agents", "Automation"].map((item) => <span key={item} className="rounded-full border border-white/[.09] bg-white/[.025] px-2.5 py-1.5 text-[10px] text-white/55">{item}</span>)}
+              </div>
+            </div>
+          </div>
+        </aside>
       </section>
 
-      <section id="how-it-works" className="border-y border-white/[.06] bg-white/[.015] py-20 sm:py-24">
+      <section id="work" className="border-y border-white/[.06] bg-white/[.015] py-20 sm:py-24">
         <div className="shell">
-          <div className="max-w-[560px]"><div className="eyebrow mb-4">From repositories to a story</div><h2 className="text-3xl font-semibold tracking-[-.055em] sm:text-4xl">A portfolio should reflect the work you actually do.</h2><p className="mt-4 text-sm leading-6 text-white/45">Not another static grid. MorphFolio builds a living picture of your engineering work from the evidence already in your repositories.</p></div>
-          <div className="mt-12 grid gap-3 md:grid-cols-3">
-            {[{ n: "01", icon: Github, title: "Connect GitHub", text: "Choose the repositories you want your portfolio to understand." }, { n: "02", icon: Sparkles, title: "Build understanding", text: "AI turns project documentation and metadata into structured, verifiable profiles." }, { n: "03", icon: Layers3, title: "Evolve your portfolio", text: "Review layout and content proposals before the new version goes live." }].map((item) => (
-              <div key={item.n} className="panel p-6 sm:p-7"><div className="flex items-center justify-between"><span className="text-[11px] font-semibold text-lime-200">{item.n}</span><item.icon size={18} className="text-white/45" /></div><h3 className="mt-9 text-lg font-semibold tracking-[-.03em]">{item.title}</h3><p className="mt-2 text-[12px] leading-6 text-white/45">{item.text}</p></div>
-            ))}
+          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+            <div><div className="eyebrow mb-4">Selected work</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-4xl">Things I&apos;m building.</h2></div>
+            <a href="https://github.com/victorikaraoha23?tab=repositories" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[11px] text-white/45 transition hover:text-lime-200">Browse all repositories <ArrowUpRight size={13} /></a>
+          </div>
+          <div className="mt-10 grid gap-3 lg:grid-cols-3">
+            {projects.map((project) => <ProjectCard key={project.name} project={project} />)}
           </div>
         </div>
       </section>
 
-      <section id="capabilities" className="shell py-20 sm:py-24">
-        <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
-          <div><div className="eyebrow mb-4">Designed to evolve safely</div><h2 className="text-3xl font-semibold tracking-[-.055em] sm:text-4xl">Autonomy with a safety net.</h2><p className="mt-4 max-w-[360px] text-sm leading-6 text-white/45">AI proposes. Your rules validate. You stay in control of what gets published.</p></div>
-          <div className="space-y-3">
-            {capabilities.map((item) => <div key={item.title} className="panel flex gap-4 p-5 sm:p-6"><div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-lime-200/15 bg-lime-200/[.06] text-lime-200"><item.icon size={18} /></div><div><h3 className="text-sm font-semibold">{item.title}</h3><p className="mt-1.5 text-[12px] leading-5 text-white/45">{item.description}</p></div></div>)}
+      <section id="focus" className="shell py-20 sm:py-24">
+        <div className="grid gap-12 lg:grid-cols-[.75fr_1.25fr]">
+          <div><div className="eyebrow mb-4">Areas of focus</div><h2 className="text-3xl font-semibold tracking-[-.055em] sm:text-4xl">Where I&apos;m putting my energy.</h2><p className="mt-4 max-w-[340px] text-sm leading-6 text-white/45">Learning through building, shipping, and improving real software.</p></div>
+          <div className="divide-y divide-white/[.08] border-y border-white/[.08]">
+            {focusAreas.map((item) => <div key={item.number} className="grid gap-3 py-6 sm:grid-cols-[54px_1fr]"><span className="pt-1 text-[11px] text-lime-200">{item.number}</span><div><h3 className="text-[15px] font-semibold tracking-[-.025em]">{item.title}</h3><p className="mt-2 max-w-[460px] text-[12px] leading-5 text-white/42">{item.text}</p></div></div>)}
           </div>
         </div>
       </section>
 
       <footer className="border-t border-white/[.06] py-8">
-        <div className="shell flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"><Brand /><p className="text-[11px] text-white/30">Built to make your work easier to understand. <span className="text-lime-200/70">© {new Date().getFullYear()} MorphFolio</span></p><a href="https://github.com/victorikaraoha23/morphfolio" className="flex items-center gap-2 text-[11px] text-white/45 transition hover:text-white">Open source on GitHub <ArrowUpRight size={12} /></a></div>
+        <div className="shell flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <Brand />
+          <p className="text-[11px] text-white/30">Made with curiosity and a bias toward building.</p>
+          <div className="flex items-center gap-4 text-white/40"><a aria-label="GitHub" href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="transition hover:text-lime-200"><Github size={15} /></a><a aria-label="LinkedIn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer" className="transition hover:text-lime-200"><Linkedin size={15} /></a><a aria-label="Email" href="mailto:hello@morphfolio.dev" className="transition hover:text-lime-200"><Mail size={15} /></a></div>
+        </div>
       </footer>
     </main>
   );
