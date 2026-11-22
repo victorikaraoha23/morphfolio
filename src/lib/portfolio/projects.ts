@@ -36,11 +36,11 @@ export const projects = [
     role: "Independent project", stage: "Experimental", tags: ["Next.js", "FastAPI", "Supabase", "AI agents", "Hermes runtime"],
     href: "", action: "View project details", featured: true,
     details: [
-      "The web application supports sign-up, sign-in, sign-out, session detection, and a conversation interface backed by Supabase Auth.",
-      "The FastAPI service resolves the authenticated user and supports creating, listing, reading, renaming, and deleting conversations owned by that user.",
-      "Users can submit messages for execution through a runtime boundary and Hermes adapter; the conversation page streams the assistant reply and confirms the persisted message.",
+      "The Next.js web app supports sign-up, sign-in, sign-out, and session detection through Supabase Auth. Its conversation page lets a signed-in user submit a request and view the streamed assistant reply.",
+      "The FastAPI service verifies the caller, resolves their profile, and provides owner-scoped conversation creation, listing, reading, renaming, and deletion. Supabase migrations define the profiles and conversations tables with Row Level Security.",
+      "A signed-in user can submit a message for execution through the API runtime contract and Hermes adapter. The request and assistant reply are persisted as messages in the same conversation, and the streaming endpoint returns the reply to the conversation page.",
       "The product layer owns accounts, conversation data, authorization, and product operations, while Hermes remains a separate agent-execution dependency.",
-      "Important gaps remain: conversation history is not yet retrieved across visits, and there is no production deployment. AgentsChat is experimental, not a hosted production service."
+      "Important gaps remain: there is no message-history retrieval endpoint for restoring prior messages across visits, no durable run-state or cancellation controls, and no production deployment. The current UI displays streamed replies and messages confirmed during the current visit. AgentsChat is experimental, not a hosted production service."
     ],
     externalLabel: "View source on GitHub", externalHref: "https://github.com/victorikaraoha23/Agentschat"
   },
