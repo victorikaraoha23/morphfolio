@@ -80,8 +80,8 @@ export default async function ResumePage() {
                       <h3 className="font-semibold">{project.name}</h3>
                       <span className="status-pill">{project.status}</span>
                     </div>
-                    {project.href && <a href={project.href} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand">{project.href.replace("https://", "")} <ArrowUpRight size={12} /></a>}
-                    {project.secondaryHref && <a href={project.secondaryHref} target="_blank" rel="noreferrer" className="ml-3 inline-flex items-center gap-1 text-xs font-semibold text-muted">Source code <ArrowUpRight size={12} /></a>}
+                    {"href" in project && project.href && <a href={project.href} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand">{project.href.replace("https://", "")} <ArrowUpRight size={12} /></a>}
+                    {"secondaryHref" in project && project.secondaryHref && <a href={project.secondaryHref} target="_blank" rel="noreferrer" className="ml-3 inline-flex items-center gap-1 text-xs font-semibold text-muted">Source code <ArrowUpRight size={12} /></a>}
                     <ul className="mt-3 space-y-2">
                       {project.bullets.map((bullet) => <li key={bullet} className="text-sm leading-6 text-muted">• {bullet}</li>)}
                     </ul>

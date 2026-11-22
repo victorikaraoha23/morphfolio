@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Printer } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import { resume } from "@/lib/portfolio/resume";
 import { PrintButton } from "@/components/print-button";
@@ -46,7 +46,7 @@ export default function PrintResumePage() {
           {resume.projects.map((project) => (
             <div className="cv-project" key={project.name}>
               <h3>{project.name}</h3>
-              <p className="cv-meta">{project.status}{project.href ? <> · <a href={project.href}>{project.href.replace("https://", "")}</a></> : null}</p>
+              <p className="cv-meta">{project.status}{"href" in project && project.href ? <> · <a href={project.href}>{project.href.replace("https://", "")}</a></> : null}</p>
               <ul>{project.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>
             </div>
           ))}
