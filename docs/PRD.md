@@ -34,7 +34,7 @@ The architecture should avoid decisions that make a future SaaS evolution unnece
 ## 4. Positioning and personal identity
 
 - Public identity name: **Victor Ikaraoha**.
-- Working professional positioning: **AI Engineer & Software Developer**. This is editable and must not imply seniority, employment history, or expertise that has not been substantiated.
+- Public positioning: **Software Developer exploring AI engineering**. The biography and skill descriptions must reflect the owner's current learning and building journey, and must not imply seniority, employment history, or expertise that has not been substantiated.
 - The biography and skill descriptions must reflect the owner's actual learning and building journey.
 - Personal identity includes a custom **VI monogram** and a MorphFolio wordmark.
 - A professional profile photograph is intended for the hero; until the owner supplies an image, use a deliberate, replaceable visual placeholder rather than inventing or sourcing a likeness.
