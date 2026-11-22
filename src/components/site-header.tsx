@@ -32,7 +32,7 @@ export async function SiteHeader() {
           </nav>
         </details>
         <div className="flex items-center gap-2">
-          <CommandPalette />
+          <CommandPalette initialLocale={locale} />
           <ThemeToggle />
           <Link href="/contact" className="primary-button !min-h-10 !px-4 !text-xs">{translate(locale, "talk")} <ArrowUpRight size={13} aria-hidden="true" /></Link>
         </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Bot, Code2, Github, Layers3, Sparkles, Workflow } from "lucide-react";
 
 import { SiteHeader } from "@/components/site-header";
@@ -68,7 +69,7 @@ export default async function Home() {
           <div className="shell">
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
               <div><div className="eyebrow mb-4">{tr(locale, "selectedProjects")}</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-5xl">{tr(locale, "built")}</h2></div>
-              <a href="/projects" className="inline-flex items-center gap-2 text-sm font-semibold text-brand">{tr(locale, "allProjectsLink")} <ArrowUpRight size={14} aria-hidden="true" /></a>
+              <Link href="/projects" className="inline-flex items-center gap-2 text-sm font-semibold text-brand">{tr(locale, "allProjectsLink")} <ArrowUpRight size={14} aria-hidden="true" /></Link>
             </div>
             <div className="mt-10 grid gap-4 lg:grid-cols-3">
               {projects.filter((project) => project.featured).map((sourceProject) => { const project = getLocalizedProject(sourceProject, locale); return (
