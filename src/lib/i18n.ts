@@ -117,7 +117,7 @@ const messages = {
     faqAnswer4: "You can find my public repositories and development work on GitHub. Repository-derived case studies and activity summaries will be added as the portfolio integration develops.",
   },
   fr: {
-    skip: "Aller au contenu", about: "À propos", projects: "Projets", services: "Collaboration", resume: "Parcours", contact: "Contact",
+    skip: "Aller au contenu", loading: "Chargement de la page", mainNavigation: "Navigation principale", mobileNavigation: "Navigation mobile", socialProfiles: "Profils sociaux", about: "À propos", projects: "Projets", services: "Collaboration", resume: "Parcours", contact: "Contact",
     talk: "Discutons", menu: "Menu", quick: "Actions rapides", footer: "Créé avec intention.",
     home: "Accueil", aboutMe: "À propos de moi", aboutTitle: "L'esprit d'un créateur, guidé par la curiosité.",
     aboutIntro: "Je suis Victor Ikaraoha, développeur logiciel basé au Nigeria. Je développe mes compétences en créant des produits logiciels indépendants et en explorant les applications pratiques de l'IA, de l'automatisation et du développement web moderne.",

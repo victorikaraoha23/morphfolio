@@ -28,10 +28,10 @@ export default function ErrorPage({
     <main className="shell flex min-h-screen flex-col items-start justify-center py-20">
       <p className="eyebrow">{copy[locale].title}</p>
       <h1 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-.07em] sm:text-6xl">
-        This page did not load as expected.
+        {copy[locale].heading}
       </h1>
       <p className="mt-5 max-w-xl text-base leading-7 text-muted">
-        Please try again. If the problem continues, return to the portfolio and try another page.
+        {copy[locale].body}
       </p>
       <button type="button" onClick={reset} className="primary-button mt-8">
         <RefreshCw size={15} aria-hidden="true" />
