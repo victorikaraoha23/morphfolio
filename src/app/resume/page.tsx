@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { getLocale, translate as tr } from "@/lib/i18n";
 import { projects } from "@/lib/portfolio/projects";
+import { getLocalizedProject } from "@/lib/portfolio/project-translations";
 
 export const metadata: Metadata = {
   title: "Professional Profile",
@@ -49,11 +50,11 @@ export default async function ResumePage() {
             <section>
               <h2 className="text-2xl font-semibold tracking-[-.05em]">{tr(locale, "selectedWork")}</h2>
               <div className="mt-5 space-y-4">
-                {projects.map((project)=><article key={project.slug} className="surface-card p-5">
+                {projects.map((sourceProject)=>{ const project = getLocalizedProject(sourceProject, locale); return <article key={project.slug} className="surface-card p-5">
                   <div className="flex flex-wrap items-center justify-between gap-3"><h3 className="font-semibold">{project.name}</h3><span className="status-pill">{project.status}</span></div>
                   <p className="mt-2 text-sm leading-6 text-muted">{project.description}</p>
                   <Link href={`/projects/${project.slug}`} className="mt-4 inline-flex items-center gap-2 text-xs font-bold text-brand">{tr(locale, "projectDetails")} <ArrowUpRight size={13}/></Link>
-                </article>)}
+                </article>;})}
               </div>
             </section>
             <section className="mt-12 border-t border-line pt-8">
