@@ -37,7 +37,6 @@ export default async function Home() {
             <p className="mt-7 max-w-[600px] text-base leading-8 text-muted sm:text-lg">{tr(locale, "heroIntro")}</p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link href="/projects" className="primary-button">{tr(locale, "exploreWork")} <ArrowUpRight size={15}/></Link>
-              <Link href="/contact" className="secondary-button">{tr(locale, "contact")} <ArrowRight size={15}/></Link>
               <a href="https://github.com/victorikaraoha23" target="_blank" rel="me noreferrer" className="secondary-button"><Github size={15}/> GitHub <ArrowUpRight size={13}/></a>
               <a href="https://www.linkedin.com/in/victor-ikaraoha-ba0152440/" target="_blank" rel="me noreferrer" aria-label="LinkedIn profile" className="secondary-button"><Linkedin size={15}/> LinkedIn <ArrowUpRight size={13}/></a>
               <a href="https://x.com/ikaraoha23" target="_blank" rel="me noreferrer" aria-label="X profile" className="secondary-button"><Twitter size={15}/> X <ArrowUpRight size={13}/></a>
