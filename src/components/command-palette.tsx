@@ -160,6 +160,15 @@ export function CommandPalette() {
 
   useEffect(() => setActiveIndex(0), [query]);
 
+  useEffect(() => {
+    function syncTheme(event: Event) {
+      const next = (event as CustomEvent<"light" | "dark">).detail;
+      if (next === "light" || next === "dark") setTheme(next);
+    }
+    window.addEventListener("morphfolio:theme-change", syncTheme);
+    return () => window.removeEventListener("morphfolio:theme-change", syncTheme);
+  }, []);
+
   return (
     <>
       <button type="button" className="command-trigger" onClick={open} aria-label="Open command palette">
