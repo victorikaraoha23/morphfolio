@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight, Search, X } from "lucide-react";
 
 import { projects } from "@/lib/portfolio/projects";
+import { getLocalizedProject } from "@/lib/portfolio/project-translations";
 
 const categories = ["All", ...Array.from(new Set(projects.map((project) => project.category)))];
 
@@ -16,6 +17,7 @@ export function ProjectsExplorer() {
     ha: { search: "Nemo ayyuka, fasahohi ko batutuwa", showing: "Ana nuna", of: "cikin", none: "Ba a sami aiki ba", try: "Gwada wata kalma ko rukuni.", clear: "Share matattara", details: "Karanta cikakken bayani" }
   } as const;
   const t = labels[locale];
+  const localizedProjects = projects.map((project) => getLocalizedProject(project, locale));
   useEffect(() => {
     const saved = window.localStorage.getItem("morphfolio-locale");
     if (saved === "fr" || saved === "ha") setLocale(saved);
@@ -31,8 +33,9 @@ export function ProjectsExplorer() {
 
   const filteredProjects = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
-    return projects.filter((project) => {
-      const matchesCategory = category === "All" || project.category === category;
+    return localizedProjects.filter((project) => {
+      const original = projects.find((item) => item.slug === project.slug)!;
+      const matchesCategory = category === "All" || original.category === category;
       const searchableText = [project.name, project.description, project.category, ...project.tags].join(" ").toLowerCase();
       return matchesCategory && (!normalizedQuery || searchableText.includes(normalizedQuery));
     });
@@ -42,16 +45,16 @@ export function ProjectsExplorer() {
     <div>
       <div className="flex flex-col gap-4 sm:flex-row">
         <label className="relative flex-1">
-          <span className="sr-only">Search projects</span>
+          <span className="sr-only">{t.searchLabel}</span>
           <Search size={17} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted" aria-hidden="true" />
           <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t.search} className="w-full rounded-full border border-line bg-background py-3 pl-11 pr-11 text-sm text-foreground outline-none transition placeholder:text-muted focus:border-brand" />
-          {query ? <button type="button" onClick={() => setQuery("")} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-2 text-muted hover:text-foreground"><X size={15} aria-hidden="true" /></button> : null}
+          {query ? <button type="button" onClick={() => setQuery("")} aria-label={t.clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-2 text-muted hover:text-foreground"><X size={15} aria-hidden="true" /></button> : null}
         </label>
       </div>
-      <div className="mt-5 flex flex-wrap gap-2" aria-label="Filter projects by category">
-        {categories.map((item) => <button type="button" key={item} onClick={() => setCategory(item)} aria-pressed={category === item} className={`rounded-full border px-4 py-2 text-xs font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${category === item ? "border-brand bg-brand-soft text-brand" : "border-line bg-panel text-muted hover:border-brand hover:text-foreground"}`}>{item}</button>)}
+      <div className="mt-5 flex flex-wrap gap-2" aria-label={t.filterLabel}>
+        {categories.map((item) => <button type="button" key={item} onClick={() => setCategory(item)} aria-pressed={category === item} className={`rounded-full border px-4 py-2 text-xs font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${category === item ? "border-brand bg-brand-soft text-brand" : "border-line bg-panel text-muted hover:border-brand hover:text-foreground"}`}>{item === "All" ? t.all : item === "AI Products" ? t.ai : item === "Developer Tools" ? t.tools : item === "AI Agents" ? t.agents : item}</button>)}
       </div>
-      <p className="mt-6 text-xs text-muted" aria-live="polite">{t.showing} {filteredProjects.length} {t.of} {projects.length} projects</p>
+      <p className="mt-6 text-xs text-muted" aria-live="polite">{t.showing} {filteredProjects.length} {t.of} {projects.length} {t.projectCount}</p>
       {filteredProjects.length ? (
         <div className="mt-5 grid gap-4 lg:grid-cols-2">
           {filteredProjects.map((project) => (
