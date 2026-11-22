@@ -66,4 +66,4 @@ AI output always begins as a draft. Owner approval is required for v1 publicatio
 
 ## 8. Current implementation status
 
-The repository analyst is implemented as a server-only service in `src/modules/intelligence/analyze-repository.ts`. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. It is not exposed through a public route; authentication, rate limiting, and owner authorization must be implemented before adding an endpoint.
+The repository analyst is implemented as a server-only service in `src/modules/intelligence/analyze-repository.ts`. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. It is not exposed through a public route; request limits, abuse controls, and an explicit access model must be implemented before adding an endpoint. Do not expose the internal analyst as an unauthenticated public route.
