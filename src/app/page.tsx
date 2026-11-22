@@ -14,7 +14,8 @@ const capabilities = [
 
 const currentTools = ["TypeScript", "JavaScript", "Next.js", "React", "Supabase", "OpenRouter", "AI SDK"];
 
-export default async function Home() {\n  const locale = await getLocale();
+export default async function Home() {
+  const locale = await getLocale();
   return (
     <>
       <a href="#main-content" className="skip-link">{tr(locale, "skip")}</a>
