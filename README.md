@@ -30,9 +30,10 @@ The first release is a **single-owner personal portfolio**. There is no public r
 
 ## Getting started
 
-Requirements: Node.js 22 or newer and npm 10+.
+Requirements: Node.js 26.x and npm 10+.
 
 ```bash
+nvm use
 npm install
 cp .env.example .env.local
 npm run dev
