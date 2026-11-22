@@ -62,13 +62,16 @@ export default async function ProjectDetailPage({ params }: Props) {
               <div><p className="text-xs text-muted">{tr(locale, "category")}</p><p className="mt-1 text-sm font-semibold">{project.category}</p></div>
             </div>
             <div className="mt-6 flex flex-wrap gap-2">{project.tags.map((tag)=><span className="tag" key={tag}>{tag}</span>)}</div>
-            {project.href ? <a href={project.href} target="_blank" rel="noreferrer" className="primary-button mt-7 w-full justify-center">{project.action} <ExternalLink size={14}/></a> : null}
-            {("externalHref" in project && project.externalHref) ? <a href={project.externalHref} target="_blank" rel="noreferrer" className={`${project.href ? "mt-3 " : "mt-7 "}secondary-button w-full justify-center`}>{project.externalLabel} <ExternalLink size={14}/></a> : null}
+            {project.href ? (
+              <a href={project.href} target="_blank" rel="noreferrer" className="secondary-button mt-7 w-full justify-center">
+                {project.action} <ExternalLink size={14} aria-hidden="true" />
+              </a>
+            ) : null}
+            {("externalHref" in project && project.externalHref) ? <a href={project.externalHref} target="_blank" rel="noreferrer" className={`primary-button ${project.href ? "mt-3" : "mt-7"} w-full justify-center`}>{project.externalLabel} <ExternalLink size={14}/></a> : null}
           </aside>
         </div>
         <section className="mt-14 max-w-3xl">
           <div className="eyebrow mb-3">{tr(locale, "caseStudyEyebrow")}</div><h2 className="text-2xl font-semibold tracking-[-.05em]">{tr(locale, "projectStory")}</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">{project.description}</p>
           <ul className="mt-6 space-y-4">
             {project.details.map((detail) => (
               <li key={detail} className="surface-card p-5 text-sm leading-7 text-muted">{detail}</li>

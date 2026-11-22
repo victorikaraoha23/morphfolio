@@ -20,8 +20,6 @@ type CommandItem = {
 const copy = {
   en: {
     placeholder: "Search pages, actions, and settings…",
-    dialogLabel: "Quick actions", searchLabel: "Search commands", closeLabel: "Close command palette", currentLabel: "Current", commandsLabel: "Commands",
-    quickActions: "Quick actions",
     navigation: "Navigation",
     actions: "Actions",
     preferences: "Language",
@@ -34,8 +32,6 @@ const copy = {
   },
   fr: {
     placeholder: "Rechercher des pages, actions et réglages…",
-    dialogLabel: "Actions rapides", searchLabel: "Rechercher des commandes", closeLabel: "Fermer le panneau de commandes", currentLabel: "Actuelle", commandsLabel: "Commandes",
-    quickActions: "Actions rapides",
     navigation: "Navigation",
     actions: "Actions",
     preferences: "Langue",
@@ -48,8 +44,6 @@ const copy = {
   },
   es: {
     placeholder: "Buscar páginas, acciones y ajustes…",
-    dialogLabel: "Acciones rápidas", searchLabel: "Buscar comandos", closeLabel: "Cerrar el panel de comandos", currentLabel: "Actual", commandsLabel: "Comandos",
-    quickActions: "Acciones rápidas",
     navigation: "Navegación",
     actions: "Acciones",
     preferences: "Idioma",
@@ -193,15 +187,13 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
 
   return (
     <>
-      <button type="button" className="command-trigger" onClick={open} aria-label={t.quickActions} title={t.quickActions}>
-        <Command size={15} aria-hidden="true" />
-        <span className="command-trigger-label">{t.quickActions}</span>
-        <kbd aria-hidden="true">Ctrl / ⌘ K</kbd>
+      <button type="button" className="command-trigger" onClick={open} aria-label="Open command palette">
+        <Command size={14} aria-hidden="true" /><span>Quick actions</span><kbd>⌘ K</kbd>
       </button>
       <dialog
         ref={dialogRef}
         className="command-dialog"
-        aria-label={t.dialogLabel}
+        aria-label="Command palette"
         onClick={(event) => { if (event.target === dialogRef.current) close(); }}
         onClose={() => { setQuery(""); setActiveIndex(0); }}
       >
@@ -214,11 +206,11 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
               onChange={(event) => { setQuery(event.target.value); setActiveIndex(0); }}
               onKeyDown={handleKeyDown}
               placeholder={t.placeholder}
-              aria-label={t.searchLabel}
+              aria-label="Search commands"
             />
-            <button type="button" className="command-close" onClick={close} aria-label={t.closeLabel}><X size={17} /></button>
+            <button type="button" className="command-close" onClick={close} aria-label="Close command palette"><X size={17} /></button>
           </div>
-          <div className="command-results" role="listbox" aria-label={t.commandsLabel}>
+          <div className="command-results" role="listbox" aria-label="Commands">
             {groups.map((group) => {
               const groupItems = filtered.filter((item) => item.group === group);
               if (!groupItems.length) return null;
@@ -240,7 +232,7 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
                       >
                         <span className="command-option-icon"><Icon size={15} aria-hidden="true" /></span>
                         <span>{item.label}</span>
-                        {item.id.startsWith("locale-") && item.id === `locale-${locale}` ? <span className="command-current">{t.currentLabel}</span> : null}
+                        {item.id.startsWith("locale-") && item.id === `locale-${locale}` ? <span className="command-current">Current</span> : null}
                       </button>
                     );
                   })}
