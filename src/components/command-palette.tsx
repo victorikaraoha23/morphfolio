@@ -135,8 +135,10 @@ export function CommandPalette() {
           setLocale(item.id);
           document.documentElement.lang = item.id;
           window.localStorage.setItem("morphfolio-locale", item.id);
+          document.cookie = `morphfolio-locale=${item.id}; path=/; max-age=31536000; samesite=lax`;
           window.dispatchEvent(new CustomEvent("morphfolio:locale-change", { detail: item.id }));
           close();
+          router.refresh();
         }
       }))
     ];
