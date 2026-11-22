@@ -187,9 +187,6 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
 
   return (
     <>
-      <button type="button" className="command-trigger" onClick={open} aria-label="Open command palette">
-        <Command size={14} aria-hidden="true" /><span>Quick actions</span><kbd>⌘ K</kbd>
-      </button>
       <dialog
         ref={dialogRef}
         className="command-dialog"
