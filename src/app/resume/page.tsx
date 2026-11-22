@@ -20,7 +20,7 @@ export default async function ResumePage() {
     <>
       <a href="#main-content" className="skip-link">{tr(locale, "skip")}</a>
       <SiteHeader />
-      <main id="main-content" className="shell py-14 sm:py-20">
+      <main id="main-content" tabIndex={-1} className="shell py-14 sm:py-20">
         <header className="border-b border-line pb-9">
           <div className="eyebrow mb-4">{tr(locale, "profile")}</div>
           <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">

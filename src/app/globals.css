@@ -3,6 +3,7 @@
 :root {
   color-scheme: light;
   --color-primary: #DF1377;
+  --color-primary-text: #B00C5C;
   --color-primary-hover: #C20E66;
   --color-primary-soft: #F9D5E5;
   --color-on-primary: #FFFFFF;
@@ -35,6 +36,7 @@
 [data-theme="dark"] {
   color-scheme: dark;
   --color-primary: #FF3B9A;
+  --color-primary-text: #FF3B9A;
   --color-primary-hover: #FF5CA9;
   --color-primary-soft: #4A152F;
   --color-on-primary: #121210;
@@ -146,7 +148,8 @@ body > :not(script):not(style) {
 button, a { -webkit-tap-highlight-color: transparent; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
-::selection { background: var(--color-primary-soft); color: var(--color-primary); }
+::selection { background: var(--color-primary-soft); color: var(--color-primary-text); }
+.text-brand { color: var(--color-primary-text); }
 
 .shell { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
 .skip-link {
@@ -155,7 +158,7 @@ button { font: inherit; }
 }
 .skip-link:focus { transform: translateY(0); }
 .eyebrow {
-  color: var(--color-primary); font-size: 11px; font-weight: 750;
+  color: var(--color-primary-text); font-size: 11px; font-weight: 750;
   letter-spacing: .15em; text-transform: uppercase;
 }
 .site-header {
@@ -165,11 +168,11 @@ button { font: inherit; }
 .brand-mark {
   display: grid; width: 38px; height: 38px; place-items: center; border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--color-primary) 28%, var(--color-border));
-  background: var(--color-primary-soft); color: var(--color-primary); font-size: 13px; font-weight: 850;
+  background: var(--color-primary-soft); color: var(--color-primary-text); font-size: 13px; font-weight: 850;
   letter-spacing: -.06em;
 }
 .nav-link { color: var(--color-text-muted); font-size: 13px; transition: color .18s ease; }
-.nav-link:hover, .nav-link:focus-visible { color: var(--color-primary); }
+.nav-link:hover, .nav-link:focus-visible { color: var(--color-primary-text); }
 .icon-button {
   display: inline-grid; width: 40px; height: 40px; place-items: center; border: 1px solid var(--color-border);
   border-radius: 999px; color: var(--color-text); background: var(--color-surface); transition: border-color .18s ease, transform .18s ease;
@@ -259,7 +262,7 @@ button { font: inherit; }
 .command-group h2 { padding: 8px 10px; color: var(--color-text-muted); font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
 .command-option { display: flex; width: 100%; min-height: 44px; align-items: center; gap: 11px; border-radius: 10px; padding: 0 10px; text-align: left; font-size: 13px; }
 .command-option[data-active="true"], .command-option:hover { background: var(--color-surface); }
-.command-option[data-active="true"] { color: var(--color-primary); }
+.command-option[data-active="true"] { color: var(--color-primary-text); }
 .command-option-icon { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text-muted); }
 .command-current { margin-left: auto; color: var(--color-success); font-size: 10px; font-weight: 700; }
 .command-empty { padding: 36px 12px; color: var(--color-text-muted); text-align: center; font-size: 13px; }
@@ -275,7 +278,7 @@ button { font: inherit; }
   background: var(--color-surface); padding: 0 11px; color: var(--color-text-muted);
   font-size: 11px; font-weight: 650; transition: border-color .18s ease, color .18s ease;
 }
-.command-trigger:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.command-trigger:hover { border-color: var(--color-primary); color: var(--color-primary-text); }
 .command-trigger kbd {
   border: 1px solid var(--color-border); border-radius: 5px; background: var(--color-bg);
   padding: 2px 5px; color: var(--color-text-muted); font: 600 10px ui-monospace, monospace;
@@ -288,7 +291,7 @@ button { font: inherit; }
 /* Print-ready curriculum vitae */
 .cv-document { color: var(--color-text); }
 .cv-section { margin-top: 1.6rem; break-inside: auto; }
-.cv-section h2 { margin-bottom: .65rem; border-bottom: 1px solid var(--color-border); padding-bottom: .35rem; color: var(--color-primary); font-size: .76rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.cv-section h2 { margin-bottom: .65rem; border-bottom: 1px solid var(--color-border); padding-bottom: .35rem; color: var(--color-primary-text); font-size: .76rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 .cv-section p, .cv-section li { font-size: .82rem; line-height: 1.55; }
 .cv-section ul { margin-top: .45rem; padding-left: 1.15rem; list-style: disc; }
 .cv-section li + li { margin-top: .25rem; }
