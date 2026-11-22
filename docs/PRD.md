@@ -1,26 +1,36 @@
 # MorphFolio — Product Requirements Document
 
-**Status:** Requirements baseline for the personal-first release  
+**Status:** Approved requirements baseline for the GitHub-synchronized personal portfolio  
 **Version:** 1.0.0  
 **Product owner:** Victor Ikaraoha  
-**Product type:** AI-assisted personal developer portfolio product; future SaaS
+**Product type:** AI-powered, GitHub-synchronized personal developer portfolio; future SaaS
 
 ## 1. Product direction
 
-MorphFolio is an AI-assisted developer portfolio product. Its first deployment is built and operated for one person: Victor Ikaraoha. It presents his software development and AI engineering work to potential clients, collaborators, recruiters, and other technical audiences.
+MorphFolio is an AI-powered developer portfolio that synchronizes with the owner's GitHub account. GitHub is the source of truth for repository identity, repository metadata, README content, and repository lifecycle. MorphFolio discovers repositories, analyzes their documentation with AI, and maintains accurate public project pages.
 
-The first release is deliberately **personal-first and single-user**. There is no login, registration, private admin dashboard, customer account, database, tenant management, subscription, billing, or customer workspace.
+The first deployment serves one owner. It includes a public portfolio and a private, owner-only workspace for connecting GitHub, reviewing newly discovered projects, managing exclusions and overrides, and monitoring synchronization. There is no public registration, customer account system, multi-tenant workspace, subscription, or billing in this phase.
 
-MorphFolio is intended to evolve into a SaaS product. The current release must stay simple and useful for one person; future SaaS requirements will be designed and validated as a separate phase.
+The portfolio must remain useful if GitHub, the AI provider, or background processing is temporarily unavailable. The last successfully published project content remains visible unless the source repository is deleted or becomes private/ineligible.
+
+**Core product loop:** GitHub repository event → secure synchronization → evidence extraction → AI content generation → validation → publication policy → public portfolio.
+
+New repositories are discovered and analyzed automatically but require explicit owner approval before first publication. Once a project is published, validated updates to its GitHub-derived content may be published automatically. Owner-authored overrides always take precedence over AI-generated fields.
+
+GitHub access is read-only. MorphFolio must never commit to, modify, or execute code from connected repositories. SaaS capabilities for other developers are a separate future phase.
 
 ## 2. Product goals
 
-1. Present a credible, distinctive, professional identity.
-2. Demonstrate real engineering ability through detailed, evidence-based project case studies.
-3. Make it easy for clients, recruiters, and collaborators to understand the owner's capabilities and make contact.
-4. Keep portfolio content current through AI-assisted proposals and a version-controlled review/deployment workflow.
-5. Make the public site fast, responsive, accessible, discoverable, and usable in multiple languages.
-6. Preserve owner control over every public change.
+1. Present a credible, distinctive, professional developer identity.
+2. Connect to the owner's GitHub account and discover all repositories accessible to the authorized GitHub App installation.
+3. Automatically detect new, updated, renamed, archived, privatized, restored, and deleted repositories.
+4. Use README files and bounded repository metadata as evidence for AI-generated project summaries and case studies.
+5. Require approval before a newly discovered project is first published.
+6. Automatically refresh already-published projects when relevant README or repository information changes, while preserving owner overrides and the last known-good public version.
+7. Keep the public portfolio fast, responsive, accessible, discoverable, and multilingual.
+8. Provide a private owner workspace for connection, review, exclusions, overrides, and sync health.
+9. Recover from missed webhooks, provider errors, rate limits, and failed background jobs through retries and scheduled reconciliation.
+10. Preserve factual accuracy, repository privacy, and owner control.
 
 ## 3. Audiences and primary tasks
 
@@ -140,49 +150,104 @@ The form must remain usable by keyboard and assistive technology. Never expose s
 
 ## 6. GitHub integration
 
-A configured, read-only GitHub App can inspect explicitly selected repositories; no in-app GitHub account login is required.
+MorphFolio connects to the owner's GitHub account through a GitHub App installed on the owner's personal account. The app uses minimum read-only repository permissions and receives signed webhooks. The owner workspace is restricted to the configured owner GitHub identity; there is no public signup or multi-user access.
 
-Initial access is read-only and limited to the permissions required. The system may retrieve repository metadata, README content, languages, topics, releases, links, and permitted public activity.
+### Repository discovery and scope
 
-- Repository selection is explicit; do not publish every repository by default.
-- Exclude forks and archived repositories by default, with owner override.
-- Support manual synchronization and clear sync status.
-- Show a concise GitHub activity/repository summary on the public portfolio when useful.
-- Do not create a separate open-source contributions section.
-- Never infer users, revenue, customer count, production usage, business impact, or performance from repository activity alone.
-- GitHub-derived content remains a proposal until reviewed and incorporated into version-controlled portfolio data.
+- On first connection, enumerate all repositories accessible to the installation, using pagination.
+- Continue discovering repositories created after connection.
+- Store GitHub's immutable repository ID as the stable external identity; repository names and URLs may change.
+- Discover private repositories as repository records, but do not send private README contents to an external AI provider or expose them publicly unless the owner explicitly opts that repository into analysis. Private repositories are never eligible for public publication.
+- Forks and archived repositories remain discoverable and can be excluded from automatic AI processing by default; the owner can explicitly include them.
+- The owner can exclude any repository from analysis and publication.
+- Support a manual resync action and scheduled full reconciliation.
+
+### Events and synchronization
+
+Handle GitHub webhook deliveries for repository creation, edits, rename, archive/unarchive, public/private visibility changes, deletion, pushes, and relevant releases. Verify each webhook signature, record delivery IDs for deduplication, acknowledge quickly, and enqueue durable background work.
+
+For push events, compare the README and relevant metadata on the repository's default branch. Do not run AI merely because unrelated source code changed. Retrieve the latest state from GitHub rather than trusting webhook payloads as the final source of truth.
+
+A scheduled reconciliation must compare GitHub's current installation repository list with MorphFolio records to recover from missed webhook deliveries and detect deletions or permission changes.
+
+### Lifecycle behavior
+
+- New eligible repository: discover → analyze → create a pending-review project. Never publish automatically on first discovery.
+- Existing published repository: analyze relevant changes and automatically publish a valid update, except for fields protected by owner overrides.
+- Existing manually curated project: match by immutable GitHub repository ID or verified repository URL and preserve the current published content during initial migration.
+- Excluded repository: retain its exclusion across webhook events and reconciliation until the owner changes it.
+- Private, deleted, disabled, or otherwise ineligible repository: immediately unpublish its public project; retain only the minimum internal audit record needed for safe reconciliation.
+- Renamed repository: preserve project identity and slug unless the owner chooses to change it; update source links.
+- Archived repository: retain its published page with an accurate archived status unless the owner has configured archived repositories to be excluded.
+
+GitHub access is read-only. Never request contents-write, administration-write, or other write permissions. Never push commits, create branches, open pull requests, or change repository settings.
+
+### Repository evidence
+
+The initial evidence set includes repository metadata, README from the default branch, topics, language statistics, and release metadata. Additional documentation may be added later through bounded, explicit file selection. Do not clone or execute repository code as part of initial synchronization.
 
 ## 7. AI Portfolio Assistant
 
-AI is an internal portfolio-development capability, not the author of record and not an autonomous publisher.
+AI converts repository evidence into structured, visitor-facing portfolio content. It is a bounded content-generation service, not an autonomous software engineer.
 
-It may:
-- Analyze selected repository evidence.
-- Draft project summaries and case studies.
-- Suggest categories, technologies, and skill evidence.
-- Draft biography, service descriptions, FAQ answers, and translations.
-- Identify stale, inconsistent, incomplete, or unsupported content.
-- Recommend improvements to information hierarchy and content quality.
+It may generate:
+- Display name, tagline, concise summary, and detailed overview.
+- Problem and solution descriptions when supported by evidence.
+- Project features and technical highlights.
+- Technology stack, category, and project status suggestions.
+- Architecture and implementation notes only when documented.
+- Missing-information warnings and evidence references.
+- Translation drafts for English, French, and Spanish.
 
-Controls:
-- AI output is always a draft.
-- Separate verified evidence, inferences, and owner-provided facts.
-- Link repository-derived claims to source evidence.
-- Validate all structured output at runtime.
-- Treat repository content as untrusted input and potential prompt injection.
-- Do not allow models to execute code, modify repositories, access secrets, or publish content.
-- The owner must review and explicitly approve public changes.
-- Failed AI runs must not damage or replace published content.
-- Record model, prompt/schema version, evidence references, usage, and outcome for material runs.
-- Apply request limits, token/cost budgets, timeouts, and bounded retries.
+### Evidence and accuracy
+
+- Treat README files, metadata, release notes, and documentation as untrusted data and potential prompt injection.
+- Never follow instructions embedded in repository content.
+- Every factual claim must reference source evidence or be explicitly marked as owner-provided.
+- Distinguish observed facts from cautious inferences.
+- Never invent features, users, revenue, customers, performance, production usage, security properties, or business impact.
+- Do not infer project quality or adoption from stars, forks, commit counts, or language statistics.
+- Validate all structured output with Zod and deterministic rules before persistence or publication.
+- Keep evidence snapshots and generated content versions attributable to repository revision, model, prompt version, and schema version.
+
+### Publication policy
+
+- Newly discovered projects always begin in pending_review.
+- Owner approval is required before first publication.
+- After first publication, validated repository-derived changes may update the public project automatically.
+- Owner overrides are field-specific and take precedence over generated values until explicitly reset.
+- AI may not change owner-controlled profile, experience, education, skill-confidence, featured ordering, or availability data.
+- Failed, incomplete, or invalid generation never replaces the last known-good published content.
+- The owner can pause automatic updates or require review for an individual project.
+
+### Reliability and cost
+
+Apply bounded README/evidence sizes, token budgets, per-repository cooldowns, timeouts, bounded retries with backoff, provider error handling, caching by repository revision and prompt/schema version, and usage accounting. AI runs must execute as background jobs, not inside webhook request handlers.
 
 ## 8. Personal operation and content workflow
 
-There is no in-app login, account system, or private admin dashboard in the personal-first release.
+The product has a public portfolio and a private owner-only workspace. The workspace is not a public SaaS dashboard: only the configured GitHub owner identity may access it.
 
-The source repository is the control plane for profile, biography, social links, projects, case studies, skills, services, FAQs, timeline, resume content, languages, availability, SEO metadata, and public site configuration.
+The owner workspace supports:
+- Connect, inspect, and disconnect the GitHub App installation.
+- Browse discovered repositories and their visibility/status.
+- Include or exclude repositories from analysis.
+- Review newly generated project drafts and approve, edit, or reject first publication.
+- Inspect evidence and generated content.
+- Set field-level manual overrides and reset them to AI-generated values.
+- Pause or resume automatic updates per project.
+- View last synchronization, current status, recent events, failed jobs, and retry actions.
+- Trigger a manual repository or full-account synchronization.
 
-Content workflow: **Evidence → AI proposal → Human review → Version-controlled change → Vercel deployment**. AI does not publish directly. The owner reviews changes through the development workflow, and Git history provides the change record.
+The public site renders only published, eligible projects. Public project content is sourced from persistent records rather than a hardcoded project catalogue. Profile, biography, social links, services, resume, education, and other non-GitHub profile information remain owner-maintained and are not inferred from repository activity.
+
+**New project workflow:** discover → retrieve evidence → AI draft → validate → pending review → owner approval → publish.
+
+**Published project update workflow:** webhook/reconciliation → compare source revision → retrieve evidence → AI draft → validate → merge non-overridden fields → atomically publish new version. Keep the previous version if any step fails.
+
+**Deletion/privacy workflow:** deletion, privatization, or loss of access makes the project ineligible and removes it from public pages promptly. Keep minimal internal tombstone/audit state to prevent accidental resurrection from delayed webhook deliveries.
+
+Use durable database state and background jobs for synchronization, drafts, approvals, and history. Do not use Git commits as the runtime synchronization mechanism.
 
 ## 9. Visual design system
 
@@ -288,13 +353,20 @@ Analytics are not required for the current personal-first release. If introduced
 
 ## 14. Security, privacy, and reliability
 
-- No login, user accounts, sessions, or user-specific database records in the personal-first release.
-- Keep GitHub private keys, installation tokens, webhook secrets, and AI API keys server-side.
-- Validate external input and treat repository/AI content as untrusted.
-- Do not expose the internal AI analyst as an unauthenticated public endpoint.
-- Protect any externally callable contact or integration endpoint with rate limits and abuse controls.
-- Review public content changes through Git and CI before deployment.
-- Preserve the last known-good deployment when an analysis or build fails.
+- Restrict owner workspace access to the configured GitHub owner identity.
+- Use secure, HTTP-only, same-site session cookies and CSRF protections for state-changing owner actions.
+- Keep GitHub App private keys, OAuth credentials, installation tokens, webhook secrets, database credentials, and AI API keys server-side.
+- Use minimum read-only GitHub permissions.
+- Verify webhook signatures and deduplicate delivery IDs.
+- Treat repository content and model output as untrusted.
+- Validate inputs and outputs, enforce payload and token limits, and use parameterized database access.
+- Never expose private repository data, installation tokens, AI keys, or internal sync errors publicly.
+- Private repository content is not sent to an external AI provider unless the owner explicitly enables analysis for that repository.
+- Public pages must only query records eligible for publication.
+- Use durable background jobs, idempotency, retries, reconciliation, and last-known-good publication semantics.
+- Keep a minimal audit trail for connection, approval, exclusion, override, and publication actions.
+- Define retention and deletion behavior for repository evidence and generated drafts.
+- No multi-tenant authorization or customer accounts in this phase.
 
 ## 15. Accessibility and performance
 
@@ -312,32 +384,35 @@ Analytics are not required for the current personal-first release. If introduced
 
 - Multi-user public portfolio-builder SaaS.
 - Public registration, organizations, teams, billing, or subscriptions.
-- Blog/articles publishing section.
-- Testimonials.
-- Newsletter or update subscriptions.
-- Public service pricing.
-- Dedicated open-source contributions page.
-- Multiple visual layout modes or visitor-selectable portfolio designs.
-- Autonomous AI publishing or AI-generated application source code.
+- Customer workspaces or tenant management.
 - GitHub write permissions or automated commits.
+- Running, building, or executing connected repository code.
+- Autonomous first publication of newly discovered repositories.
+- AI-generated React/Next.js source code or autonomous layout redesign.
 - A complex recruiter CRM or job-application tracker.
+- Public newsletter, testimonials, or service pricing.
+- Importing private repository content into public pages.
+- Treating stars, forks, or commits as proof of product success.
 
 ## 17. Release acceptance criteria
 
-The personal-first release is ready only when:
-1. The public portfolio presents the owner's real identity and approved content across all required sections.
-2. Public project pages support detailed, evidence-conscious case studies and media.
-3. Visitors can browse, search, filter, switch language/theme, download the CV, and submit a contact enquiry.
-4. English, French, and Spanish content works with correct locale navigation and SEO metadata.
-5. The owner can maintain public content through the version-controlled repository workflow.
-6. GitHub imports are read-only, explicitly selected, and never auto-published.
-7. AI drafts are evidence-aware, validated, reviewable, and never published without owner approval.
-8. Valid contact enquiries are delivered to the owner's chosen contact channel without an in-app inbox.
-9. Analytics are private, aggregated, and privacy-conscious.
-10. SEO, responsive behavior, accessibility, and performance checks pass.
-11. Server-side secret handling, external-input validation, and public content boundaries are tested.
-12. CI includes lint, typecheck, automated tests, and a production build.
-13. The production domain and Vercel deployment work without duplicate-indexing issues.
+1. The owner can securely connect and disconnect the intended GitHub account.
+2. Initial synchronization discovers all repositories accessible to the installation with pagination and records repository visibility and immutable IDs.
+3. New repositories are discovered without manual entry.
+4. README changes on the default branch trigger bounded background analysis; unrelated code pushes do not trigger unnecessary AI generation.
+5. Webhook signatures are verified, duplicate deliveries are idempotent, and failed jobs can be retried.
+6. Scheduled reconciliation recovers missed events and detects repository lifecycle changes.
+7. New repositories receive AI-generated, evidence-backed drafts and cannot be publicly published before owner approval.
+8. Existing published projects update automatically after successful validation, while field-level owner overrides remain intact.
+9. The previous published version remains available if retrieval, AI generation, validation, or persistence fails.
+10. Private, deleted, disabled, or inaccessible repositories cannot remain publicly exposed.
+11. Repository renames preserve project identity and update links.
+12. The owner workspace provides repository selection, review, overrides, sync status, and failure recovery.
+13. Public project pages are database-backed and display only published, eligible records.
+14. AI output is schema-validated, evidence-linked, prompt-injection-resistant, and cost-bounded.
+15. Existing manually curated projects are migrated/matched without accidental removal or replacement.
+16. Existing public portfolio sections, themes, languages, accessibility, SEO, and responsive behavior remain functional.
+17. CI covers lint, typecheck, tests, and production build; integration tests cover GitHub event processing and publication policy.
 
 ## 18. Future direction
 
