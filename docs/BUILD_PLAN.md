@@ -27,7 +27,8 @@
 - [x] Build About, Services, Resume, and Contact routes.
 - [x] Build the Projects index and project detail routes.
 - [ ] Add responsive states, loading/empty/error states, and reduced-motion behavior.
-- [ ] Add command palette.\n- [x] Add responsive mobile navigation.
+- [ ] Add command palette.
+- [x] Add responsive mobile navigation.
 - [ ] Create fixture content with clearly identified sample data; do not invent personal achievements.
 
 **Exit criteria:** every public route renders consistently on mobile and desktop in both themes; core interactions are keyboard accessible.
@@ -51,7 +52,8 @@
 - [x] Implement the projects index with category filters, search, and lifecycle status labels.
 - [x] Add grounded project detail pages with clear lifecycle labels.
 - [ ] Build detailed project case-study templates with architecture and media support.
-- [x] Build the initial factual professional profile page.\n- [ ] Add a print stylesheet and downloadable CV after verified career and education details are supplied.
+- [x] Build the initial factual professional profile page.
+- [ ] Add a print stylesheet and downloadable CV after verified career and education details are supplied.
 - [ ] Implement social links and editable availability.
 - [ ] Implement the GitHub activity summary without a separate open-source contributions page.
 
