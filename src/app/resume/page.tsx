@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: "A concise overview of Victor Ikaraoha's current technical focus and selected project work."
 };
 
-const focus = ["Software development", "AI engineering and LLM integrations", "Web application development", "Automation and AI-agent workflows"];
+const focusKeys = ["focus1", "focus2", "focus3", "focus4"] as const;
 const tools = ["TypeScript", "JavaScript", "Next.js", "React", "Supabase", "OpenRouter", "Vercel AI SDK"];
 
 export default async function ResumePage() {
@@ -34,7 +34,7 @@ export default async function ResumePage() {
           <aside>
             <section>
               <h2 className="eyebrow">{tr(locale, "focus")}</h2>
-              <ul className="mt-4 space-y-3 text-sm text-muted">{focus.map((item)=><li key={item}>{item}</li>)}</ul>
+              <ul className="mt-4 space-y-3 text-sm text-muted">{focusKeys.map((key)=><li key={key}>{tr(locale, key)}</li>)}</ul>
             </section>
             <section className="mt-10">
               <h2 className="eyebrow">{tr(locale, "tools")}</h2>
