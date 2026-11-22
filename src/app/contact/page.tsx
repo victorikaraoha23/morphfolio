@@ -6,11 +6,11 @@ import { SiteFooter } from "@/components/site-footer";
 import { getLocale, translate as tr } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "{tr(locale, "contact")}",
+  title: "Contact",
   description: "Get in touch with Victor Ikaraoha about software, AI, and potential collaborations."
 };
 
-export default async function {tr(locale, "contact")}Page() {
+export default async function ContactPage() {
   const locale = await getLocale();
   return (
     <>
