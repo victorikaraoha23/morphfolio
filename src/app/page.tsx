@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUpRight, Bot, Code2, Github, Layers3, Sparkles, Workflo
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { projects } from "@/lib/portfolio/projects";
+import { getLocalizedProject } from "@/lib/portfolio/project-translations";
 import { getLocale, translate as tr } from "@/lib/i18n";
 
 const capabilities = [
@@ -70,7 +71,7 @@ export default async function Home() {
               <a href="/projects" className="inline-flex items-center gap-2 text-sm font-semibold text-brand">{tr(locale, "allProjectsLink")} <ArrowUpRight size={14} aria-hidden="true" /></a>
             </div>
             <div className="mt-10 grid gap-4 lg:grid-cols-3">
-              {projects.filter((project) => project.featured).map((project) => (
+              {projects.filter((project) => project.featured).map((sourceProject) => { const project = getLocalizedProject(sourceProject, locale); return (
                 <article className="project-card group" key={project.slug}>
                   <div className="flex items-start justify-between gap-3"><span className="eyebrow">{project.number} / {project.category}</span><span className="status-pill">{project.status}</span></div>
                   <h3 className="mt-9 text-2xl font-semibold tracking-[-.055em]">{project.name}</h3>
@@ -78,7 +79,7 @@ export default async function Home() {
                   <div className="mt-5 flex flex-wrap gap-2">{project.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
                   <a href={`/projects/${project.slug}`} className="mt-auto inline-flex items-center gap-2 border-t border-line pt-5 text-xs font-bold text-brand"><span className="mt-6">{tr(locale, "readDetails")}</span><ArrowUpRight size={13} className="mt-6" aria-hidden="true" /></a>
                 </article>
-              ))}
+              ); })}
             </div>
           </div>
         </section>
