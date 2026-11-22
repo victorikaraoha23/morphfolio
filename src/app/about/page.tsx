@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 };
 
 const principles = [
-  { icon: Search, title: "{tr(locale, "problem")}", description: "Start by clarifying who a product is for, what problem it addresses, and what a useful outcome looks like." },
-  { icon: Lightbulb, title: "{tr(locale, "complexity")}", description: "Prefer clear requirements and deliberate trade-offs over adding technology or features without a reason." },
-  { icon: Wrench, title: "{tr(locale, "learn")}", description: "Turn concepts into working software, test assumptions, review what happened, and improve the next iteration." }
+  { icon: Search, title: "Understand the problem", description: "Start by clarifying who a product is for, what problem it addresses, and what a useful outcome looks like." },
+  { icon: Lightbulb, title: "Think before adding complexity", description: "Prefer clear requirements and deliberate trade-offs over adding technology or features without a reason." },
+  { icon: Wrench, title: "Learn by building", description: "Turn concepts into working software, test assumptions, review what happened, and improve the next iteration." }
 ];
 
 export default async function AboutPage() {
