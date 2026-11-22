@@ -1,36 +1,50 @@
 # MorphFolio
 
-**An AI-assisted developer portfolio product, initially built for one person.**
+**An AI-powered developer portfolio that stays synchronized with GitHub.**
 
-MorphFolio is both the public developer portfolio and the product being developed toward a future SaaS offering. The current release is personal-first: one portfolio, one operator, no user accounts, no login, no public registration, and no customer workspace.
+MorphFolio connects to the owner's GitHub account, discovers repositories, monitors README and repository lifecycle changes, and uses AI to generate evidence-backed portfolio content. The public portfolio updates as projects evolve, while the owner retains control over first publication and manual content overrides.
 
-The immediate goal is to make the portfolio useful and credible while developing its AI-assisted workflows. SaaS capabilities are a future product phase, not a reason to add authentication, multi-tenancy, billing, or infrastructure prematurely.
+## How it works
 
-## Product direction
-- **Now:** a single-user personal portfolio product, operated through the repository and Vercel deployment workflow.
-- **Later:** evaluate a hosted SaaS experience with customer accounts, persistence, tenant isolation, billing, and self-service onboarding as a separate architectural phase.
-- **Do not build now:** login, registration, an admin dashboard, a database, user accounts, or multi-tenant abstractions.
+1. Connect the owner's GitHub account through a read-only GitHub App.
+2. Discover repositories accessible to the installation.
+3. Retrieve README content and relevant repository metadata from the default branch.
+4. Detect new repositories, README changes, renames, visibility changes, archives, and deletions.
+5. Generate structured project summaries and case-study content with AI.
+6. Require owner approval before a newly discovered project is first published.
+7. Automatically update already-published projects after successful validation, preserving manual overrides.
+8. Keep the last known-good public version if synchronization or AI processing fails.
 
-Portfolio content is maintained as typed, version-controlled data in the repository. Updates are reviewed as code changes and published through the normal deployment workflow. AI-generated suggestions remain proposals until reviewed and incorporated.
+Private repositories are never published. Private README content is not sent to an external AI provider unless the owner explicitly opts in. GitHub access is read-only; MorphFolio never modifies connected repositories.
 
-## Core principles
-- **Evidence before claims:** AI-generated descriptions must be traceable to repository evidence. Never invent metrics, users, revenue, performance, or achievements.
-- **Configuration, not generated application code:** AI proposes validated portfolio data and layout configuration. The application owns and renders the React components.
-- **Human control:** AI suggestions do not publish themselves. Approved content changes are reviewed and versioned through Git.
-- **Least privilege:** GitHub access begins read-only and requests only the permissions required for selected features.
-- **Provider independence:** OpenRouter is the initial AI gateway; model IDs are configuration, not application logic.
-- **Safe failure:** Failed analysis must never replace the last known-good published portfolio.
+## Product scope
+
+The first release serves one owner and includes:
+- A public, multilingual developer portfolio.
+- A private owner workspace restricted to the configured GitHub identity.
+- GitHub repository discovery and synchronization.
+- AI-generated, evidence-backed project content.
+- First-publication approval and automatic updates for already-published projects.
+- Persistent synchronization state, content versions, overrides, and audit history.
+
+There is no public signup, multi-user workspace, customer billing, or tenant management in this phase. A multi-user SaaS product is a future stage.
 
 ## Stack
-- Next.js App Router + React + TypeScript
-- Tailwind CSS 4 + Lucide React
-- GitHub App + GitHub REST API (integration work in progress)
-- OpenRouter + Vercel AI SDK 7 + Zod 4
-- GitHub Actions and Vercel
 
-There is currently no application database, authentication provider, or file-storage service.
+- Next.js App Router, React, TypeScript, Tailwind CSS 4
+- GitHub App + GitHub REST API (read-only)
+- Neon PostgreSQL + Drizzle ORM
+- Inngest durable background jobs
+- OpenRouter + Vercel AI SDK
+- Zod validation
+- Vercel hosting and GitHub Actions CI
+
+## Current implementation
+
+The public portfolio and project pages are implemented. The repository also contains a server-only OpenRouter integration and an evidence-aware repository analyst in src/modules/intelligence/. GitHub App connection, persistent storage, webhooks, background synchronization, owner workspace, and dynamic database-backed project pages are planned implementation work; they must not be assumed to exist yet.
 
 ## Getting started
+
 Requirements: Node.js 26.x and npm 10+.
 
 ```bash
@@ -40,34 +54,27 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open http://localhost:3000.
 
-## Current implementation
-- Responsive public portfolio with homepage, About, projects index/detail pages, services, resume, and contact pages.
-- Light/dark themes, English/French/Spanish localization, responsive navigation, and visitor command palette.
-- Evidence-conscious project catalogue for AI Slop Checker, Blueprint AI, AgentsChat, Prismbyte, n8n workflow experiments, and a labelled RAG learning prototype.
-- GitHub, LinkedIn, and X links, development timeline, and collaboration/focus sections.
-- CI for lint, TypeScript checks, and production builds.
-- Server-only OpenRouter configuration, Zod evidence/profile schemas, and bounded repository analysis.
+## Environment
 
-The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. It currently produces analysis in memory; durable drafts, repository synchronization, and automated publishing are future milestones. The public portfolio uses maintained project data rather than a live GitHub synchronization pipeline.
-
-## Environment variables
-See [.env.example](.env.example). Configure only providers and integrations used by the feature being developed. Keep API keys and GitHub private keys server-side. Never commit `.env.local`, private keys, webhook secrets, or OpenRouter API keys.
-
-## Content and persistence
-The source of truth is version-controlled portfolio data under `src/lib/portfolio/`. This keeps the single-user release inspectable, portable, inexpensive, and easy to deploy. Introduce persistent storage only when a validated workflow cannot be served cleanly by repository-managed content.
+See .env.example. Configure only the integrations used by the feature being developed. GitHub App private keys, OAuth credentials, webhook secrets, database credentials, and AI API keys must remain server-side. Never commit .env.local or real credentials.
 
 ## Quality checks
+
 ```bash
 npm run check
 ```
-GitHub Actions runs lint, typecheck, and production build for pull requests and pushes to `main` and `update-dev`.
+
+CI runs lint, TypeScript checks, and production build. Add automated unit and integration coverage as backend capabilities are implemented.
 
 ## Documentation
-- [Product requirements](docs/PRD.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [AI system design](docs/AI_SYSTEM.md)
-- [Security model](docs/SECURITY.md)
-- [Build plan](docs/BUILD_PLAN.md)
-- [Engineering rules](AGENTS.md)
+
+- Product requirements: docs/PRD.md
+- System architecture: docs/ARCHITECTURE.md
+- GitHub synchronization: docs/GITHUB_SYNC_SPEC.md
+- Persistence and data model: docs/DATA_MODEL.md
+- AI system design: docs/AI_SYSTEM.md
+- Security model: docs/SECURITY.md
+- Build plan: docs/BUILD_PLAN.md
+- Engineering rules: AGENTS.md

@@ -1,64 +1,102 @@
 # MorphFolio — Build Plan
 
-**Product baseline:** Single-user personal-first portfolio product; future SaaS is a separate phase  
-**Delivery principle:** Build the public portfolio and AI-assisted workflows without login, a dashboard, or a database.
+**Product:** AI-powered, GitHub-synchronized personal developer portfolio  
+**Current operating model:** One owner, one GitHub account, private owner workspace, public portfolio  
+**Delivery:** Work on update-dev; pull requests to main; never merge without owner approval
 
-## Phase 0 — Requirements and foundation
-- [x] Confirm the personal-first, single-user product direction.
-- [x] Define public portfolio requirements and exclusions.
-- [x] Establish brand palette and theme behavior.
-- [x] Confirm no login, database, or admin dashboard is required for the current release.
-- [x] Establish GitHub read-only and AI evidence-safety principles.
-- [ ] Align architecture, PRD, and content model.
-- [x] Establish reproducible dependency installation and CI.
+## Milestone 0 — Product and architecture baseline
+- [x] Confirm GitHub is the source of truth for repository identity, README, metadata, and lifecycle.
+- [x] Confirm new repositories require first-publication approval.
+- [x] Confirm validated updates to already-published projects may publish automatically.
+- [x] Confirm owner overrides take precedence over AI-generated fields.
+- [x] Confirm private repositories are never public and private README content is not sent to external AI by default.
+- [x] Confirm no public signup or multi-tenant SaaS in this phase.
+- [x] Document modular-monolith, GitHub App, PostgreSQL, Drizzle, Inngest, and AI architecture.
+- [ ] Implement the approved architecture and schema.
 
-## Phase 1 — Public portfolio experience
-- [x] Implement semantic light/dark design tokens and theme behavior.
-- [x] Build responsive navigation, footer, and accessible theme controls.
-- [x] Build homepage and public About, Services, Resume, Contact, Projects, and project-detail routes.
-- [x] Add visitor command palette, mobile navigation, and English/French/Spanish content.
-- [ ] Complete responsive, accessibility, reduced-motion, and performance verification.
-- [ ] Review all content for factual accuracy and evidence.
+## Milestone 1 — Repository foundation and data model
+- [ ] Add PostgreSQL connection and Drizzle configuration/migrations.
+- [ ] Implement installation, repository, project, evidence snapshot, AI run, content version, override, webhook delivery, sync run, and owner audit tables.
+- [ ] Add repository/project state enums, unique constraints, indexes, and transactional publication operations.
+- [ ] Add a server-only data-access layer and separate public published-project queries from owner queries.
+- [ ] Add tests for state transitions, visibility constraints, overrides, and rollback/last-known-good behavior.
+- [ ] Preserve existing hardcoded portfolio projects as published content during migration; match them to GitHub repositories by verified repository identity.
 
-## Phase 2 — Version-controlled content workflow
-- [ ] Consolidate profile, projects, case studies, skills, services, experience, education, FAQs, social links, availability, translations, and media metadata into typed content modules.
-- [ ] Define a lightweight proposal/review workflow for AI-generated content.
-- [ ] Keep approved content in version control and publish through Git/Vercel.
-- [ ] Add public media assets and CV delivery using repository/Vercel-supported asset hosting where appropriate.
+## Milestone 2 — GitHub App connection and repository discovery
+- [ ] Create/configure a GitHub App with minimum read-only permissions and required webhook subscriptions.
+- [ ] Implement owner GitHub authorization and allowlist enforcement.
+- [ ] Implement secure install/callback/disconnect flow.
+- [ ] Generate installation tokens server-side.
+- [ ] Enumerate all accessible repositories with pagination.
+- [ ] Record immutable GitHub repository IDs, visibility, default branch, archived/fork/disabled state, and metadata.
+- [ ] Discover private repositories but never publish them; do not send private README content to AI without explicit opt-in.
+- [ ] Add owner repository list, include/exclude controls, and manual sync.
 
-## Phase 3 — Portfolio depth and integrations
-- [x] Implement project search, category filters, lifecycle labels, and project detail pages.
-- [ ] Build detailed project case-study templates.
-- [ ] Improve GitHub activity/repository summary without a separate contributions page.
-- [ ] Implement read-only GitHub repository inspection using a configured GitHub App.
-- [ ] Keep imported evidence as proposals until reviewed; never auto-publish it.
+## Milestone 3 — Webhook ingress and durable synchronization
+- [ ] Verify webhook HMAC signatures against raw request bodies.
+- [ ] Deduplicate GitHub delivery IDs.
+- [ ] Persist minimal event metadata and enqueue durable Inngest jobs.
+- [ ] Handle repository create/edit/rename/archive/unarchive/delete/publicize/privatize and installation repository changes.
+- [ ] Handle default-branch push events and compare README SHA/metadata before AI work.
+- [ ] Coalesce repeated events and make jobs idempotent.
+- [ ] Implement scheduled reconciliation for missed webhooks and permission changes.
+- [ ] Unpublish projects promptly on deletion, privatization, disabled status, or access loss.
+- [ ] Preserve stable project identity across repository renames.
 
-## Phase 4 — AI-assisted portfolio workflows
-- [x] Add server-only OpenRouter provider configuration.
-- [x] Add Zod schemas for evidence packets and generated project profiles.
-- [x] Implement bounded repository analysis with evidence-ID validation and timeouts.
-- [ ] Add independent review for material claims and proposed changes.
-- [ ] Add token/cost budgets, bounded retries, and clear failure handling.
-- [ ] Define how approved proposals become reviewed repository changes.
+## Milestone 4 — AI project content generation
+- [ ] Extend the existing repository analyst schema to a complete case-study draft.
+- [ ] Build bounded README and metadata evidence packets with stable evidence IDs.
+- [ ] Add prompt/schema versioning and evidence/source traceability.
+- [ ] Validate all generated fields and evidence references.
+- [ ] Add missing-information reporting and safe project status suggestions.
+- [ ] Apply cost budgets, caching, cooldowns, timeouts, bounded retries, and provider error handling.
+- [ ] Add private-repository analysis opt-in and disclosure before any private content is sent externally.
+- [ ] Test prompt injection, unsupported claims, invalid JSON, unknown evidence IDs, provider failure, and oversized README input.
 
-## Phase 5 — Contact, SEO, and release readiness
-- [ ] Complete contact form validation, spam protection, and delivery through a selected email provider.
-- [ ] Complete locale-aware metadata, canonical URLs, hreflang, sitemap, robots, Open Graph, and structured data checks.
-- [ ] Add automated unit, integration, and browser tests.
-- [ ] Verify Vercel production/preview environments and server-side secrets.
-- [ ] Run accessibility, security, SEO, and performance audits.
+## Milestone 5 — Approval and publication lifecycle
+- [ ] Create pending-review drafts for newly discovered repositories.
+- [ ] Implement owner approve/edit/reject/exclude actions.
+- [ ] Implement field-level owner overrides and reset-to-generated behavior.
+- [ ] Automatically update already-published projects after successful validation.
+- [ ] Keep owner overrides, featured ordering, and owner-controlled profile data unchanged.
+- [ ] Atomically promote new content versions and retain the last known-good published version.
+- [ ] Add per-project auto-update pause/review controls.
+- [ ] Add audit records for approvals, exclusions, overrides, and publication.
 
-## Future phase — SaaS productization
-MorphFolio's long-term goal is a SaaS product. After the personal-first workflow is useful and validated, plan a dedicated phase covering customer discovery, authentication, persistent storage, tenant isolation, onboarding, billing, quotas, abuse controls, support, and migration. Select infrastructure only after those requirements are defined.
+## Milestone 6 — Owner workspace
+- [ ] GitHub connection status and disconnect.
+- [ ] Repository inventory, visibility, inclusion/exclusion, and last-sync status.
+- [ ] Pending project review with evidence and public preview.
+- [ ] Project content editor and field override controls.
+- [ ] Sync history, failed jobs, and retry actions.
+- [ ] Owner-only authorization on every workspace operation.
+- [ ] Accessible responsive interface consistent with public design system.
 
-## Definition of done
-- Requirements and behavior are documented.
-- Inputs are validated and no unauthenticated write capability is introduced.
-- Public content and server-side secret boundaries are tested.
-- Relevant loading, empty, success, and failure states are handled.
-- Accessibility and responsive behavior are considered.
-- Relevant automated checks pass.
-- Secrets and personal data are not exposed.
-- Deployed behavior is verified rather than assumed.
+## Milestone 7 — Dynamic public portfolio
+- [ ] Replace hardcoded project catalogue reads with a database-backed project service.
+- [ ] Keep existing manually curated project pages intact through migration.
+- [ ] Render only published projects linked to eligible public repositories.
+- [ ] Preserve stable slugs and handle repository renames.
+- [ ] Add project last-synchronized/updated information where useful.
+- [ ] Ensure project search, categories, featured selection, locale handling, metadata, and sitemap use published data.
+- [ ] Keep About, Services, Resume, Contact, and other owner-authored profile data owner-maintained.
 
-Run `npm run check` before a public release or material design change. Review public routes at mobile and desktop widths, both themes, and all three supported languages.
+## Milestone 8 — Reliability, privacy, and quality
+- [ ] Test webhook duplicates, delayed/out-of-order events, missed events, and reconciliation.
+- [ ] Test GitHub rate limits, token expiry, app uninstall, permission loss, private/deleted repositories, and repository rename.
+- [ ] Test AI failure and database transaction rollback without losing last-known-good content.
+- [ ] Test owner authorization, CSRF, webhook signatures, secret handling, and private content isolation.
+- [ ] Test cost limits, retry caps, job concurrency, and event coalescing.
+- [ ] Complete accessibility, responsive, performance, SEO, and cross-browser audits.
+- [ ] Run lint, typecheck, unit/integration tests, and production build.
+
+## Milestone 9 — Release
+- [ ] Configure production GitHub App callback/webhook URLs and least-privilege permissions.
+- [ ] Configure production database, migrations, Inngest, AI provider, and secrets.
+- [ ] Run initial repository import and reconcile existing project content.
+- [ ] Verify new-repository approval, README auto-update, deletion/private unpublishing, and recovery flows end-to-end.
+- [ ] Verify public site and owner workspace on production.
+- [ ] Document operations, backup/restore, disconnect, and incident recovery.
+
+## Future SaaS phase — Not in current scope
+Multiple developers, multiple GitHub installations, tenant isolation, public registration, billing, quotas, customer onboarding, custom domains, and customer support are deferred until the personal product is validated.
