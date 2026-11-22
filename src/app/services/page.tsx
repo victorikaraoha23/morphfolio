@@ -4,29 +4,31 @@ import { ArrowUpRight, Bot, Code2, Workflow, ClipboardList } from "lucide-react"
 
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { getLocale, translate as tr } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Collaboration",
+  title: "{tr(locale, "collaboration")}",
   description: "Areas of software and AI work that Victor Ikaraoha is currently exploring."
 };
 
 const areas = [
-  { icon: Code2, title: "Web product development", description: "Building responsive web application experiences, from a clearly scoped interface to the supporting application logic." },
-  { icon: Bot, title: "AI application prototypes", description: "Exploring practical LLM integrations, structured outputs, and AI-assisted features inside software products." },
-  { icon: Workflow, title: "Automation and agent workflows", description: "Designing and experimenting with workflows that coordinate repeatable tasks and connect software tools." },
-  { icon: ClipboardList, title: "Product planning and technical structure", description: "Breaking early ideas into requirements, user flows, implementation steps, and documented technical decisions." }
+  { icon: Code2, title: "{tr(locale, "webProducts")}", description: "Building responsive web application experiences, from a clearly scoped interface to the supporting application logic." },
+  { icon: Bot, title: "{tr(locale, "aiPrototypes")}", description: "Exploring practical LLM integrations, structured outputs, and AI-assisted features inside software products." },
+  { icon: Workflow, title: "{tr(locale, "automation")}", description: "Designing and experimenting with workflows that coordinate repeatable tasks and connect software tools." },
+  { icon: ClipboardList, title: "{tr(locale, "planning")}", description: "Breaking early ideas into requirements, user flows, implementation steps, and documented technical decisions." }
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const locale = await getLocale();
   return (
     <>
-      <a href="#main-content" className="skip-link">Skip to content</a>
+      <a href="#main-content" className="skip-link">{tr(locale, "skip")}</a>
       <SiteHeader />
       <main id="main-content" className="shell py-16 sm:py-24">
         <div className="max-w-3xl">
-          <div className="eyebrow mb-4">Collaboration</div>
-          <h1 className="text-4xl font-semibold leading-[1.05] tracking-[-.07em] sm:text-6xl">Problems I'd be interested in working on.</h1>
-          <p className="mt-7 text-lg leading-8 text-muted">My current focus is building and improving software products. These are the areas I am actively developing experience in and would be interested in discussing for a suitable collaboration.</p>
+          <div className="eyebrow mb-4">{tr(locale, "collaboration")}</div>
+          <h1 className="text-4xl font-semibold leading-[1.05] tracking-[-.07em] sm:text-6xl">{tr(locale, "servicesTitle")}</h1>
+          <p className="mt-7 text-lg leading-8 text-muted">{tr(locale, "servicesIntro")}</p>
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-2">
           {areas.map(({icon: Icon,title,description},i)=>(
@@ -37,8 +39,8 @@ export default function ServicesPage() {
             </article>
           ))}
         </div>
-        <p className="mt-8 max-w-2xl text-xs leading-6 text-muted">These are areas of focus, not a claim of specialist credentials or a fixed agency service catalogue. Project fit, scope, and availability should be discussed before any commitment.</p>
-        <Link href="/contact" className="primary-button mt-8">Discuss a project <ArrowUpRight size={14}/></Link>
+        <p className="mt-8 max-w-2xl text-xs leading-6 text-muted">{tr(locale, "servicesDisclaimer")}</p>
+        <Link href="/contact" className="primary-button mt-8">{tr(locale, "discuss")} <ArrowUpRight size={14}/></Link>
       </main>
       <SiteFooter />
     </>
