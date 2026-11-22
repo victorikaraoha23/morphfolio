@@ -26,7 +26,7 @@ export default async function Home() {
   return <>
     <a href="#main-content" className="skip-link">{tr(locale, "skip")}</a>
     <SiteHeader />
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       <section id="home" className="relative overflow-hidden pb-20 pt-16 sm:pb-28 sm:pt-24">
         <div className="hero-grid pointer-events-none absolute inset-x-0 top-0 h-[720px]" />
         <div className="shell relative grid gap-12 lg:grid-cols-[1.2fr_.8fr] lg:items-center">

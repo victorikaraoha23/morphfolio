@@ -18,7 +18,7 @@ export default async function ProjectsPage() {
     <>
       <a href="#main-content" className="skip-link">{tr(locale, "skip")}</a>
       <SiteHeader />
-      <main id="main-content" className="shell min-h-[70vh] py-16 sm:py-24">
+      <main id="main-content" tabIndex={-1} className="shell min-h-[70vh] py-16 sm:py-24">
         <Link href="/" className="nav-link inline-flex items-center gap-2"><ArrowLeft size={14} aria-hidden="true" /> {tr(locale, "backHome")}</Link>
         <div className="mt-12 max-w-2xl">
           <div className="eyebrow mb-4">{tr(locale, "selected")}</div>

@@ -16,7 +16,7 @@ export default async function ContactPage() {
     <>
       <a href="#main-content" className="skip-link">{tr(locale, "skip")}</a>
       <SiteHeader />
-      <main id="main-content" className="shell py-16 sm:py-24">
+      <main id="main-content" tabIndex={-1} className="shell py-16 sm:py-24">
         <div className="max-w-3xl">
           <div className="eyebrow mb-4">{tr(locale, "contact")}</div>
           <h1 className="text-4xl font-semibold leading-[1.05] tracking-[-.07em] sm:text-6xl">{tr(locale, "contactTitle")}</h1>
