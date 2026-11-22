@@ -31,7 +31,7 @@ export const projects = [
   },
   {
     slug: "agentschat", number: "03", name: "AgentsChat", category: "AI Agents", status: "Experimental",
-    description: "An experimental hosted AI-agent workspace that combines a conversational product experience with a separate agent-execution runtime.",
+    description: "An experimental AI-agent workspace that combines a conversational product experience with a separate agent-execution runtime.",
     overview: "AgentsChat is an experimental AI-agent workspace with a web application, authenticated API, persistent conversations, and a separate Hermes execution runtime. A signed-in user can submit a message, stream an agent reply, and have the exchange persisted to the conversation.",
     role: "Independent project", stage: "Experimental", tags: ["Next.js", "FastAPI", "Supabase", "AI agents", "Hermes runtime"],
     href: "", action: "View project details", featured: true,
