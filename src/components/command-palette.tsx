@@ -86,7 +86,6 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
   const [locale, setLocale] = useState<Locale>(initialLocale);
   const [theme, setTheme] = useState<Theme>("light");
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMac, setIsMac] = useState(false);
   const t = copy[locale];
 
   const close = useCallback(() => {
@@ -100,10 +99,6 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
     setTheme(currentTheme === "dark" ? "dark" : "light");
     if (!dialogRef.current?.open) dialogRef.current?.showModal();
     window.requestAnimationFrame(() => inputRef.current?.focus());
-  }, []);
-
-  useEffect(() => {
-    setIsMac(/Mac|iPhone|iPad|iPod/.test(window.navigator.userAgent));
   }, []);
 
   useEffect(() => {
@@ -201,7 +196,7 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
       <button type="button" className="command-trigger" onClick={open} aria-label={t.quickActions} title={t.quickActions}>
         <Command size={15} aria-hidden="true" />
         <span className="command-trigger-label">{t.quickActions}</span>
-        <kbd aria-hidden="true">{isMac ? "⌘ K" : "Ctrl K"}</kbd>
+        <kbd aria-hidden="true">Ctrl / ⌘ K</kbd>
       </button>
       <dialog
         ref={dialogRef}

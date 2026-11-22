@@ -332,7 +332,7 @@ const messages = {
     faqQuestion3: "¿Estás abierto a colaboraciones?",
     faqAnswer3: "Estoy abierto a conversaciones serias sobre proyectos adecuados de software, IA y automatización. El alcance, la compatibilidad y la disponibilidad deben hablarse antes de asumir compromisos.",
     faqQuestion4: "¿Dónde puedo explorar tu código?",
-    faqAnswer4: "Puedes encontrar mis repositorios públicos y mi trabajo de desarrollo en GitHub. Añadiré estudios de caso y resúmenes de actividad basados en repositorios a medida que avance la integración del portfolio.",,
+    faqAnswer4: "Puedes encontrar mis repositorios públicos y mi trabajo de desarrollo en GitHub. Añadiré estudios de caso y resúmenes de actividad basados en repositorios a medida que avance la integración del portfolio.",
 
     about: "Sobre mí", projects: "Proyectos", services: "Colaboración", resume: "Perfil", contact: "Contacto",
     quick: "Acciones rápidas", footer: "Creado con intención.",
