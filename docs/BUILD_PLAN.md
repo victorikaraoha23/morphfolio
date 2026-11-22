@@ -18,16 +18,16 @@
 
 ## Phase 1 — Design system and public portfolio shell
 
-**Current progress:** The approved palette, light/dark theme behavior, responsive homepage shell, and searchable/filterable projects index are implemented. Remaining public routes, project case studies, command palette, multilingual UI, and full accessibility/performance verification are still outstanding.
+**Current progress:** The approved palette, light/dark theme behavior, shared responsive site shell, core public routes, and searchable/filterable projects index with project detail pages are implemented. Command palette, multilingual UI, CMS integration, and full accessibility/performance verification remain outstanding.
 
 - [x] Implement semantic light/dark design tokens exactly matching the approved palette.
 - [x] Implement system theme preference and manual override.
 - [x] Build responsive navigation, footer, VI monogram, and initial accessible navigation/theme controls.
 - [x] Build the homepage hero and initial About, selected projects, capabilities, and contact sections.
-- [ ] Build About, Services, Resume, and Contact routes.
+- [x] Build About, Services, Resume, and Contact routes.
 - [x] Build the Projects index and project detail routes.
 - [ ] Add responsive states, loading/empty/error states, and reduced-motion behavior.
-- [ ] Add command palette and mobile navigation.
+- [ ] Add command palette.\n- [x] Add responsive mobile navigation.
 - [ ] Create fixture content with clearly identified sample data; do not invent personal achievements.
 
 **Exit criteria:** every public route renders consistently on mobile and desktop in both themes; core interactions are keyboard accessible.
@@ -51,7 +51,7 @@
 - [x] Implement the projects index with category filters, search, and lifecycle status labels.
 - [x] Add grounded project detail pages with clear lifecycle labels.
 - [ ] Build detailed project case-study templates with architecture and media support.
-- [ ] Build the public resume page and print stylesheet.
+- [x] Build the initial factual professional profile page.\n- [ ] Add a print stylesheet and downloadable CV after verified career and education details are supplied.
 - [ ] Implement social links and editable availability.
 - [ ] Implement the GitHub activity summary without a separate open-source contributions page.
 
