@@ -4,9 +4,7 @@ import { ArrowLeft } from "lucide-react";
 
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { getLocale, translate as tr } from "@/lib/i18n";
 import { ProjectsExplorer } from "@/components/projects-explorer";
-import { getLocale, translate as tr } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Projects",
