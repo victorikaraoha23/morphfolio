@@ -20,6 +20,7 @@ type CommandItem = {
 const copy = {
   en: {
     placeholder: "Search pages, actions, and settings…",
+    quickActions: "Quick actions",
     navigation: "Navigation",
     actions: "Actions",
     preferences: "Language",
@@ -32,6 +33,7 @@ const copy = {
   },
   fr: {
     placeholder: "Rechercher des pages, actions et réglages…",
+    quickActions: "Actions rapides",
     navigation: "Navigation",
     actions: "Actions",
     preferences: "Langue",
@@ -44,6 +46,7 @@ const copy = {
   },
   es: {
     placeholder: "Buscar páginas, acciones y ajustes…",
+    quickActions: "Acciones rápidas",
     navigation: "Navegación",
     actions: "Acciones",
     preferences: "Idioma",
@@ -80,6 +83,7 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
   const [locale, setLocale] = useState<Locale>(initialLocale);
   const [theme, setTheme] = useState<Theme>("light");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMac, setIsMac] = useState(false);
   const t = copy[locale];
 
   const close = useCallback(() => {
