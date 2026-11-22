@@ -4,10 +4,10 @@ import { ArrowUpRight, Menu } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
-  { href: "/#about", label: "About" },
+  { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
-  { href: "/#capabilities", label: "Focus" },
-  { href: "/#contact", label: "Contact" }
+  { href: "/services", label: "Services" },\n  { href: "/resume", label: "Resume" },
+  { href: "/contact", label: "Contact" }
 ];
 
 export function SiteHeader() {
@@ -29,7 +29,7 @@ export function SiteHeader() {
         </details>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Link href="/#contact" className="primary-button !min-h-10 !px-4 !text-xs">Let's talk <ArrowUpRight size={13} aria-hidden="true" /></Link>
+          <Link href="/contact" className="primary-button !min-h-10 !px-4 !text-xs">Let's talk <ArrowUpRight size={13} aria-hidden="true" /></Link>
         </div>
       </div>
     </header>
