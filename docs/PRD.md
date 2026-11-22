@@ -263,7 +263,7 @@ All components must consume semantic tokens. Do not introduce a competing accent
 Launch languages:
 1. English — default and source language.
 2. French.
-3. Hausa.
+3. Spanish.
 
 Requirements:
 - Visible language selector.
@@ -354,7 +354,7 @@ The personal-first release is ready only when:
 1. The public portfolio presents the owner's real identity and approved content across all required sections.
 2. Public project pages support detailed, evidence-conscious case studies and media.
 3. Visitors can browse, search, filter, switch language/theme, download the CV, and submit a contact enquiry.
-4. English, French, and Hausa content works with correct locale navigation and SEO metadata.
+4. English, French, and Spanish content works with correct locale navigation and SEO metadata.
 5. The owner can manage all public content through a secure dashboard.
 6. GitHub imports are read-only, explicitly selected, and never auto-published.
 7. AI drafts are evidence-aware, validated, reviewable, and never published without owner approval.
