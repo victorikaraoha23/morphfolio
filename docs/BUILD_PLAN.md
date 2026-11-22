@@ -139,3 +139,7 @@ A feature is complete only when:
 - Relevant automated checks pass.
 - Secrets and personal data are not exposed.
 - The deployed behavior is verified rather than assumed.
+
+## Portfolio quality gate
+
+Before a public release or material design change, run `npm run check` from the repository root. This command runs ESLint, the TypeScript compiler, and a production Next.js build in sequence. The GitHub Actions workflow runs the same three checks as separate steps so failures remain easy to diagnose. A green lint result alone is not a release approval: verify the production build and manually review the public routes at mobile and desktop widths, both themes, and all three supported languages.
