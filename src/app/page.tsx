@@ -90,7 +90,7 @@ export default async function Home() {
             <div className="max-w-2xl"><div className="eyebrow mb-4">{tr(locale, "areasFocus")}</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-5xl">{tr(locale, "workingTowards")}</h2><p className="mt-5 text-sm leading-7 text-muted">{tr(locale, "focusDisclaimer")}</p></div>
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
               {capabilities.map(({ icon: Icon, titleKey, descriptionKey }, index) => (
-                <article className="surface-card p-6 sm:p-7" key={title}>
+                <article className="surface-card p-6 sm:p-7" key={titleKey}>
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-soft text-brand"><Icon size={19} aria-hidden="true" /></div>
                   <div className="mt-6 text-xs font-bold text-brand">0{index + 1}</div>
                   <h3 className="mt-2 text-xl font-semibold tracking-[-.04em]">{tr(locale, titleKey as never)}</h3>

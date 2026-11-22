@@ -42,7 +42,7 @@ export default async function AboutPage() {
           <h2 className="text-3xl font-semibold tracking-[-.06em]">{tr(locale, "principles")}</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {principles.map(({icon: Icon,titleKey,descriptionKey},i)=>(
-              <article className="surface-card p-6" key={title}>
+              <article className="surface-card p-6" key={titleKey}>
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-soft text-brand"><Icon size={19} aria-hidden="true"/></div>
                 <div className="mt-6 text-xs font-bold text-brand">0{i+1}</div>
                 <h3 className="mt-2 text-lg font-semibold">{tr(locale, titleKey as never)}</h3>

@@ -17,6 +17,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const locale = await getLocale();
   const sourceProject = projects.find((item) => item.slug === slug);
   const project = sourceProject ? getLocalizedProject(sourceProject, locale) : undefined;
   if (!project) return { title: "Project not found" };
