@@ -20,7 +20,7 @@ type CommandItem = {
 const copy = {
   en: {
     placeholder: "Search pages, actions, and settings…",
-    dialogLabel: "Quick actions", searchLabel: "Search commands", closeLabel: "Close command palette", currentLabel: "Current",
+    dialogLabel: "Quick actions", searchLabel: "Search commands", closeLabel: "Close command palette", currentLabel: "Current", commandsLabel: "Commands",
     quickActions: "Quick actions",
     navigation: "Navigation",
     actions: "Actions",
@@ -34,7 +34,7 @@ const copy = {
   },
   fr: {
     placeholder: "Rechercher des pages, actions et réglages…",
-    dialogLabel: "Actions rapides", searchLabel: "Rechercher des commandes", closeLabel: "Fermer le panneau de commandes", currentLabel: "Actuelle",
+    dialogLabel: "Actions rapides", searchLabel: "Rechercher des commandes", closeLabel: "Fermer le panneau de commandes", currentLabel: "Actuelle", commandsLabel: "Commandes",
     quickActions: "Actions rapides",
     navigation: "Navigation",
     actions: "Actions",
@@ -48,7 +48,7 @@ const copy = {
   },
   es: {
     placeholder: "Buscar páginas, acciones y ajustes…",
-    dialogLabel: "Acciones rápidas", searchLabel: "Buscar comandos", closeLabel: "Cerrar el panel de comandos", currentLabel: "Actual",
+    dialogLabel: "Acciones rápidas", searchLabel: "Buscar comandos", closeLabel: "Cerrar el panel de comandos", currentLabel: "Actual", commandsLabel: "Comandos",
     quickActions: "Acciones rápidas",
     navigation: "Navegación",
     actions: "Acciones",
@@ -100,6 +100,10 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
     setTheme(currentTheme === "dark" ? "dark" : "light");
     if (!dialogRef.current?.open) dialogRef.current?.showModal();
     window.requestAnimationFrame(() => inputRef.current?.focus());
+  }, []);
+
+  useEffect(() => {
+    setIsMac(/Mac|iPhone|iPad|iPod/.test(window.navigator.userAgent));
   }, []);
 
   useEffect(() => {
@@ -194,6 +198,11 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
 
   return (
     <>
+      <button type="button" className="command-trigger" onClick={open} aria-label={t.quickActions} title={t.quickActions}>
+        <Command size={15} aria-hidden="true" />
+        <span className="command-trigger-label">{t.quickActions}</span>
+        <kbd aria-hidden="true">{isMac ? "⌘ K" : "Ctrl K"}</kbd>
+      </button>
       <dialog
         ref={dialogRef}
         className="command-dialog"
@@ -214,7 +223,7 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
             />
             <button type="button" className="command-close" onClick={close} aria-label={t.closeLabel}><X size={17} /></button>
           </div>
-          <div className="command-results" role="listbox" aria-label="Commands">
+          <div className="command-results" role="listbox" aria-label={t.commandsLabel}>
             {groups.map((group) => {
               const groupItems = filtered.filter((item) => item.group === group);
               if (!groupItems.length) return null;
