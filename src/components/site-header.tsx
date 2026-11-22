@@ -11,7 +11,7 @@ const links = [
   { href: "/services", label: "services" },
   { href: "/resume", label: "resume" },
   { href: "/contact", label: "contact" }
-];
+] as const;
 
 export async function SiteHeader() {
   const locale = await getLocale();
