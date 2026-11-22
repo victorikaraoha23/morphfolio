@@ -69,6 +69,9 @@ See [the data model](docs/DATA_MODEL.md) and the initial migration in `supabase/
 ## Quality checks
 
 ```bash
+npm run check
+
+# Or run individual checks
 npm run lint
 npm run typecheck
 npm run build
