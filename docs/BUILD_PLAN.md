@@ -24,7 +24,8 @@
 - [x] Implement system theme preference and manual override.
 - [x] Build responsive navigation, footer, VI monogram, and initial accessible navigation/theme controls.
 - [x] Build the homepage hero and initial About, selected projects, capabilities, and contact sections.
-- [ ] Build About, Services, Resume, and Contact routes.\n- [x] Build the Projects index and project detail routes.
+- [ ] Build About, Services, Resume, and Contact routes.
+- [x] Build the Projects index and project detail routes.
 - [ ] Add responsive states, loading/empty/error states, and reduced-motion behavior.
 - [ ] Add command palette and mobile navigation.
 - [ ] Create fixture content with clearly identified sample data; do not invent personal achievements.
@@ -47,7 +48,8 @@
 
 - [ ] Populate About, skills, experience/timeline, education, services, FAQ, and contact sections from database content.
 - [ ] Implement featured project selection and manual ordering (3–4 on homepage by default).
-- [x] Implement the projects index with category filters, search, and lifecycle status labels.\n- [x] Add grounded project detail pages with clear lifecycle labels.
+- [x] Implement the projects index with category filters, search, and lifecycle status labels.
+- [x] Add grounded project detail pages with clear lifecycle labels.
 - [ ] Build detailed project case-study templates with architecture and media support.
 - [ ] Build the public resume page and print stylesheet.
 - [ ] Implement social links and editable availability.
