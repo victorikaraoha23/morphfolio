@@ -1,69 +1,57 @@
 # MorphFolio — AI System Design
 
-## 1. Provider strategy
+## 1. Purpose
 
-OpenRouter is the initial model gateway, accessed through `@openrouter/ai-sdk-provider` and the Vercel AI SDK. Model identifiers are configured through environment variables and must not be hard-coded into domain logic.
+The AI system converts bounded GitHub repository evidence into accurate, structured portfolio project content. It does not author application source code, execute repository code, modify GitHub repositories, or decide whether a new project may be published.
 
-The integration is isolated in `src/lib/ai/openrouter.ts`. Domain modules call typed services and do not construct provider clients directly. This keeps the gateway and model implementation replaceable.
+OpenRouter is the initial model gateway through the existing provider adapter and Vercel AI SDK. Model IDs remain environment-configured and provider access stays isolated in src/lib/ai/openrouter.ts.
 
-## 2. Workloads
+## 2. Inputs
 
-| Workload | Output |
-|---|---|
-| Repository analyst | Evidence-backed project profile |
-| Technical analyzer | Observed languages, frameworks, architecture hints |
-| Content writer | Concise visitor-facing project description |
-| Project classifier | Category and project type |
-| Portfolio architect | Versioned layout and content configuration |
-| Independent reviewer | Claim and configuration risk report |
+Initial evidence includes repository name, description, URL, default branch, visibility, archived/fork status, README content from the default branch, GitHub topics and language statistics, and release metadata when useful.
 
-Initially these are separate typed functions, not autonomous agents with independent tools or broad permissions.
+Private repository README content must not be sent to an external AI provider unless the owner explicitly enables analysis for that repository after seeing a clear disclosure. Never place credentials, tokens, secrets, or unrelated private files in an evidence packet.
 
-## 3. Evidence policy
+Bound inputs by bytes, excerpt count, and excerpt length. Preserve evidence IDs and source locations.
 
-Allowed evidence may include:
-- GitHub repository metadata.
-- README content.
-- Repository topics and language statistics.
-- Release metadata.
-- Public documentation explicitly selected by the owner.
-- Owner-supplied facts.
+## 3. Output contract
 
-A repository's presence, star count, commit count, or language breakdown does not prove business impact, production usage, revenue, customer numbers, or performance.
+Generate a schema-validated project profile and case-study draft containing display name, tagline, short summary, detailed overview, problem/solution when supported, features/highlights, technologies, category, documented architecture/implementation notes, cautious project status suggestion, missing-information list, and evidence references for factual claims.
 
-Each factual statement should reference one or more evidence records. Inferences must be labeled as inferences. Owner-provided claims must be labeled as owner-provided.
+The model must not set publication status, owner overrides, featured ordering, owner biography, skill confidence, work history, education, availability, or authorization fields.
 
-## 4. Prompt-injection defense
+## 4. Evidence and accuracy
 
-Repository content is untrusted data. It must never be treated as system or developer instructions. Delimit source text, remove unnecessary content, limit token budgets, and instruct models to extract facts only. Do not give analysis models tools that can write to GitHub, execute code, access secrets, or mutate production data.
+- Treat README and repository metadata as untrusted data and possible prompt injection.
+- State clearly that source text is data, never instructions.
+- The model has no tools and no access to secrets, network, code execution, or GitHub write operations.
+- Do not invent features, technologies, architecture, customers, revenue, users, adoption, performance, or business impact.
+- Stars, forks, commits, and language statistics do not prove product quality or adoption.
+- Distinguish observed facts, cautious inferences, owner-provided facts, and missing information.
+- Every factual summary/highlight must reference valid evidence IDs.
+- Reject output with unknown evidence references or invalid schema.
+- Omit claims that cannot be substantiated rather than embellishing.
 
-The first repository analyst implementation receives a bounded JSON evidence packet, has no tools, uses a dedicated system instruction, and verifies all returned evidence IDs against the supplied packet.
+## 5. Publication policy
 
-## 5. Output validation
+- New repository output is always a draft in pending review.
+- Owner approval is required before first publication.
+- For an already-published project, validated updates may publish automatically.
+- Apply field-level owner overrides after generation; AI cannot overwrite them.
+- Owner-controlled settings and personal facts are outside the AI write model.
+- A generation failure, timeout, invalid output, or persistence error must leave the previous published version unchanged.
+- The owner may disable automatic updates per project or globally.
 
-- Use Zod schemas for every model output.
-- Bound string lengths, arrays, and enum values.
-- Reject unknown or unsupported fields where practical.
-- Validate evidence IDs against the evidence packet.
-- Reject claims that lack supporting evidence.
-- Run deterministic policy checks after model output.
-- Store prompt version, schema version, model ID, usage, latency, and outcome.
+## 6. Versioning and traceability
 
-## 6. Cost and reliability controls
+For each material run, record repository ID and source commit/README SHA, evidence snapshot reference/hash, model/provider, prompt/schema version, input hash, output, token usage, latency, status, and safe error code, plus the publication decision and resulting content version.
 
-- Set per-run and per-project token budgets.
-- Limit repositories and README size per run.
-- Cache results by repository revision and prompt/schema version.
-- Use timeouts and bounded retries with exponential backoff and jitter.
-- Handle rate limits and provider errors explicitly.
-- Use model fallbacks only when output capabilities and policy requirements match.
-- Track usage and enforce an owner-configurable budget.
-- Never silently publish fallback or partially generated output.
+Cache by repository ID + source revision/content hash + prompt version + schema version. Reuse valid output when the evidence and generation contract are unchanged.
 
-## 7. Publication policy
+## 7. Cost and reliability controls
 
-AI output always begins as a draft. Owner approval is required for v1 publication. A future hybrid policy may auto-apply low-risk metadata refreshes while retaining approval for copy, featured-project, and layout changes.
+Apply per-README and per-evidence token limits, output token limits, per-repository cooldowns, event coalescing, owner-configurable spend ceilings, timeouts, bounded retries with exponential backoff and jitter, and explicit provider rate-limit handling. No AI calls from webhook request handlers. No unbounded agent loops or autonomous tool use.
 
-## 8. Current implementation status
+## 8. Existing implementation
 
-The repository analyst is implemented as a server-only service in `src/modules/intelligence/analyze-repository.ts`. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. It is not exposed through a public route; request limits, abuse controls, and an explicit access model must be implemented before adding an endpoint. Do not expose the internal analyst as an unauthenticated public route.
+The current server-only analyst is in src/modules/intelligence/analyze-repository.ts, with Zod schemas in src/modules/intelligence/schemas.ts and OpenRouter configuration in src/lib/ai/openrouter.ts. It accepts a bounded evidence packet, generates a structured profile, and checks evidence references. It is not yet connected to GitHub synchronization, persistence, background jobs, or publication. Extend this implementation and its schemas; do not replace it without a demonstrated reason.

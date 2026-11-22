@@ -1,88 +1,134 @@
 # MorphFolio — System Architecture
 
-**Status:** Personal-first, single-user architecture baseline  
-**Pattern:** Modular monolith; no application database or user identity layer in the current release
+**Status:** Approved GitHub-synchronized personal portfolio architecture  
+**Pattern:** Modular monolith with durable background jobs
 
-## 1. Product architecture decision
+## 1. Product architecture
 
-MorphFolio is the product being developed toward a future SaaS offering. Its current release is built for one person: a public portfolio and its AI-assisted development workflows, with no login, registration, admin dashboard, customer accounts, or multi-tenant infrastructure.
+MorphFolio connects to one owner's GitHub account, discovers repositories, monitors relevant repository changes, analyzes README and bounded metadata with AI, and maintains a public developer portfolio.
 
-The application is operated through the source repository and Vercel deployment workflow. Portfolio content is typed, version-controlled data. A reviewed Git change is the publication approval; the deployed public site renders the approved content.
+The application has two surfaces:
+- **Public portfolio:** crawlable pages containing owner-approved profile information and published project records.
+- **Private owner workspace:** GitHub connection, repository inclusion/exclusion, first-publication review, field overrides, sync health, and retry controls. Access is restricted to the configured GitHub owner identity.
 
-Do not add authentication, a database, file storage, or a persistent backend merely because a future SaaS version may need them. Revisit those decisions only when a concrete personal-use workflow requires persistence or when the SaaS phase is explicitly approved.
+GitHub is authoritative for repository identity, README content, repository metadata, and lifecycle. MorphFolio's database stores synchronization state, evidence snapshots, generated content, owner overrides, publication state, and audit history. The AI provider is not a source of truth.
+
+New repositories require approval before first publication. Validated updates to existing published projects may publish automatically. Manual overrides always take precedence. The last known-good public version remains visible after processing failures.
 
 ## 2. Technology decisions
-| Concern | Decision | Notes |
+
+| Concern | Proposed choice | Responsibility |
 |---|---|---|
-| Web application | Next.js App Router | Server-first rendering |
-| Language | TypeScript | Strict mode |
-| Styling | Tailwind CSS 4 | Approved design tokens |
-| Icons | Lucide | Consistent iconography |
-| Portfolio content | Typed repository data | Versioned through Git |
-| AI gateway | OpenRouter | Provider configuration isolated |
-| AI SDK | Vercel AI SDK + OpenRouter provider | Typed model calls |
-| Validation | Zod | Runtime validation |
-| Source evidence | GitHub REST API / selected repositories | Read-only |
-| Hosting | Vercel | Production and previews |
-| CI | GitHub Actions | Lint, typecheck, production build |
+| Web application | Next.js App Router | Public and owner interfaces, server routes |
+| Language/UI | TypeScript, React, Tailwind CSS 4 | Application and design system |
+| GitHub integration | GitHub App + GitHub REST API | Installation, read-only repository access, webhooks |
+| Owner authorization | GitHub App user authorization + owner-login allowlist | Restrict workspace to one owner |
+| Database | Neon PostgreSQL | Durable application state |
+| ORM | Drizzle ORM | Typed schema and migrations |
+| Background jobs | Inngest | Durable sync, AI, retry, reconciliation workflows |
+| AI gateway | OpenRouter + Vercel AI SDK | Structured content generation |
+| Validation | Zod | Boundary and model-output validation |
+| Hosting | Vercel | Next.js application and webhook ingress |
+| CI | GitHub Actions | Lint, typecheck, tests, production build |
 
-No application database, authentication provider, user session, or file-storage service is part of the current architecture.
+These are the approved implementation direction for the personal-first product. Revisit a choice only with a concrete technical reason and a documented decision. Do not reintroduce Supabase by default.
 
-## 3. High-level architecture
+## 3. System context
+
 ```mermaid
 flowchart TD
-  VISITOR[Public visitor] --> WEB[Public Next.js portfolio]
-  WEB --> CONTENT[Version-controlled portfolio data]
-  OWNER[Product operator] --> GIT[Repository changes and review]
-  GIT --> DEPLOY[Vercel deployment]
-  DEPLOY --> WEB
-  GIT --> GH[Selected GitHub repositories]
-  GH --> EVIDENCE[Bounded repository evidence]
-  EVIDENCE --> AI[AI analysis service]
+  OWNER[Portfolio owner] -->|GitHub authorization| APP[GitHub App]
+  GH[GitHub repositories] -->|Signed webhooks| WEBHOOK[Webhook ingress]
+  APP -->|Read-only API| SYNC[Repository sync service]
+  WEBHOOK -->|Verify and enqueue| JOBS[Inngest background jobs]
+  SYNC --> JOBS
+  JOBS -->|Fetch current metadata and README| GH
+  JOBS -->|Evidence packet| AI[AI content service]
   AI --> OR[OpenRouter]
-  OR --> VALIDATE[Zod and evidence checks]
-  VALIDATE --> PROPOSAL[Structured content proposal]
-  PROPOSAL --> REVIEW[Human review in development workflow]
-  REVIEW -->|Approved| GIT
-  REVIEW -->|Rejected or revised| PROPOSAL
+  JOBS --> DB[(Neon PostgreSQL)]
+  AI -->|Validated structured draft| DB
+  OWNER -->|Review, overrides, retry| ADMIN[Private owner workspace]
+  ADMIN --> DB
+  VISITOR[Public visitor] --> WEB[Public portfolio]
+  WEB -->|Published eligible projects only| DB
 ```
 
-## 4. Domain boundaries
-### Public portfolio
-Owns localized public routes, navigation, profile presentation, project listing/detail pages, resume, services, FAQ, contact UI, metadata, and rendering of approved portfolio data.
-
-### Versioned content
-Owns typed profile and project data, translations, section configuration, timeline entries, social links, and other public content. Changes are reviewed and deployed through Git. Do not add a CMS or database to solve a workflow that can remain clear in source control.
+## 4. Runtime boundaries
 
 ### GitHub integration
-Owns read-only repository discovery, selected repository inspection, pagination, rate-limit handling, and evidence extraction. Keep credentials and installation tokens server-side. Do not grant write permissions for the current release.
+Owns GitHub App authorization/install lifecycle, token generation, repository pagination, read-only API access, webhook signature verification, delivery deduplication, and repository identity mapping. Use immutable GitHub repository IDs as stable external identifiers. Never trust webhook payloads as the final current repository state; re-fetch from GitHub.
 
-### Intelligence
-Owns prompt construction, model selection, structured generation, evidence extraction, confidence/risk metadata, independent review, retries, and AI cost accounting. Models receive no write tools, code execution, or secret access. AI output is a proposal, not an automatic publication.
+### Webhook ingress
+Verify the X-Hub-Signature-256 HMAC using the configured webhook secret, validate event type/action and delivery ID, persist a minimal event record, enqueue durable work, and return promptly. Do not call the AI provider or perform full repository synchronization inside the request.
 
-## 5. Content and persistence
-- The repository is the source of truth for approved portfolio content.
-- The public site reads typed data bundled with the application.
-- AI analysis may produce transient proposals; approved changes are committed through the normal development workflow.
-- Do not store private evidence, credentials, or generated drafts in public source files.
-- Static assets belong in the repository when appropriate; use Vercel-supported asset delivery for public media.
-- If a future workflow requires persistent drafts, uploads, background jobs, or user-managed content, document the requirement and compare storage options before selecting a database.
+### Synchronization domain
+Fetch repository metadata and README from the default branch. Compare README blob SHA and relevant metadata with the last successful snapshot. A source-code push with unchanged README and metadata must not trigger AI generation. Handle rename, archive, visibility changes, deletion, access loss, and installation suspension.
 
-## 6. AI boundary
-The AI returns typed content drafts and recommendations, not executable application code. Build a bounded evidence packet, call the configured model, validate output with Zod, verify evidence references, apply deterministic policy checks, and present proposals for human review. Incorporate approved content as a version-controlled change.
+### Intelligence domain
+Build bounded evidence packets, call the configured model, validate structured output, verify evidence references, and return a versioned draft. Repository content is untrusted. Models receive no tools, secrets, code execution, or GitHub write capability.
 
-Repository content is untrusted and may contain prompt injection. Analysis models receive no tools, GitHub write access, code execution, secrets, or direct publishing permissions.
+### Publication domain
+Apply publication state transitions, merge generated fields with owner overrides, atomically publish valid versions, and preserve the last known-good version on failure. New repositories stay pending review until explicitly approved.
 
-## 7. Security and operations
-- The current public application has no user accounts, login, protected dashboard, or user-specific data.
-- Do not add public write endpoints or expose AI provider credentials.
-- Keep GitHub App private keys, installation tokens, webhook secrets, and AI API keys server-side.
-- Validate external inputs and treat repository content as untrusted.
-- Apply request limits, token/cost budgets, timeouts, and bounded retries to AI and GitHub operations.
-- Use Git review and CI as the change-control boundary for published content.
+### Data access
+All database access is server-side. Public queries must enforce published status and repository eligibility in the query layer, not only in UI conditionals. Owner operations require authorization on every request.
 
-## 8. Multilingual model
-English is the default locale; French and Spanish are launch locales. Store locale-aware content in typed source data. Missing translations must fall back deliberately to English.
+## 5. Repository lifecycle and events
 
-## 9. Future SaaS evolution
-A future SaaS release will require a separate architecture decision covering authentication, customer workspaces, tenant isolation, persistent storage, media handling, billing, quotas, abuse controls, backups, and operational support. Choose systems based on validated requirements at that stage; do not build them prematurely.
+Subscribe to the minimum webhook events needed:
+- installation and installation_repositories for installation and repository access changes.
+- repository for created, edited, renamed, archived, unarchived, deleted, publicized, privatized, and other relevant lifecycle actions.
+- push for default-branch README/metadata change detection.
+- release only if release metadata is used in generated content.
+
+For every delivery:
+1. Verify signature against raw request bytes.
+2. Validate event/action and delivery ID.
+3. Insert delivery ID under a unique constraint.
+4. Enqueue a durable job.
+5. Return success quickly.
+
+Jobs must be idempotent. Coalesce bursts of pushes by repository and re-fetch the latest default-branch state. Use periodic reconciliation to compare GitHub's current installation repository list with stored records and recover missed webhooks.
+
+## 6. Initial import and ongoing updates
+
+### First connection
+1. Authorize the owner and install the GitHub App on the intended personal account.
+2. Enumerate all repositories accessible to the installation with pagination.
+3. Persist repository identity and metadata.
+4. Mark private repositories as non-public and do not submit their contents to external AI unless explicitly enabled.
+5. Match existing hardcoded portfolio projects to repositories by verified repository URL/immutable ID. Preserve their current published content during migration.
+6. Analyze unmatched eligible repositories and create pending-review drafts.
+
+### New repository
+Discover → fetch metadata/README → create evidence snapshot → AI generation → validate → pending review → owner approves → publish.
+
+### Existing published repository
+Webhook/reconciliation → fetch latest default-branch state → compare content hashes → if relevant change, create evidence snapshot → AI generation → validate → merge non-overridden fields → atomically publish new version.
+
+### Ineligible repository
+Private, deleted, disabled, inaccessible, or removed-from-installation repositories are unpublished promptly. Keep a minimal tombstone/audit record to prevent delayed events from resurrecting content. Repository rename preserves the project ID and slug unless the owner explicitly changes it.
+
+## 7. Owner authorization and privacy
+
+Use GitHub App user authorization for the owner workspace and compare the authenticated GitHub login/immutable user ID with a server-side configured owner identity. Use secure, HTTP-only, same-site cookies, CSRF protection for mutations, short-lived sessions, and authorization checks on every owner route/action. No public registration or multi-user account model.
+
+Private repositories may be discovered as metadata records so their status is visible in the private owner workspace. Private README contents are not sent to OpenRouter by default. Private repositories are never eligible for public pages. The owner must explicitly opt in to external AI analysis of a private repository, with a clear disclosure.
+
+## 8. Persistence and consistency
+
+Persist GitHub installation and owner identity, repository records, README/evidence snapshots, AI generation runs, structured drafts, project publication state, current published versions, field-level owner overrides, webhook delivery IDs, background job outcomes, and owner audit events.
+
+Use database transactions for publication transitions. Never expose an incomplete draft as published. Retain the previous published snapshot until the replacement is fully validated and committed.
+
+## 9. AI and cost boundaries
+
+Limit README bytes, evidence item count and excerpt length, repository processing concurrency, model tokens, and per-repository run frequency. Cache by repository ID + default-branch commit/README SHA + prompt version + schema version. Use timeouts, bounded retries with exponential backoff and jitter, provider rate-limit handling, and owner-configurable spend limits.
+
+## 10. Observability and recovery
+
+Track webhook delivery, sync run, AI run, and publication state separately. Provide actionable owner-facing status without exposing secrets or private content. Reconciliation is required; webhooks alone are not a complete consistency strategy. Failed jobs must be retryable, and retries must not duplicate projects or publication versions.
+
+## 11. SaaS boundary
+
+Do not build multi-tenant abstractions, customer billing, or public signup in this phase. Keep domain boundaries and ownership checks explicit so future tenant isolation can be designed deliberately after the personal workflow is validated.
