@@ -23,9 +23,9 @@ export const projects = [
     details: [
       "The planned blueprint covers product requirements, user flows, scope, business rules, design direction, architecture, data and API contracts, security, testing, deployment, and delivery.",
       "Agent roles are separated into research, clarification, decision support, generation, and independent review, with structured outputs validated through Zod schemas.",
-      "The backend architecture uses durable Inngest workflows and persisted PostgreSQL state so long-running work is not tied to one HTTP request.",
-      "The system is designed to distinguish verified information, assumptions, recommendations, and approved decisions, with traceable sources and document versions.",
-      "The project is still in development; the repository's implementation plan and tests define what is complete."
+      "The current engineering direction combines Mastra agent orchestration, the Vercel AI SDK and provider adapters, Inngest durable workflows, Neon PostgreSQL with Drizzle ORM, Supabase Auth/SSR, and Vercel Blob storage. This separates model work, background execution, identity, persistence, and document storage.",
+      "The system is designed to distinguish verified information, assumptions, recommendations, and owner-approved decisions, with traceable sources, auditable approvals, and document versions. Structured model outputs are validated with Zod before use.",
+      "The project is still in development. Route handlers and architecture documents do not by themselves prove that every provider integration or end-to-end workflow is operational. Blueprint AI is intended to complement coding agents, not replace them."
     ],
     externalLabel: "View source on GitHub", externalHref: "https://github.com/victorikaraoha23/BlueprintAI"
   },
