@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 };
 
 const areas = [
-  { icon: Code2, title: "Web product development", description: "Building responsive web application experiences, from a clearly scoped interface to the supporting application logic." },
-  { icon: Bot, title: "AI application prototypes", description: "Exploring practical LLM integrations, structured outputs, and AI-assisted features inside software products." },
-  { icon: Workflow, title: "Automation and agent workflows", description: "Designing and experimenting with workflows that coordinate repeatable tasks and connect software tools." },
-  { icon: ClipboardList, title: "Product planning and technical structure", description: "Breaking early ideas into requirements, user flows, implementation steps, and documented technical decisions." }
+  { icon: Code2, titleKey: "service1", descriptionKey: "service1Desc", title: "Web product development", description: "Building responsive web application experiences, from a clearly scoped interface to the supporting application logic." },
+  { icon: Bot, titleKey: "service2", descriptionKey: "service2Desc", title: "AI application prototypes", description: "Exploring practical LLM integrations, structured outputs, and AI-assisted features inside software products." },
+  { icon: Workflow, titleKey: "service3", descriptionKey: "service3Desc", title: "Automation and agent workflows", description: "Designing and experimenting with workflows that coordinate repeatable tasks and connect software tools." },
+  { icon: ClipboardList, titleKey: "service4", descriptionKey: "service4Desc", title: "Product planning and technical structure", description: "Breaking early ideas into requirements, user flows, implementation steps, and documented technical decisions." }
 ];
 
 export default async function ServicesPage() {
@@ -31,11 +31,11 @@ export default async function ServicesPage() {
           <p className="mt-7 text-lg leading-8 text-muted">{tr(locale, "servicesIntro")}</p>
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-2">
-          {areas.map(({icon: Icon,title,description},i)=>(
+          {areas.map(({icon: Icon,titleKey,descriptionKey},i)=>(
             <article className="surface-card p-7" key={title}>
               <div className="flex items-center justify-between"><div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-soft text-brand"><Icon size={20}/></div><span className="eyebrow">0{i+1}</span></div>
-              <h2 className="mt-7 text-xl font-semibold tracking-[-.04em]">{title}</h2>
-              <p className="mt-3 text-sm leading-7 text-muted">{description}</p>
+              <h2 className="mt-7 text-xl font-semibold tracking-[-.04em]">{tr(locale, titleKey as never)}</h2>
+              <p className="mt-3 text-sm leading-7 text-muted">{tr(locale, descriptionKey as never)}</p>
             </article>
           ))}
         </div>
