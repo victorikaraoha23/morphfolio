@@ -31,7 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
   const locale = await getLocale();
-  const project = projects.find((item) => item.slug === slug);
+  const sourceProject = projects.find((item) => item.slug === slug);
+  const project = sourceProject ? getLocalizedProject(sourceProject, locale) : undefined;
   if (!project) notFound();
 
   return (
