@@ -167,6 +167,7 @@ const messages = {
     interestTag3: "Apprentissage continu",
   },
   es: {
+    ...fr,
     skip: "Saltar al contenido",
     talk: "Hablemos",
     home: "Inicio",
@@ -245,3 +246,9 @@ const messages = {
     interestTag2: "Ingeniería de IA",
     interestTag3: "Aprendizaje continuo",
   },
+  },
+};
+
+export function translate(locale: Locale, key: keyof typeof messages.en): string {
+  return messages[locale][key] ?? messages.en[key];
+}
