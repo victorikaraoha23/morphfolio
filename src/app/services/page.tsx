@@ -7,15 +7,15 @@ import { SiteFooter } from "@/components/site-footer";
 import { getLocale, translate as tr } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "{tr(locale, "collaboration")}",
+  title: "Collaboration",
   description: "Areas of software and AI work that Victor Ikaraoha is currently exploring."
 };
 
 const areas = [
-  { icon: Code2, title: "{tr(locale, "webProducts")}", description: "Building responsive web application experiences, from a clearly scoped interface to the supporting application logic." },
-  { icon: Bot, title: "{tr(locale, "aiPrototypes")}", description: "Exploring practical LLM integrations, structured outputs, and AI-assisted features inside software products." },
-  { icon: Workflow, title: "{tr(locale, "automation")}", description: "Designing and experimenting with workflows that coordinate repeatable tasks and connect software tools." },
-  { icon: ClipboardList, title: "{tr(locale, "planning")}", description: "Breaking early ideas into requirements, user flows, implementation steps, and documented technical decisions." }
+  { icon: Code2, title: "Web product development", description: "Building responsive web application experiences, from a clearly scoped interface to the supporting application logic." },
+  { icon: Bot, title: "AI application prototypes", description: "Exploring practical LLM integrations, structured outputs, and AI-assisted features inside software products." },
+  { icon: Workflow, title: "Automation and agent workflows", description: "Designing and experimenting with workflows that coordinate repeatable tasks and connect software tools." },
+  { icon: ClipboardList, title: "Product planning and technical structure", description: "Breaking early ideas into requirements, user flows, implementation steps, and documented technical decisions." }
 ];
 
 export default async function ServicesPage() {
