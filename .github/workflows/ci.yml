@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: 22
 
+      # Keep npm install until package-lock.json is generated and committed.
       - name: Install dependencies
         run: npm install
 

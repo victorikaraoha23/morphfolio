@@ -187,17 +187,18 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
 
   return (
     <>
-      <button type="button" className="command-trigger" onClick={open} aria-label="Open command palette">
-        <Command size={14} aria-hidden="true" /><span>Quick actions</span><kbd>⌘ K</kbd>
+      <button type="button" className="command-trigger" onClick={open} aria-label={locale === "fr" ? "Ouvrir la palette de commandes" : locale === "es" ? "Abrir la paleta de comandos" : "Open command palette"}>
+        <Command size={14} aria-hidden="true" /><span>{locale === "fr" ? "Actions rapides" : locale === "es" ? "Acciones rápidas" : "Quick actions"}</span><kbd>⌘ K</kbd>
       </button>
       <dialog
         ref={dialogRef}
         className="command-dialog"
-        aria-label="Command palette"
+        aria-labelledby="command-palette-title"
         onClick={(event) => { if (event.target === dialogRef.current) close(); }}
         onClose={() => { setQuery(""); setActiveIndex(0); }}
       >
         <div className="command-panel">
+          <h2 id="command-palette-title" className="sr-only">{locale === "fr" ? "Palette de commandes" : locale === "es" ? "Paleta de comandos" : "Command palette"}</h2>
           <div className="command-search">
             <Search size={18} aria-hidden="true" />
             <input
@@ -206,11 +207,11 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
               onChange={(event) => { setQuery(event.target.value); setActiveIndex(0); }}
               onKeyDown={handleKeyDown}
               placeholder={t.placeholder}
-              aria-label="Search commands"
+              aria-label={locale === "fr" ? "Rechercher des commandes" : locale === "es" ? "Buscar comandos" : "Search commands"}
             />
-            <button type="button" className="command-close" onClick={close} aria-label="Close command palette"><X size={17} /></button>
+            <button type="button" className="command-close" onClick={close} aria-label={locale === "fr" ? "Fermer la palette de commandes" : locale === "es" ? "Cerrar la paleta de comandos" : "Close command palette"}><X size={17} /></button>
           </div>
-          <div className="command-results" role="listbox" aria-label="Commands">
+          <div className="command-results" aria-label={locale === "fr" ? "Commandes disponibles" : locale === "es" ? "Comandos disponibles" : "Available commands"}>
             {groups.map((group) => {
               const groupItems = filtered.filter((item) => item.group === group);
               if (!groupItems.length) return null;
@@ -223,8 +224,7 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
                     return (
                       <button
                         type="button"
-                        role="option"
-                        aria-selected={activeIndex === index}
+                        data-active={activeIndex === index}
                         className="command-option"
                         key={item.id}
                         onMouseEnter={() => setActiveIndex(index)}

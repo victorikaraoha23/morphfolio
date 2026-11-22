@@ -258,8 +258,8 @@ button { font: inherit; }
 .command-group + .command-group { margin-top: 12px; }
 .command-group h2 { padding: 8px 10px; color: var(--color-text-muted); font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
 .command-option { display: flex; width: 100%; min-height: 44px; align-items: center; gap: 11px; border-radius: 10px; padding: 0 10px; text-align: left; font-size: 13px; }
-.command-option[aria-selected="true"], .command-option:hover { background: var(--color-surface); }
-.command-option[aria-selected="true"] { color: var(--color-primary); }
+.command-option[data-active="true"], .command-option:hover { background: var(--color-surface); }
+.command-option[data-active="true"] { color: var(--color-primary); }
 .command-option-icon { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text-muted); }
 .command-current { margin-left: auto; color: var(--color-success); font-size: 10px; font-weight: 700; }
 .command-empty { padding: 36px 12px; color: var(--color-text-muted); text-align: center; font-size: 13px; }
