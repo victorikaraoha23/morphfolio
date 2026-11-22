@@ -4,18 +4,24 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Command, Languages, Moon, Search, Sun, X } from "lucide-react";
 
-type Locale = "en" | "fr" | "es";
+import type { Locale } from "@/lib/i18n";
+
+type Theme = "light" | "dark";
 type CommandItem = {
   id: string;
   label: string;
   keywords: string;
   group: string;
-  run: () => void;
+  href?: string;
+  themeAction?: true;
+  locale?: Locale;
 };
 
 const copy = {
   en: {
     placeholder: "Search pages, actions, and settings…",
+    dialogLabel: "Quick actions", searchLabel: "Search commands", closeLabel: "Close command palette", currentLabel: "Current", commandsLabel: "Commands",
+    quickActions: "Quick actions",
     navigation: "Navigation",
     actions: "Actions",
     preferences: "Language",
@@ -28,6 +34,8 @@ const copy = {
   },
   fr: {
     placeholder: "Rechercher des pages, actions et réglages…",
+    dialogLabel: "Actions rapides", searchLabel: "Rechercher des commandes", closeLabel: "Fermer le panneau de commandes", currentLabel: "Actuelle", commandsLabel: "Commandes",
+    quickActions: "Actions rapides",
     navigation: "Navigation",
     actions: "Actions",
     preferences: "Langue",
@@ -35,10 +43,23 @@ const copy = {
     hint: "Naviguer avec ↑ ↓ · Sélectionner avec ↵ · Fermer avec Échap",
     themeLight: "Passer au thème clair",
     themeDark: "Passer au thème sombre",
-    home: "Accueil", about: "À propos", projects: "Projets", services: "Services", resume: "Parcours", contact: "Contact",
+    home: "Accueil", about: "À propos", projects: "Projets", services: "Collaboration", resume: "Parcours", contact: "Contact",
     language: "Changer de langue"
   },
-  es: { placeholder: "Buscar páginas, acciones y ajustes…", navigation: "Navegación", actions: "Acciones", preferences: "Idioma", empty: "No hay comandos coincidentes.", hint: "Navegar con ↑ ↓ · Seleccionar con ↵ · Cerrar con Esc", themeLight: "Cambiar al tema claro", themeDark: "Cambiar al tema oscuro", home: "Inicio", about: "Sobre mí", projects: "Proyectos", services: "Colaboración", resume: "Trayectoria", contact: "Contacto", language: "Cambiar idioma" }
+  es: {
+    placeholder: "Buscar páginas, acciones y ajustes…",
+    dialogLabel: "Acciones rápidas", searchLabel: "Buscar comandos", closeLabel: "Cerrar el panel de comandos", currentLabel: "Actual", commandsLabel: "Comandos",
+    quickActions: "Acciones rápidas",
+    navigation: "Navegación",
+    actions: "Acciones",
+    preferences: "Idioma",
+    empty: "No hay comandos coincidentes.",
+    hint: "Navegar con ↑ ↓ · Seleccionar con ↵ · Cerrar con Esc",
+    themeLight: "Cambiar al tema claro",
+    themeDark: "Cambiar al tema oscuro",
+    home: "Inicio", about: "Sobre mí", projects: "Proyectos", services: "Colaboración", resume: "Trayectoria", contact: "Contacto",
+    language: "Cambiar idioma"
+  }
 } as const;
 
 const locales: { id: Locale; label: string; native: string }[] = [
@@ -47,27 +68,25 @@ const locales: { id: Locale; label: string; native: string }[] = [
   { id: "es", label: "Spanish", native: "Español" }
 ];
 
-export function CommandPalette() {
+const pages = [
+  { id: "home", href: "/" },
+  { id: "about", href: "/about" },
+  { id: "projects", href: "/projects" },
+  { id: "services", href: "/services" },
+  { id: "resume", href: "/resume" },
+  { id: "contact", href: "/contact" }
+] as const;
+
+export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
   const router = useRouter();
   const pathname = usePathname();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
-  const [locale, setLocale] = useState<Locale>("en");
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [locale, setLocale] = useState<Locale>(initialLocale);
+  const [theme, setTheme] = useState<Theme>("light");
   const [activeIndex, setActiveIndex] = useState(0);
   const t = copy[locale];
-
-  useEffect(() => {
-    const savedLocale = window.localStorage.getItem("morphfolio-locale");
-    const savedTheme = window.localStorage.getItem("morphfolio-theme");
-    if (savedLocale === "en" || savedLocale === "fr" || savedLocale === "es") {
-      setLocale(savedLocale);
-      document.documentElement.lang = savedLocale;
-    }
-    const currentTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
-    setTheme(savedTheme === "light" || savedTheme === "dark" ? savedTheme : currentTheme);
-  }, []);
 
   const close = useCallback(() => {
     dialogRef.current?.close();
@@ -76,6 +95,8 @@ export function CommandPalette() {
   }, []);
 
   const open = useCallback(() => {
+    const currentTheme = document.documentElement.dataset.theme;
+    setTheme(currentTheme === "dark" ? "dark" : "light");
     if (!dialogRef.current?.open) dialogRef.current?.showModal();
     window.requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
@@ -92,68 +113,78 @@ export function CommandPalette() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [close, open]);
 
-  const items = useMemo<CommandItem[]>(() => {
-    const pages = [
-      { id: "home", label: t.home, href: "/" },
-      { id: "about", label: t.about, href: "/about" },
-      { id: "projects", label: t.projects, href: "/projects" },
-      { id: "services", label: t.services, href: "/services" },
-      { id: "resume", label: t.resume, href: "/resume" },
-      { id: "contact", label: t.contact, href: "/contact" }
-    ];
-    return [
-      ...pages.map((page) => ({
-        id: page.id, label: page.label, keywords: page.href, group: t.navigation,
-        run: () => { router.push(page.href); close(); }
-      })),
-      {
-        id: "theme", label: theme === "dark" ? t.themeLight : t.themeDark, keywords: "appearance theme color",
-        group: t.actions,
-        run: () => {
-          const next = theme === "dark" ? "light" : "dark";
-          document.documentElement.dataset.theme = next;
-          window.localStorage.setItem("morphfolio-theme", next);
-          setTheme(next);
-          close();
-        }
-      },
-      ...locales.map((item) => ({
-        id: `locale-${item.id}`, label: `${item.native} — ${item.label}`,
-        keywords: `${t.language} ${item.id}`, group: t.preferences,
-        run: () => {
-          setLocale(item.id);
-          document.documentElement.lang = item.id;
-          window.localStorage.setItem("morphfolio-locale", item.id);
-          document.cookie = `morphfolio-locale=${item.id}; path=/; max-age=31536000; samesite=lax`;
-          window.dispatchEvent(new CustomEvent("morphfolio:locale-change", { detail: item.id }));
-          close();
-          router.refresh();
-        }
-      }))
-    ];
-  }, [close, router, t, theme]);
+  const items = useMemo<CommandItem[]>(() => [
+    ...pages.map((page) => ({
+      id: page.id,
+      label: copy[locale][page.id],
+      keywords: page.href,
+      group: t.navigation,
+      href: page.href
+    })),
+    {
+      id: "theme",
+      label: theme === "dark" ? t.themeLight : t.themeDark,
+      keywords: "appearance theme color",
+      group: t.actions,
+      themeAction: true as const
+    },
+    ...locales.map((item) => ({
+      id: `locale-${item.id}`,
+      label: `${item.native} — ${item.label}`,
+      keywords: `${t.language} ${item.id}`,
+      group: t.preferences,
+      locale: item.id
+    }))
+  ], [locale, t, theme]);
 
-  const filtered = items.filter((item) => `${item.label} ${item.keywords}`.toLowerCase().includes(query.trim().toLowerCase()));
+  const filtered = useMemo(
+    () => items.filter((item) => `${item.label} ${item.keywords}`.toLowerCase().includes(query.trim().toLowerCase())),
+    [items, query]
+  );
   const groups = [t.navigation, t.actions, t.preferences];
+
+  function runItem(item: CommandItem) {
+    if (item.href) {
+      close();
+      router.push(item.href);
+      return;
+    }
+    if (item.themeAction) {
+      const next: Theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      window.localStorage.setItem("morphfolio-theme", next);
+      window.dispatchEvent(new CustomEvent("morphfolio:theme-change", { detail: next }));
+      setTheme(next);
+      close();
+      return;
+    }
+    if (item.locale) {
+      setLocale(item.locale);
+      document.documentElement.lang = item.locale;
+      window.localStorage.setItem("morphfolio-locale", item.locale);
+      document.cookie = `morphfolio-locale=${item.locale}; path=/; max-age=31536000; samesite=lax`;
+      window.dispatchEvent(new CustomEvent("morphfolio:locale-change", { detail: item.locale }));
+      close();
+      router.refresh();
+    }
+  }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      setActiveIndex((index) => Math.min(index + 1, filtered.length - 1));
+      setActiveIndex((index) => Math.min(index + 1, Math.max(filtered.length - 1, 0)));
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
       setActiveIndex((index) => Math.max(index - 1, 0));
     } else if (event.key === "Enter" && filtered[activeIndex]) {
       event.preventDefault();
-      filtered[activeIndex].run();
+      runItem(filtered[activeIndex]);
     }
   }
 
-  useEffect(() => setActiveIndex(0), [query]);
-
   useEffect(() => {
     function syncTheme(event: Event) {
-      const next = (event as CustomEvent<"light" | "dark">).detail;
+      const next = (event as CustomEvent<Theme>).detail;
       if (next === "light" || next === "dark") setTheme(next);
     }
     window.addEventListener("morphfolio:theme-change", syncTheme);
@@ -162,41 +193,59 @@ export function CommandPalette() {
 
   return (
     <>
-      <button type="button" className="command-trigger" onClick={open} aria-label="Open command palette">
-        <Command size={14} aria-hidden="true" /><span>Quick actions</span><kbd>⌘ K</kbd>
+      <button type="button" className="command-trigger" onClick={open} aria-label={t.quickActions} title={t.quickActions}>
+        <Command size={15} aria-hidden="true" />
+        <span className="command-trigger-label">{t.quickActions}</span>
+        <kbd aria-hidden="true">Ctrl / ⌘ K</kbd>
       </button>
       <dialog
         ref={dialogRef}
         className="command-dialog"
-        aria-label="Command palette"
+        aria-label={t.dialogLabel}
         onClick={(event) => { if (event.target === dialogRef.current) close(); }}
         onClose={() => { setQuery(""); setActiveIndex(0); }}
       >
         <div className="command-panel">
           <div className="command-search">
             <Search size={18} aria-hidden="true" />
-            <input ref={inputRef} value={query} onChange={(event) => setQuery(event.target.value)}
-              onKeyDown={handleKeyDown} placeholder={t.placeholder} aria-label="Search commands" />
-            <button type="button" className="command-close" onClick={close} aria-label="Close command palette"><X size={17} /></button>
+            <input
+              ref={inputRef}
+              value={query}
+              onChange={(event) => { setQuery(event.target.value); setActiveIndex(0); }}
+              onKeyDown={handleKeyDown}
+              placeholder={t.placeholder}
+              aria-label={t.searchLabel}
+            />
+            <button type="button" className="command-close" onClick={close} aria-label={t.closeLabel}><X size={17} /></button>
           </div>
-          <div className="command-results" role="listbox" aria-label="Commands">
+          <div className="command-results" role="listbox" aria-label={t.commandsLabel}>
             {groups.map((group) => {
               const groupItems = filtered.filter((item) => item.group === group);
               if (!groupItems.length) return null;
-              return <section className="command-group" key={group}>
-                <h2>{group}</h2>
-                {groupItems.map((item) => {
-                  const index = filtered.findIndex((candidate) => candidate.id === item.id);
-                  const Icon = item.id === "theme" ? (theme === "dark" ? Sun : Moon) : item.id.startsWith("locale-") ? Languages : Command;
-                  return <button type="button" role="option" aria-selected={activeIndex === index}
-                    className="command-option" key={item.id}
-                    onMouseEnter={() => setActiveIndex(index)} onClick={item.run}>
-                    <span className="command-option-icon"><Icon size={15} aria-hidden="true" /></span>
-                    <span>{item.label}</span>
-                    {item.id.startsWith("locale-") && item.id === `locale-${locale}` ? <span className="command-current">Current</span> : null}
-                  </button>;
-                })}
-              </section>;
+              return (
+                <section className="command-group" key={group}>
+                  <h2>{group}</h2>
+                  {groupItems.map((item) => {
+                    const index = filtered.findIndex((candidate) => candidate.id === item.id);
+                    const Icon = item.id === "theme" ? (theme === "dark" ? Sun : Moon) : item.id.startsWith("locale-") ? Languages : Command;
+                    return (
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={activeIndex === index}
+                        className="command-option"
+                        key={item.id}
+                        onMouseEnter={() => setActiveIndex(index)}
+                        onClick={() => runItem(item)}
+                      >
+                        <span className="command-option-icon"><Icon size={15} aria-hidden="true" /></span>
+                        <span>{item.label}</span>
+                        {item.id.startsWith("locale-") && item.id === `locale-${locale}` ? <span className="command-current">{t.currentLabel}</span> : null}
+                      </button>
+                    );
+                  })}
+                </section>
+              );
             })}
             {filtered.length === 0 && <p className="command-empty">{t.empty}</p>}
           </div>

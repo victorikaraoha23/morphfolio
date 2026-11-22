@@ -3,7 +3,13 @@
 import { useEffect } from "react";
 import { SunMoon } from "lucide-react";
 
-export function ThemeToggle() {
+const labels = {
+  en: "Toggle light and dark theme",
+  fr: "Basculer entre les thèmes clair et sombre",
+  es: "Alternar entre el tema claro y oscuro"
+} as const;
+
+export function ThemeToggle({ locale }: { locale: keyof typeof labels }) {
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     const saved = window.localStorage.getItem("morphfolio-theme");
@@ -33,8 +39,8 @@ export function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       className="icon-button"
-      aria-label="Toggle light and dark theme"
-      title="Toggle light and dark theme"
+      aria-label={labels[locale]}
+      title={labels[locale]}
     >
       <SunMoon size={17} aria-hidden="true" />
     </button>

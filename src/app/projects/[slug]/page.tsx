@@ -17,6 +17,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const locale = await getLocale();
   const sourceProject = projects.find((item) => item.slug === slug);
   const project = sourceProject ? getLocalizedProject(sourceProject, locale) : undefined;
   if (!project) return { title: "Project not found" };
@@ -30,7 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
   const locale = await getLocale();
-  const project = projects.find((item) => item.slug === slug);
+  const sourceProject = projects.find((item) => item.slug === slug);
+  const project = sourceProject ? getLocalizedProject(sourceProject, locale) : undefined;
   if (!project) notFound();
 
   return (
@@ -39,7 +41,8 @@ export default async function ProjectDetailPage({ params }: Props) {
       <SiteHeader />
       <main id="main-content" className="shell min-h-[70vh] py-16 sm:py-24">
         <Link href="/projects" className="nav-link inline-flex items-center gap-2"><ArrowLeft size={14} aria-hidden="true" /> {tr(locale, "allProjects")}</Link>
-        <div className="mt-12 max-w-3xl">
+        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
+          <div className="max-w-3xl">
           <div className="eyebrow">{project.number} / {project.category}</div>
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <h1 className="text-4xl font-semibold tracking-[-.07em] sm:text-6xl">{project.name}</h1>
@@ -51,20 +54,28 @@ export default async function ProjectDetailPage({ params }: Props) {
             <div><p className="eyebrow">{tr(locale, "stage")}</p><p className="mt-2 text-sm">{project.stage}</p></div>
           </div>
         </div>
+          <aside className="h-fit rounded-2xl border border-line bg-panel p-6 lg:mt-2">
+            <p className="eyebrow">{tr(locale, "projectSnapshot")}</p>
+            <div className="mt-5 space-y-5">
+              <div><p className="text-xs text-muted">{tr(locale, "stage")}</p><p className="mt-1 text-sm font-semibold">{project.stage}</p></div>
+              <div><p className="text-xs text-muted">{tr(locale, "involvement")}</p><p className="mt-1 text-sm font-semibold">{project.role}</p></div>
+              <div><p className="text-xs text-muted">{tr(locale, "category")}</p><p className="mt-1 text-sm font-semibold">{project.category}</p></div>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-2">{project.tags.map((tag)=><span className="tag" key={tag}>{tag}</span>)}</div>
+            {project.href ? <a href={project.href} target="_blank" rel="noreferrer" className="primary-button mt-7 w-full justify-center">{project.action} <ExternalLink size={14}/></a> : null}
+            {("externalHref" in project && project.externalHref) ? <a href={project.externalHref} target="_blank" rel="noreferrer" className={`${project.href ? "mt-3 " : "mt-7 "}secondary-button w-full justify-center`}>{project.externalLabel} <ExternalLink size={14}/></a> : null}
+          </aside>
+        </div>
         <section className="mt-14 max-w-3xl">
-          <h2 className="text-2xl font-semibold tracking-[-.05em]">{tr(locale, "notes")}</h2>
+          <div className="eyebrow mb-3">{tr(locale, "caseStudyEyebrow")}</div><h2 className="text-2xl font-semibold tracking-[-.05em]">{tr(locale, "projectStory")}</h2>
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">{project.description}</p>
           <ul className="mt-6 space-y-4">
             {project.details.map((detail) => (
               <li key={detail} className="surface-card p-5 text-sm leading-7 text-muted">{detail}</li>
             ))}
           </ul>
         </section>
-        <div className="mt-10 flex flex-wrap gap-2">
-          {project.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}
-        </div>
-        {("externalHref" in project && project.externalHref) ? (
-          <a href={project.externalHref} target="_blank" rel="noreferrer" className="primary-button mt-10">{project.externalLabel} <ExternalLink size={14} aria-hidden="true" /></a>
-        ) : null}
+        
         <div className="mt-16 border-t border-line pt-8">
           <Link href="/projects" className="inline-flex items-center gap-2 text-sm font-semibold text-brand">{tr(locale, "moreProjects")} <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>

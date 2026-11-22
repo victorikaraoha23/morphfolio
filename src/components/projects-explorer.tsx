@@ -49,7 +49,7 @@ export function ProjectsExplorer({ initialLocale }: { initialLocale: "en" | "fr"
           {query ? <button type="button" onClick={() => setQuery("")} aria-label={t.clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-2 text-muted hover:text-foreground"><X size={15} aria-hidden="true" /></button> : null}
         </label>
       </div>
-      <div className="mt-5 flex flex-wrap gap-2" aria-label={t.filterLabel}>
+      <div className="mt-5 flex flex-wrap gap-2" role="group" aria-label={t.filterLabel}>
         {categories.map((item) => <button type="button" key={item} onClick={() => setCategory(item)} aria-pressed={category === item} className={`rounded-full border px-4 py-2 text-xs font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${category === item ? "border-brand bg-brand-soft text-brand" : "border-line bg-panel text-muted hover:border-brand hover:text-foreground"}`}>{item === "All" ? t.all : item === "AI Products" ? t.ai : item === "Developer Tools" ? t.tools : item === "AI Agents" ? t.agents : item}</button>)}
       </div>
       <p className="mt-6 text-xs text-muted" aria-live="polite">{t.showing} {filteredProjects.length} {t.of} {projects.length} {t.projectCount}</p>

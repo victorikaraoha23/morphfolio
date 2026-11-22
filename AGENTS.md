@@ -39,6 +39,14 @@ Build MorphFolio: a reliable, evidence-based, self-evolving AI developer portfol
 - Use accessible semantic HTML and keyboard-operable controls.
 - Use stable IDs and timestamps for persisted records.
 
+## Portfolio identity and content rules
+
+- Present the owner as a software developer exploring AI engineering; do not imply seniority, specialist credentials, or professional experience that has not been verified.
+- Distinguish live products, work in progress, and experiments in both content and visual status labels.
+- Never invent employment, education, certifications, client work, testimonials, usage, revenue, or performance metrics.
+- Keep navigation, labels, metadata, and project content consistent across English, French, and Spanish. Missing translations must fall back deliberately to English.
+- Keep public pages polished, responsive, accessible, and consistent with the approved light/dark design tokens.
+
 ## AI-specific rules
 
 - Prefer structured generation with explicit schemas.

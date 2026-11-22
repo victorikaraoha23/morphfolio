@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, Github } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Twitter } from "lucide-react";
 
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -25,10 +25,15 @@ export default async function ContactPage() {
         <section className="surface-card mt-12 flex flex-col justify-between gap-8 p-7 sm:flex-row sm:items-center sm:p-10">
           <div className="max-w-xl">
             <div className="eyebrow mb-3">{tr(locale, "connect")}</div>
-            <h2 className="text-2xl font-semibold tracking-[-.05em]">{tr(locale, "findGithub")}</h2>
+            <h2 className="text-2xl font-semibold tracking-[-.05em]">{tr(locale, "connect")}</h2>
             <p className="mt-3 text-sm leading-7 text-muted">{tr(locale, "githubContact")}</p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <a href="https://github.com/victorikaraoha23" target="_blank" rel="me noreferrer" className="secondary-button"><Github size={15}/> GitHub <ArrowUpRight size={13}/></a>
+              <a href="https://www.linkedin.com/in/victor-ikaraoha-ba0152440/" target="_blank" rel="me noreferrer" className="secondary-button"><Linkedin size={15}/> LinkedIn <ArrowUpRight size={13}/></a>
+              <a href="https://x.com/ikaraoha23" target="_blank" rel="me noreferrer" className="secondary-button"><Twitter size={15}/> X <ArrowUpRight size={13}/></a>
+            </div>
           </div>
-          <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="primary-button shrink-0">{tr(locale, "openGithub")} <Github size={15}/><ArrowUpRight size={13}/></a>
+          
         </section>
         <p className="mt-6 max-w-2xl text-xs leading-6 text-muted">{tr(locale, "contactFormNote")}</p>
       </main>

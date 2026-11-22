@@ -32,7 +32,7 @@ export default async function ServicesPage() {
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-2">
           {areas.map(({icon: Icon,titleKey,descriptionKey},i)=>(
-            <article className="surface-card p-7" key={title}>
+            <article className="surface-card p-7" key={titleKey}>
               <div className="flex items-center justify-between"><div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-soft text-brand"><Icon size={20}/></div><span className="eyebrow">0{i+1}</span></div>
               <h2 className="mt-7 text-xl font-semibold tracking-[-.04em]">{tr(locale, titleKey as never)}</h2>
               <p className="mt-3 text-sm leading-7 text-muted">{tr(locale, descriptionKey as never)}</p>
