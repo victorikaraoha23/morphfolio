@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 import { getLocale } from "@/lib/i18n";
@@ -64,6 +66,8 @@ export default async function RootLayout({
           {themeInitialization}
         </Script>
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
