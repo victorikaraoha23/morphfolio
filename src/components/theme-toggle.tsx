@@ -25,6 +25,7 @@ export function ThemeToggle() {
     const next = current === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = next;
     window.localStorage.setItem("morphfolio-theme", next);
+    window.dispatchEvent(new CustomEvent("morphfolio:theme-change", { detail: next }));
   }
 
   return (
