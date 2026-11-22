@@ -167,7 +167,7 @@ const messages = {
     interestTag3: "Apprentissage continu",
   },
   es: {
-    ...fr,
+    ...en,
     skip: "Saltar al contenido",
     talk: "Hablemos",
     home: "Inicio",
