@@ -239,6 +239,8 @@ const messages = {
     openGithub: "Abrir perfil de GitHub",
     projectsIntro: "Una colección de productos que estoy creando e ideas técnicas que estoy explorando. El estado de cada proyecto se muestra claramente para distinguir el trabajo en curso de los lanzamientos terminados.",
     backHome: "Volver al inicio",
+    notFoundTitle: "No se ha encontrado esta página.",
+    notFoundDescription: "Es posible que la página se haya movido o que la dirección sea incorrecta.",
     moreProjects: "Explorar más proyectos",
     of: "de",
     readDetails: "Ver detalles del proyecto",
