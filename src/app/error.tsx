@@ -21,7 +21,7 @@ export default function ErrorPage({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  const locale = useSyncExternalStore(subscribeToDocumentLanguage, getDocumentLocale, () => "en");
+  const locale = useSyncExternalStore<"en" | "fr" | "es">(subscribeToDocumentLanguage, getDocumentLocale, () => "en");
   const copy = {
     en: { title: "Something went wrong", heading: "This page did not load as expected.", body: "Please try again. If the problem continues, return to the portfolio and try another page.", retry: "Try again" },
     fr: { title: "Une erreur s'est produite", heading: "Cette page ne s'est pas chargée comme prévu.", body: "Veuillez réessayer. Si le problème persiste, revenez au portfolio et ouvrez une autre page.", retry: "Réessayer" },
