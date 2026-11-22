@@ -22,9 +22,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 22
+          node-version: 26
+          cache: npm
 
-      # Keep npm install until package-lock.json is generated and committed.
+      # Switch to npm ci once package-lock.json is committed.
       - name: Install dependencies
         run: npm install
 
