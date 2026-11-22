@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Bot, Code2, Github, Layers3, Sparkles, Workflow } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bot, Code2, Github, Layers3, Linkedin, Sparkles, Twitter, Workflow } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { projects } from "@/lib/portfolio/projects";
@@ -38,7 +38,9 @@ export default async function Home() {
             <div className="mt-9 flex flex-wrap gap-3">
               <Link href="/projects" className="primary-button">{tr(locale, "exploreWork")} <ArrowUpRight size={15}/></Link>
               <Link href="/contact" className="secondary-button">{tr(locale, "contact")} <ArrowRight size={15}/></Link>
-              <a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="secondary-button"><Github size={15}/> GitHub <ArrowUpRight size={13}/></a>
+              <a href="https://github.com/victorikaraoha23" target="_blank" rel="me noreferrer" className="secondary-button"><Github size={15}/> GitHub <ArrowUpRight size={13}/></a>
+              <a href="https://www.linkedin.com/in/victor-ikaraoha-ba0152440/" target="_blank" rel="me noreferrer" aria-label="LinkedIn profile" className="secondary-button"><Linkedin size={15}/> LinkedIn <ArrowUpRight size={13}/></a>
+              <a href="https://x.com/ikaraoha23" target="_blank" rel="me noreferrer" aria-label="X profile" className="secondary-button"><Twitter size={15}/> X <ArrowUpRight size={13}/></a>
             </div>
             <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted">
               <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-positive"/>{tr(locale, "building")}</span><span>{tr(locale, "based")}</span>
@@ -114,7 +116,9 @@ export default async function Home() {
 
       <section id="contact" className="section-divider py-20 sm:py-24"><div className="shell"><div className="relative overflow-hidden rounded-[28px] border border-line bg-panel p-8 sm:p-12">
         <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand-soft blur-3xl"/><div className="relative max-w-2xl"><div className="eyebrow mb-4">{tr(locale,"getInTouch")}</div><h2 className="text-3xl font-semibold tracking-[-.06em] sm:text-5xl">{tr(locale,"idea")}</h2><p className="mt-5 text-sm leading-7 text-muted">{tr(locale,"contactIntro")}</p>
-          <div className="mt-8 flex flex-wrap gap-3"><Link href="/contact" className="primary-button">{tr(locale,"contact")} <ArrowUpRight size={14}/></Link><a href="https://github.com/victorikaraoha23" target="_blank" rel="noreferrer" className="secondary-button"><Github size={15}/> GitHub <ArrowUpRight size={13}/></a></div>
+          <div className="mt-8 flex flex-wrap gap-3"><Link href="/contact" className="primary-button">{tr(locale,"contact")} <ArrowUpRight size={14}/></Link><a href="https://github.com/victorikaraoha23" target="_blank" rel="me noreferrer" className="secondary-button"><Github size={15}/> GitHub <ArrowUpRight size={13}/></a>
+          <a href="https://www.linkedin.com/in/victor-ikaraoha-ba0152440/" target="_blank" rel="me noreferrer" className="secondary-button"><Linkedin size={15}/> LinkedIn <ArrowUpRight size={13}/></a>
+          <a href="https://x.com/ikaraoha23" target="_blank" rel="me noreferrer" className="secondary-button"><Twitter size={15}/> X <ArrowUpRight size={13}/></a></div>
         </div>
       </div></div></section>
     </main>
