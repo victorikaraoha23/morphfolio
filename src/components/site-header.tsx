@@ -28,7 +28,7 @@ export async function SiteHeader() {
         <details className="mobile-menu relative md:hidden">
           <summary aria-label="Open navigation menu"><Menu size={19} aria-hidden="true" /><span>Menu</span></summary>
           <nav className="mobile-menu-panel absolute right-0 top-12 z-50 flex min-w-44 flex-col gap-4 rounded-2xl border border-line bg-background p-5 shadow-xl" aria-label="Mobile navigation">
-            {links.map((link) => <Link className="nav-link" href={link.href} key={link.href}>{link.label}</Link>)}
+            {links.map((link) => <Link className="nav-link" href={link.href} key={link.href}>{translate(locale, link.label)}</Link>)}
           </nav>
         </details>
         <div className="flex items-center gap-2">
