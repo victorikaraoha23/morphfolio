@@ -198,3 +198,31 @@ button { font: inherit; }
   .command-trigger { width: 40px; min-width: 40px; justify-content: center; padding: 0; }
   .command-trigger-label, .command-trigger kbd { display: none; }
 }
+
+/* Print-ready curriculum vitae */
+.cv-document { color: var(--color-text); }
+.cv-section { margin-top: 1.6rem; break-inside: auto; }
+.cv-section h2 { margin-bottom: .65rem; border-bottom: 1px solid var(--color-border); padding-bottom: .35rem; color: var(--color-primary); font-size: .76rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.cv-section p, .cv-section li { font-size: .82rem; line-height: 1.55; }
+.cv-section ul { margin-top: .45rem; padding-left: 1.15rem; list-style: disc; }
+.cv-section li + li { margin-top: .25rem; }
+.cv-skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem 1.5rem; }
+.cv-skills p { margin: 0; }
+.cv-project { margin-top: 1rem; break-inside: avoid; }
+.cv-project h3 { font-size: .9rem; font-weight: 750; }
+.cv-project .cv-meta { margin-top: .2rem; color: var(--color-text-muted); font-size: .72rem; overflow-wrap: anywhere; }
+.cv-project a, .cv-document a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; }
+.cv-project ul { margin-top: .4rem; }
+@page { size: A4; margin: 14mm 15mm; }
+@media print {
+  :root, [data-theme="dark"] { color-scheme: light; --color-bg: #fff; --color-surface: #fff; --color-border: #ccc; --color-text: #171717; --color-text-muted: #444; --color-primary: #a90d59; }
+  html, body { background: #fff !important; color: #171717 !important; font-size: 9pt; }
+  .print-controls { display: none !important; }
+  .cv-print-page { max-width: none !important; padding: 0 !important; }
+  .cv-document { color: #171717 !important; }
+  .cv-section { margin-top: 1rem; }
+  .cv-section h2 { color: #a90d59 !important; }
+  .cv-project { break-inside: avoid; }
+  a { color: #171717 !important; text-decoration: none !important; }
+  .cv-document a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 7pt; overflow-wrap: anywhere; }
+}
