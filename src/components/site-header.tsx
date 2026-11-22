@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, Menu } from "lucide-react";
 
 import { ThemeToggle } from "@/components/theme-toggle";
+import { CommandPalette } from "@/components/command-palette";
 
 const links = [
   { href: "/about", label: "About" },
@@ -29,6 +30,7 @@ export function SiteHeader() {
           </nav>
         </details>
         <div className="flex items-center gap-2">
+          <CommandPalette />
           <ThemeToggle />
           <Link href="/contact" className="primary-button !min-h-10 !px-4 !text-xs">Let's talk <ArrowUpRight size={13} aria-hidden="true" /></Link>
         </div>
