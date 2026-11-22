@@ -6,11 +6,11 @@ export const projects = [
     role: "Product builder", stage: "Live", tags: ["Next.js", "TypeScript", "AI analysis", "Content tooling"],
     href: "https://ai-slop-checker-five.vercel.app/", action: "Visit live product", featured: true,
     details: [
-      "Website analysis combines supported website-builder fingerprints with HTML, design, and on-page copy signals. An optional OpenRouter-powered second opinion is kept separate from the heuristic findings.",
-      "Text analysis combines eight weighted heuristic engines covering stock phrases, burstiness, vocabulary, repetition, readability, predictability, structure, and sentiment. Short samples are adjusted toward a neutral result, and confidence is reduced when evidence is limited or ambiguous.",
+      "Website analysis checks supported builder fingerprints, HTML and design signals, and on-page copy; an optional AI second opinion can add a separate review.",
+      "Text analysis combines eight weighted heuristic engines, with quick scoring, per-paragraph indicators, confidence labels, and a practical improvement plan.",
       "Document analysis extracts text from PDF, DOCX, TXT, and Markdown files before applying the text-analysis pipeline.",
-      "Screenshot analysis performs visual-signal checks client-side in the browser; screenshot pixels are not uploaded on this analysis path.",
-      "The API uses a shared JSON response envelope, input and request-size limits, rate limiting, and URL-fetch protections that re-validate destinations after redirects to reduce SSRF risk."
+      "Screenshot analysis performs visual-signal checks in the browser, so screenshot pixels are not uploaded for that analysis path.",
+      "The API uses shared response envelopes, input and upload limits, rate limiting, and URL-fetch protections including redirect destination re-validation."
     ],
     externalLabel: "View source on GitHub", externalHref: "https://github.com/victorikaraoha23/Ai-slop-checker"
   },
@@ -23,9 +23,9 @@ export const projects = [
     details: [
       "The planned blueprint covers product requirements, user flows, scope, business rules, design direction, architecture, data and API contracts, security, testing, deployment, and delivery.",
       "Agent roles are separated into research, clarification, decision support, generation, and independent review, with structured outputs validated through Zod schemas.",
-      "The current engineering direction combines Mastra agent orchestration, the Vercel AI SDK and provider adapters, Inngest durable workflows, Neon PostgreSQL with Drizzle ORM, Supabase Auth/SSR, and Vercel Blob storage. This separates model work, background execution, identity, persistence, and document storage.",
-      "The system is designed to distinguish verified information, assumptions, recommendations, and owner-approved decisions, with traceable sources, auditable approvals, and document versions. Structured model outputs are validated with Zod before use.",
-      "The project is still in development. Route handlers and architecture documents do not by themselves prove that every provider integration or end-to-end workflow is operational. Blueprint AI is intended to complement coding agents, not replace them."
+      "The backend architecture uses durable Inngest workflows and persisted PostgreSQL state so long-running work is not tied to one HTTP request.",
+      "The system is designed to distinguish verified information, assumptions, recommendations, and approved decisions, with traceable sources and document versions.",
+      "The project is still in development; the repository's implementation plan and tests define what is complete."
     ],
     externalLabel: "View source on GitHub", externalHref: "https://github.com/victorikaraoha23/BlueprintAI"
   },
@@ -36,11 +36,11 @@ export const projects = [
     role: "Independent project", stage: "Experimental", tags: ["Next.js", "FastAPI", "Supabase", "AI agents", "Hermes runtime"],
     href: "", action: "View project details", featured: true,
     details: [
-      "The Next.js web app supports sign-up, sign-in, sign-out, and session detection through Supabase Auth. Its conversation page lets a signed-in user submit a request and view the streamed assistant reply.",
-      "The FastAPI service verifies the caller, resolves their profile, and provides owner-scoped conversation creation, listing, reading, renaming, and deletion. Supabase migrations define the profiles and conversations tables with Row Level Security.",
-      "A signed-in user can submit a message for execution through the API runtime contract and Hermes adapter. The request and assistant reply are persisted as messages in the same conversation, and the streaming endpoint returns the reply to the conversation page.",
+      "The web application supports sign-up, sign-in, sign-out, session detection, and a conversation interface backed by Supabase Auth.",
+      "The FastAPI service resolves the authenticated user and supports creating, listing, reading, renaming, and deleting conversations owned by that user.",
+      "Users can submit messages for execution through a runtime boundary and Hermes adapter; the conversation page streams the assistant reply and confirms the persisted message.",
       "The product layer owns accounts, conversation data, authorization, and product operations, while Hermes remains a separate agent-execution dependency.",
-      "Important gaps remain: there is no message-history retrieval endpoint for restoring prior messages across visits, no durable run-state or cancellation controls, and no production deployment. The current UI displays streamed replies and messages confirmed during the current visit. AgentsChat is experimental, not a hosted production service."
+      "Important gaps remain: conversation history is not yet retrieved across visits, and there is no production deployment. AgentsChat is experimental, not a hosted production service."
     ],
     externalLabel: "View source on GitHub", externalHref: "https://github.com/victorikaraoha23/Agentschat"
   },

@@ -20,6 +20,7 @@ type CommandItem = {
 const copy = {
   en: {
     placeholder: "Search pages, actions, and settings…",
+    dialogLabel: "Quick actions", searchLabel: "Search commands", closeLabel: "Close command palette", currentLabel: "Current",
     quickActions: "Quick actions",
     navigation: "Navigation",
     actions: "Actions",
@@ -33,6 +34,7 @@ const copy = {
   },
   fr: {
     placeholder: "Rechercher des pages, actions et réglages…",
+    dialogLabel: "Actions rapides", searchLabel: "Rechercher des commandes", closeLabel: "Fermer le panneau de commandes", currentLabel: "Actuelle",
     quickActions: "Actions rapides",
     navigation: "Navigation",
     actions: "Actions",
@@ -46,6 +48,7 @@ const copy = {
   },
   es: {
     placeholder: "Buscar páginas, acciones y ajustes…",
+    dialogLabel: "Acciones rápidas", searchLabel: "Buscar comandos", closeLabel: "Cerrar el panel de comandos", currentLabel: "Actual",
     quickActions: "Acciones rápidas",
     navigation: "Navegación",
     actions: "Acciones",
@@ -194,7 +197,7 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
       <dialog
         ref={dialogRef}
         className="command-dialog"
-        aria-label="Command palette"
+        aria-label={t.dialogLabel}
         onClick={(event) => { if (event.target === dialogRef.current) close(); }}
         onClose={() => { setQuery(""); setActiveIndex(0); }}
       >
@@ -207,9 +210,9 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
               onChange={(event) => { setQuery(event.target.value); setActiveIndex(0); }}
               onKeyDown={handleKeyDown}
               placeholder={t.placeholder}
-              aria-label="Search commands"
+              aria-label={t.searchLabel}
             />
-            <button type="button" className="command-close" onClick={close} aria-label="Close command palette"><X size={17} /></button>
+            <button type="button" className="command-close" onClick={close} aria-label={t.closeLabel}><X size={17} /></button>
           </div>
           <div className="command-results" role="listbox" aria-label="Commands">
             {groups.map((group) => {
@@ -233,7 +236,7 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
                       >
                         <span className="command-option-icon"><Icon size={15} aria-hidden="true" /></span>
                         <span>{item.label}</span>
-                        {item.id.startsWith("locale-") && item.id === `locale-${locale}` ? <span className="command-current">Current</span> : null}
+                        {item.id.startsWith("locale-") && item.id === `locale-${locale}` ? <span className="command-current">{t.currentLabel}</span> : null}
                       </button>
                     );
                   })}
