@@ -26,7 +26,7 @@ export default async function Home() {
           <div className="shell relative grid gap-12 lg:grid-cols-[1.25fr_.75fr] lg:items-center">
             <div>
               <div className="eyebrow mb-7 flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-brand" /> {tr(locale, "homeHero")}</div>
-              <h1 className="max-w-[780px] text-[clamp(3.3rem,8vw,6.8rem)] font-semibold leading-[.96] tracking-[-.085em]">Building software<br />with <span className="text-brand">purpose.</span></h1>
+              <h1 className="max-w-[780px] text-[clamp(3.3rem,8vw,6.8rem)] font-semibold leading-[.96] tracking-[-.085em]">{tr(locale, "homeHero")}</h1>
               <p className="mt-8 max-w-[590px] text-base leading-8 text-muted sm:text-lg">{tr(locale, "heroIntro")}</p>
               <div className="mt-9 flex flex-wrap gap-3">
                 <a href="#work" className="primary-button">{tr(locale, "exploreWork")} <ArrowDown size={15} aria-hidden="true" /></a>
@@ -37,7 +37,7 @@ export default async function Home() {
                 <span>{tr(locale, "based")}</span>
               </div>
             </div>
-            <aside className="surface-card relative overflow-hidden p-7 sm:p-8" aria-label="{tr(locale, "current")}">
+            <aside className="surface-card relative overflow-hidden p-7 sm:p-8" aria-label={tr(locale, "current")}>
               <div className="absolute -right-14 -top-14 h-48 w-48 rounded-full bg-brand-soft blur-3xl" />
               <div className="relative">
                 <div className="eyebrow mb-6 flex items-center gap-2"><Sparkles size={14} aria-hidden="true" /> {tr(locale, "current")}</div>
