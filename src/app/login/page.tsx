@@ -1,35 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/client";
 
-export default function LoginPage() {
+const loginErrorMessages: Record<string, string> = {
+  auth: "The sign-in link is invalid or has expired. Request a new link.",
+  unauthorized: "This account is not authorized to manage this portfolio.",
+  "owner-claim": "Your owner account is recognized, but its database access has not been provisioned yet.",
+  profile: "Your profile could not be initialized. Please try signing in again.",
+};
+
+function LoginForm() {
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [dismissUrlError, setDismissUrlError] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
-  useEffect(() => {
-    const errorCode = new URLSearchParams(window.location.search).get("error");
-    const messages: Record<string, string> = {
-      auth: "The sign-in link is invalid or has expired. Request a new link.",
-      unauthorized: "This account is not authorized to manage this portfolio.",
-      "owner-claim": "Your owner account is recognized, but its database access has not been provisioned yet.",
-      profile: "Your profile could not be initialized. Please try signing in again.",
-    };
-
-    if (errorCode && messages[errorCode]) {
-      setError(messages[errorCode]);
-    }
-  }, []);
+  const urlError = loginErrorMessages[searchParams.get("error") ?? ""];
+  const visibleError = error ?? (dismissUrlError ? null : urlError ?? null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage(null);
     setError(null);
+    setDismissUrlError(true);
     setIsSending(true);
 
     try {
@@ -83,12 +83,20 @@ export default function LoginPage() {
         </form>
 
         {message ? <p role="status" className="mt-5 rounded-xl border notice-success">{message}</p> : null}
-        {error ? <p role="alert" className="mt-5 rounded-xl border notice-error">{error}</p> : null}
+        {visibleError ? <p role="alert" className="mt-5 rounded-xl border notice-error">{visibleError}</p> : null}
 
         <p className="mt-8 text-xs text-muted">
           Your session is secured by Supabase Auth. <Link href="/" className="text-brand hover:underline">Return to portfolio</Link>
         </p>
       </section>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
   );
 }
