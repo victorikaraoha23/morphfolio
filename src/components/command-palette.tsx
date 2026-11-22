@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Command, Languages, Moon, Search, Sun, X } from "lucide-react";
 
-type Locale = "en" | "fr" | "ha";
+type Locale = "en" | "fr" | "es";
 type CommandItem = {
   id: string;
   label: string;
@@ -38,24 +38,13 @@ const copy = {
     home: "Accueil", about: "À propos", projects: "Projets", services: "Services", resume: "Parcours", contact: "Contact",
     language: "Changer de langue"
   },
-  ha: {
-    placeholder: "Nemo shafuka, ayyuka da saituna…",
-    navigation: "Kewayawa",
-    actions: "Ayyuka",
-    preferences: "Harshe",
-    empty: "Ba a sami umarni da ya dace ba.",
-    hint: "Matsa ↑ ↓ · Zaɓi da ↵ · Rufe da Esc",
-    themeLight: "Canza zuwa haske",
-    themeDark: "Canza zuwa duhu",
-    home: "Gida", about: "Game da ni", projects: "Ayyuka", services: "Ayyukan hidima", resume: "Tarihin aiki", contact: "Tuntuɓa",
-    language: "Canza harshe"
-  }
+  es: { placeholder: "Buscar páginas, acciones y ajustes…", navigation: "Navegación", actions: "Acciones", preferences: "Idioma", empty: "No hay comandos coincidentes.", hint: "Navegar con ↑ ↓ · Seleccionar con ↵ · Cerrar con Esc", themeLight: "Cambiar al tema claro", themeDark: "Cambiar al tema oscuro", home: "Inicio", about: "Sobre mí", projects: "Proyectos", services: "Colaboración", resume: "Trayectoria", contact: "Contacto", language: "Cambiar idioma" }
 } as const;
 
 const locales: { id: Locale; label: string; native: string }[] = [
   { id: "en", label: "English", native: "English" },
   { id: "fr", label: "French", native: "Français" },
-  { id: "ha", label: "Hausa", native: "Hausa" }
+  { id: "es", label: "Spanish", native: "Español" }
 ];
 
 export function CommandPalette() {
@@ -72,7 +61,7 @@ export function CommandPalette() {
   useEffect(() => {
     const savedLocale = window.localStorage.getItem("morphfolio-locale");
     const savedTheme = window.localStorage.getItem("morphfolio-theme");
-    if (savedLocale === "en" || savedLocale === "fr" || savedLocale === "ha") {
+    if (savedLocale === "en" || savedLocale === "fr" || savedLocale === "es") {
       setLocale(savedLocale);
       document.documentElement.lang = savedLocale;
     }
