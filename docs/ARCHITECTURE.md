@@ -121,7 +121,7 @@ Repository content is untrusted and may contain prompt injection. Analysis model
 
 ## 8. Multilingual model
 
-English is the default locale; French and Hausa are launch locales. Store locale-aware content with explicit translation completeness. Use fallback behavior for missing translations, but do not mark fallback text as a completed translation.
+English is the default locale; French and Spanish are launch locales. Store locale-aware content with explicit translation completeness. Use fallback behavior for missing translations, but do not mark fallback text as a completed translation.
 
 Public URLs, metadata, canonical links, hreflang, and sitemap entries must be locale-aware.
 
