@@ -18,7 +18,7 @@
 
 ## Phase 1 — Design system and public portfolio shell
 
-**Current progress:** The approved palette, light/dark theme behavior, shared responsive site shell, core public routes, and searchable/filterable projects index with project detail pages are implemented. The visitor command palette and the first complete English/French/Hausa public-content translation pass are implemented. CMS integration and full accessibility/performance verification remain outstanding.
+**Current progress:** The approved palette, light/dark theme behavior, shared responsive site shell, core public routes, and searchable/filterable projects index with project detail pages are implemented. The visitor command palette and the first complete English/French/Spanish public-content translation pass are implemented. CMS integration and full accessibility/performance verification remain outstanding.
 
 - [x] Implement semantic light/dark design tokens exactly matching the approved palette.
 - [x] Implement system theme preference and manual override.
@@ -72,9 +72,9 @@
 
 ## Phase 5 — Multilingual content and SEO
 
-**Current progress:** English, French, and Hausa are available for the current static public pages, shared navigation/footer, project cards, and project details. Translation infrastructure currently uses typed code-based dictionaries; database-managed translation workflows and locale-aware SEO remain outstanding.
+**Current progress:** English, French, and Spanish are available for the current static public pages, shared navigation/footer, project cards, and project details. Translation infrastructure currently uses typed code-based dictionaries; database-managed translation workflows and locale-aware SEO remain outstanding.
 
-- [x] Implement English, French, and Hausa UI/content locales; English is default.
+- [x] Implement English, French, and Spanish UI/content locales; English is default.
 - [x] Add command-palette language switcher and preserve locale across server-rendered navigation.
 - [ ] Add translation fields/workflows for future database-managed public content types.
 - [x] Add English fallback behavior for content without a translation.
