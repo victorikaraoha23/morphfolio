@@ -1,35 +1,36 @@
 # MorphFolio
 
-**A personal AI-assisted developer portfolio for Victor Ikaraoha.**
+**An AI-assisted developer portfolio product, initially built for one person.**
 
-MorphFolio is a personal developer portfolio documenting selected software products, experiments, technical interests, and the work-in-progress journey behind them. Public pages include project details, an About profile, areas of focus, services/collaboration interests, a development timeline, and contact links. The private owner dashboard is a separate management foundation; portfolio content is not yet automatically synchronized from GitHub.
+MorphFolio is both the public developer portfolio and the product being developed toward a future SaaS offering. The current release is personal-first: one portfolio, one operator, no user accounts, no login, no public registration, and no customer workspace.
+
+The immediate goal is to make the portfolio useful and credible while developing its AI-assisted workflows. SaaS capabilities are a future product phase, not a reason to add authentication, multi-tenancy, billing, or infrastructure prematurely.
 
 ## Product direction
+- **Now:** a single-user personal portfolio product, operated through the repository and Vercel deployment workflow.
+- **Later:** evaluate a hosted SaaS experience with customer accounts, persistence, tenant isolation, billing, and self-service onboarding as a separate architectural phase.
+- **Do not build now:** login, registration, an admin dashboard, a database, user accounts, or multi-tenant abstractions.
 
-The first release is a **single-owner personal portfolio**. There is no public registration, multi-user workspace, billing, or customer onboarding. The architecture should remain straightforward and maintainable, with future SaaS expansion treated as a separate product decision.
+Portfolio content is maintained as typed, version-controlled data in the repository. Updates are reviewed as code changes and published through the normal deployment workflow. AI-generated suggestions remain proposals until reviewed and incorporated.
 
 ## Core principles
-
 - **Evidence before claims:** AI-generated descriptions must be traceable to repository evidence. Never invent metrics, users, revenue, performance, or achievements.
 - **Configuration, not generated application code:** AI proposes validated portfolio data and layout configuration. The application owns and renders the React components.
-- **Human control:** The owner can review, edit, approve, reject, pause, and roll back proposed changes.
+- **Human control:** AI suggestions do not publish themselves. Approved content changes are reviewed and versioned through Git.
 - **Least privilege:** GitHub access begins read-only and requests only the permissions required for selected features.
 - **Provider independence:** OpenRouter is the initial AI gateway; model IDs are configuration, not application logic.
 - **Safe failure:** Failed analysis must never replace the last known-good published portfolio.
 
 ## Stack
-
 - Next.js App Router + React + TypeScript
 - Tailwind CSS 4 + Lucide React
-- Supabase (PostgreSQL, Auth, Storage where needed)
-- GitHub App + GitHub REST API
+- GitHub App + GitHub REST API (integration work in progress)
 - OpenRouter + Vercel AI SDK 7 + Zod 4
-- GitHub Actions
-- Vitest + Playwright (to be introduced with the test milestone)
-- Vercel deployment
+- GitHub Actions and Vercel
+
+There is currently no application database, authentication provider, or file-storage service.
 
 ## Getting started
-
 Requirements: Node.js 26.x and npm 10+.
 
 ```bash
@@ -42,52 +43,31 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000).
 
 ## Current implementation
+- Responsive public portfolio with homepage, About, projects index/detail pages, services, resume, and contact pages.
+- Light/dark themes, English/French/Spanish localization, responsive navigation, and visitor command palette.
+- Evidence-conscious project catalogue for AI Slop Checker, Blueprint AI, AgentsChat, Prismbyte, n8n workflow experiments, and a labelled RAG learning prototype.
+- GitHub, LinkedIn, and X links, development timeline, and collaboration/focus sections.
+- CI for lint, TypeScript checks, and production builds.
+- Server-only OpenRouter configuration, Zod evidence/profile schemas, and bounded repository analysis.
 
-- Responsive public portfolio experience with homepage, About, projects index and detail pages, services, resume, and contact pages.
-- Light and dark themes, English/French/Spanish localization, responsive navigation, and a visitor command palette.
-- Project catalog with lifecycle labels and evidence-based descriptions for AI Slop Checker, Blueprint AI, AgentsChat, Prismbyte, n8n workflow experiments, and an explicitly labelled RAG learning prototype.
-- Supplied GitHub, LinkedIn, and X profile links integrated into public contact surfaces.
-- Development timeline and collaboration/focus sections that avoid claiming unverified employment history or credentials.
-- CI workflow for linting, TypeScript checks, and production builds.
-- Server-only OpenRouter provider configuration.
-- Zod schemas for repository evidence packets and generated project profiles.
-- Repository analyst service with bounded output, evidence-ID validation, and a request timeout.
-- Supabase browser/server client utilities using cookie-based SSR sessions and the publishable key.
-- Server-side identity lookup using `auth.getUser()`; protected operations must not trust browser-supplied user IDs.
-- Passwordless email-link sign-in, PKCE callback handling, profile upsert, and an authenticated dashboard with sign-out.
-- Initial Supabase schema migration prepared with owner-scoped RLS, evidence-linked project profiles, evolution runs, portfolio versions, and append-only approval history.
-
-The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. The initial schema and hardening migrations are applied to the dedicated Supabase project. All 11 tables have RLS enabled, anonymous table privileges are revoked, approval history is append-only, and security advisors report no findings. Composite foreign-key indexes are in place. GitHub App installation flow, repository synchronization, persisted end-to-end analysis, and automated public publishing remain future milestones. The public portfolio currently uses maintained project data rather than a live GitHub synchronization pipeline.
+The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. It currently produces analysis in memory; durable drafts, repository synchronization, and automated publishing are future milestones. The public portfolio uses maintained project data rather than a live GitHub synchronization pipeline.
 
 ## Environment variables
+See [.env.example](.env.example). Configure only providers and integrations used by the feature being developed. Keep API keys and GitHub private keys server-side. Never commit `.env.local`, private keys, webhook secrets, or OpenRouter API keys.
 
-See [.env.example](.env.example). Set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, and `NEXT_PUBLIC_APP_URL`. In Supabase Auth URL Configuration, set the Site URL to your deployed app and allow the callback URL `<your-app-url>/auth/callback` (plus `http://localhost:3000/auth/callback` for local development). Keep all secrets server-side. Never commit `.env.local`, GitHub private keys, Supabase secret/service-role keys or OpenRouter API keys.
-
-## Database foundation
-
-See [the data model](docs/DATA_MODEL.md) and the initial migration in `supabase/migrations/`. The migration intentionally does not grant anonymous access to private portfolio data. Public portfolio delivery will be implemented as a separate, explicitly scoped read path.
+## Content and persistence
+The source of truth is version-controlled portfolio data under `src/lib/portfolio/`. This keeps the single-user release inspectable, portable, inexpensive, and easy to deploy. Introduce persistent storage only when a validated workflow cannot be served cleanly by repository-managed content.
 
 ## Quality checks
-
 ```bash
 npm run check
 ```
-
-The same lint, type-check, and production-build gates run in GitHub Actions for pull requests and pushes to `main`. A successful lint step alone is not sufficient for release approval.
-
-Or run the individual checks:
-
-```bash
-npm run lint
-npm run typecheck
-npm run build
-```
+GitHub Actions runs lint, typecheck, and production build for pull requests and pushes to `main` and `update-dev`.
 
 ## Documentation
-
 - [Product requirements](docs/PRD.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [AI system design](docs/AI_SYSTEM.md)
 - [Security model](docs/SECURITY.md)
-- [Build plan and acceptance criteria](docs/BUILD_PLAN.md)
+- [Build plan](docs/BUILD_PLAN.md)
 - [Engineering rules](AGENTS.md)

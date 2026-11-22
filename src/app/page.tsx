@@ -12,7 +12,7 @@ const capabilities = [
   { icon: Workflow, titleKey: "cap3", descriptionKey: "cap3Desc" },
   { icon: Layers3, titleKey: "cap4", descriptionKey: "cap4Desc" }
 ];
-const tools = ["TypeScript", "JavaScript", "Next.js", "React", "Supabase", "OpenRouter", "Vercel AI SDK"];
+const tools = ["TypeScript", "JavaScript", "Next.js", "React", "OpenRouter", "Vercel AI SDK"];
 const milestones = [
   { number: "01", title: "AI Slop Checker", metaKey: "timelineMeta1", descriptionKey: "timelineDesc1", statusKey: "statusLive" },
   { number: "02", title: "Blueprint AI", metaKey: "timelineMeta2", descriptionKey: "timelineDesc2", statusKey: "statusDevelopment" },
