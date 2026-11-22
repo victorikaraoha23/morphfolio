@@ -188,7 +188,7 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
   return (
     <>
       <button type="button" className="command-trigger" onClick={open} aria-label={locale === "fr" ? "Ouvrir la palette de commandes" : locale === "es" ? "Abrir la paleta de comandos" : "Open command palette"}>
-        <Command size={14} aria-hidden="true" /><span>Quick actions</span><kbd>⌘ K</kbd>
+        <Command size={14} aria-hidden="true" /><span>{locale === "fr" ? "Actions rapides" : locale === "es" ? "Acciones rápidas" : "Quick actions"}</span><kbd>⌘ K</kbd>
       </button>
       <dialog
         ref={dialogRef}
@@ -207,9 +207,9 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
               onChange={(event) => { setQuery(event.target.value); setActiveIndex(0); }}
               onKeyDown={handleKeyDown}
               placeholder={t.placeholder}
-              aria-label="Search commands"
+              aria-label={locale === "fr" ? "Rechercher des commandes" : locale === "es" ? "Buscar comandos" : "Search commands"}
             />
-            <button type="button" className="command-close" onClick={close} aria-label="Close command palette"><X size={17} /></button>
+            <button type="button" className="command-close" onClick={close} aria-label={locale === "fr" ? "Fermer la palette de commandes" : locale === "es" ? "Cerrar la paleta de comandos" : "Close command palette"}><X size={17} /></button>
           </div>
           <div className="command-results" aria-label={locale === "fr" ? "Commandes disponibles" : locale === "es" ? "Comandos disponibles" : "Available commands"}>
             {groups.map((group) => {
@@ -224,7 +224,6 @@ export function CommandPalette({ initialLocale }: { initialLocale: Locale }) {
                     return (
                       <button
                         type="button"
-                        aria-current={activeIndex === index ? "true" : undefined}
                         data-active={activeIndex === index}
                         className="command-option"
                         key={item.id}
