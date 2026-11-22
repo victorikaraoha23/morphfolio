@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { getAuthenticatedUser } from "@/lib/supabase/auth";
 import { createClient } from "@/lib/supabase/server";
-import { isPortfolioOwner } from "@/lib/supabase/owner";
+import { hasPortfolioOwnerClaim, isPortfolioOwner } from "@/lib/supabase/owner";
 
 async function signOut() {
   "use server";
@@ -23,6 +23,11 @@ export default async function DashboardPage() {
   if (!isPortfolioOwner(user.email)) {
     await supabase.auth.signOut();
     redirect("/login?error=unauthorized");
+  }
+
+  if (!hasPortfolioOwnerClaim(user.app_metadata)) {
+    await supabase.auth.signOut();
+    redirect("/login?error=owner-claim");
   }
 
   const { data: profile, error } = await supabase
