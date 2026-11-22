@@ -25,7 +25,7 @@ export default async function ProjectsPage() {
           <h1 className="text-4xl font-semibold tracking-[-.07em] sm:text-6xl">{tr(locale, "projectsTitle")}</h1>
           <p className="mt-5 text-base leading-7 text-muted">{tr(locale, "projectsIntro")}</p>
         </div>
-        <div className="mt-10"><ProjectsExplorer /></div>
+        <div className="mt-10"><ProjectsExplorer initialLocale={locale} /></div>
       </main>
       <SiteFooter />
     </>
