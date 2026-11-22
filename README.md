@@ -70,10 +70,13 @@ See [the data model](docs/DATA_MODEL.md) and the initial migration in `supabase/
 
 ```bash
 npm run check
+```
 
 The same lint, type-check, and production-build gates run in GitHub Actions for pull requests and pushes to `main`. A successful lint step alone is not sufficient for release approval.
 
-# Or run individual checks
+Or run the individual checks:
+
+```bash
 npm run lint
 npm run typecheck
 npm run build

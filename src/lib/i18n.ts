@@ -10,6 +10,7 @@ export async function getLocale(): Promise<Locale> {
 const messages = {
   en: {
     skip: "Skip to content", about: "About", projects: "Projects", services: "Services", resume: "Resume", contact: "Contact",
+    socialProfiles: "Social profiles", linkedInProfile: "LinkedIn profile", xProfile: "X profile",
     talk: "Let's talk", menu: "Menu", quick: "Quick actions", footer: "Built with intention.",
     home: "Home", aboutMe: "About me", aboutTitle: "A builder's mindset, grounded in curiosity.",
     aboutIntro: "I'm Victor Ikaraoha, a software developer based in Nigeria. I'm developing my craft by building independent software products and exploring practical applications of AI, automation, and modern web engineering.",
@@ -118,6 +119,7 @@ const messages = {
   },
   fr: {
     skip: "Aller au contenu", about: "À propos", projects: "Projets", services: "Collaboration", resume: "Parcours", contact: "Contact",
+    socialProfiles: "Profils sur les réseaux sociaux", linkedInProfile: "Profil LinkedIn", xProfile: "Profil X",
     talk: "Discutons", menu: "Menu", quick: "Actions rapides", footer: "Créé avec intention.",
     home: "Accueil", aboutMe: "À propos de moi", aboutTitle: "L'esprit d'un créateur, guidé par la curiosité.",
     aboutIntro: "Je suis Victor Ikaraoha, développeur logiciel basé au Nigeria. Je développe mes compétences en créant des produits logiciels indépendants et en explorant les applications pratiques de l'IA, de l'automatisation et du développement web moderne.",
@@ -226,6 +228,7 @@ const messages = {
   },
   es: {
     skip: "Saltar al contenido",
+    socialProfiles: "Perfiles en redes sociales", github: "Perfil de GitHub", linkedInProfile: "Perfil de LinkedIn", xProfile: "Perfil de X",
     talk: "Hablemos", menu: "Menú",
     home: "Inicio",
     aboutIntro: "Soy Victor Ikaraoha, desarrollador de software en Nigeria. Desarrollo mis habilidades creando productos de software independientes y explorando aplicaciones prácticas de IA, automatización e ingeniería web moderna.",

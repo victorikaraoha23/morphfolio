@@ -62,7 +62,12 @@ export default async function ProjectDetailPage({ params }: Props) {
               <div><p className="text-xs text-muted">{tr(locale, "category")}</p><p className="mt-1 text-sm font-semibold">{project.category}</p></div>
             </div>
             <div className="mt-6 flex flex-wrap gap-2">{project.tags.map((tag)=><span className="tag" key={tag}>{tag}</span>)}</div>
-            {("externalHref" in project && project.externalHref) ? <a href={project.externalHref} target="_blank" rel="noreferrer" className="primary-button mt-7 w-full justify-center">{project.externalLabel} <ExternalLink size={14}/></a> : null}
+            {project.href ? (
+              <a href={project.href} target="_blank" rel="noreferrer" className="secondary-button mt-7 w-full justify-center">
+                {project.action} <ExternalLink size={14} aria-hidden="true" />
+              </a>
+            ) : null}
+            {("externalHref" in project && project.externalHref) ? <a href={project.externalHref} target="_blank" rel="noreferrer" className={`primary-button ${project.href ? "mt-3" : "mt-7"} w-full justify-center`}>{project.externalLabel} <ExternalLink size={14}/></a> : null}
           </aside>
         </div>
         <section className="mt-14 max-w-3xl">
