@@ -3,16 +3,18 @@ import { ArrowUpRight, Menu } from "lucide-react";
 
 import { ThemeToggle } from "@/components/theme-toggle";
 import { CommandPalette } from "@/components/command-palette";
+import { getLocale, translate } from "@/lib/i18n";
 
 const links = [
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/services", label: "Services" },
-  { href: "/resume", label: "Resume" },
-  { href: "/contact", label: "Contact" }
+  { href: "/about", label: "about" },
+  { href: "/projects", label: "projects" },
+  { href: "/services", label: "services" },
+  { href: "/resume", label: "resume" },
+  { href: "/contact", label: "contact" }
 ];
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const locale = await getLocale();
   return (
     <header className="site-header">
       <div className="shell flex h-[76px] items-center justify-between gap-4">
@@ -21,7 +23,7 @@ export function SiteHeader() {
           <span className="text-sm font-bold tracking-[-.04em]">Victor Ikaraoha<span className="text-brand">.</span></span>
         </Link>
         <nav className="hidden items-center gap-7 md:flex" aria-label="Main navigation">
-          {links.map((link) => <Link className="nav-link" href={link.href} key={link.href}>{link.label}</Link>)}
+          {links.map((link) => <Link className="nav-link" href={link.href} key={link.href}>{translate(locale, link.label)}</Link>)}
         </nav>
         <details className="mobile-menu relative md:hidden">
           <summary aria-label="Open navigation menu"><Menu size={19} aria-hidden="true" /><span>Menu</span></summary>
@@ -32,7 +34,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <CommandPalette />
           <ThemeToggle />
-          <Link href="/contact" className="primary-button !min-h-10 !px-4 !text-xs">Let's talk <ArrowUpRight size={13} aria-hidden="true" /></Link>
+          <Link href="/contact" className="primary-button !min-h-10 !px-4 !text-xs">{translate(locale, "talk")} <ArrowUpRight size={13} aria-hidden="true" /></Link>
         </div>
       </div>
     </header>
