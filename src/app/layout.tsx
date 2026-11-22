@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: {
@@ -16,13 +17,14 @@ export const viewport: Viewport = {
   colorScheme: "light dark"
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );
