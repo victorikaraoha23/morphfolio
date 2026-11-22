@@ -107,7 +107,7 @@ export const resume = {
   education: {
     degree: "Bachelor’s Degree in Information Technology",
     institution: "Bayero University Kano (BUK), Kano State, Nigeria",
-    graduation: "Expected graduation year: 2026",
+    graduation: "Expected graduation year: 2027",
     relevant: "Software Development, Computer Systems, Databases, Networking, and Information Technology",
   },
 } as const;
