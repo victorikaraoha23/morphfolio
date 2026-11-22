@@ -107,6 +107,9 @@ alter default privileges for role supabase_admin in schema public
 alter default privileges for role supabase_admin in schema public
   revoke execute on functions from anon, authenticated, service_role;
 
+alter default privileges for role postgres in schema public
+  revoke execute on functions from anon, authenticated, service_role;
+
 -- PostgreSQL grants EXECUTE on new functions to PUBLIC by default. A schema-scoped
 -- REVOKE cannot cancel that global default, so remove it for both roles that create
 -- application functions. This is role-wide and intentionally closes the default
