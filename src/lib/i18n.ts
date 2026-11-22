@@ -10,7 +10,7 @@ export async function getLocale(): Promise<Locale> {
 const messages = {
   en: {
     skip: "Skip to content", about: "About", projects: "Projects", services: "Services", resume: "Resume", contact: "Contact",
-    talk: "Let's talk", quick: "Quick actions", footer: "Built with intention.",
+    talk: "Let's talk", menu: "Menu", quick: "Quick actions", footer: "Built with intention.",
     home: "Home", aboutMe: "About me", aboutTitle: "A builder's mindset, grounded in curiosity.",
     aboutIntro: "I'm Victor Ikaraoha, a software developer based in Nigeria. I'm developing my craft by building independent software products and exploring practical applications of AI, automation, and modern web engineering.",
     interests: "What interests me", useful: "Useful software over unnecessary complexity.",
@@ -86,7 +86,7 @@ const messages = {
     interestTag1: "Independent software projects",
     interestTag2: "AI engineering",
     interestTag3: "Continuous learning",
-    homeRole: "AI Engineer & Software Developer",
+    homeRole: "Software Developer Exploring AI Engineering",
     profileCardLabel: "A little about me",
     projectSnapshot: "Project snapshot",
     category: "Category",
@@ -118,7 +118,7 @@ const messages = {
   },
   fr: {
     skip: "Aller au contenu", about: "À propos", projects: "Projets", services: "Collaboration", resume: "Parcours", contact: "Contact",
-    talk: "Discutons", quick: "Actions rapides", footer: "Créé avec intention.",
+    talk: "Discutons", menu: "Menu", quick: "Actions rapides", footer: "Créé avec intention.",
     home: "Accueil", aboutMe: "À propos de moi", aboutTitle: "L'esprit d'un créateur, guidé par la curiosité.",
     aboutIntro: "Je suis Victor Ikaraoha, développeur logiciel basé au Nigeria. Je développe mes compétences en créant des produits logiciels indépendants et en explorant les applications pratiques de l'IA, de l'automatisation et du développement web moderne.",
     interests: "Mes centres d'intérêt", useful: "Des logiciels utiles, sans complexité inutile.",
@@ -194,7 +194,7 @@ const messages = {
     interestTag1: "Projets logiciels indépendants",
     interestTag2: "Ingénierie de l'IA",
     interestTag3: "Apprentissage continu",
-    homeRole: "Ingénieur IA & développeur logiciel",
+    homeRole: "Développeur logiciel explorant l’ingénierie IA",
     profileCardLabel: "Quelques mots sur moi",
     projectSnapshot: "Aperçu du projet",
     category: "Catégorie",
@@ -226,7 +226,7 @@ const messages = {
   },
   es: {
     skip: "Saltar al contenido",
-    talk: "Hablemos",
+    talk: "Hablemos", menu: "Menú",
     home: "Inicio",
     aboutIntro: "Soy Victor Ikaraoha, desarrollador de software en Nigeria. Desarrollo mis habilidades creando productos de software independientes y explorando aplicaciones prácticas de IA, automatización e ingeniería web moderna.",
     interests: "Mis intereses",
@@ -302,7 +302,7 @@ const messages = {
     interestTag1: "Proyectos de software independientes",
     interestTag2: "Ingeniería de IA",
     interestTag3: "Aprendizaje continuo",
-    homeRole: "Ingeniero de IA y desarrollador de software",
+    homeRole: "Desarrollador de software que explora la ingeniería de IA",
     profileCardLabel: "Un poco sobre mí",
     projectSnapshot: "Resumen del proyecto",
     category: "Categoría",
