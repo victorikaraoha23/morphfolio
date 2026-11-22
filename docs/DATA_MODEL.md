@@ -57,7 +57,7 @@ The current 11-table foundation does not yet represent the full portfolio CMS. B
 - Profile and site settings, social links, availability, and section configuration.
 - Projects, case studies, project categories, featured ordering, and public lifecycle status.
 - Skills and skill categories, services, FAQs, work experience, career timeline, education, and certifications.
-- Locale-aware translations for English, French, and Hausa, with explicit translation completeness and fallback rules.
+- Locale-aware translations for English, French, and Spanish, with explicit translation completeness and fallback rules.
 - Media metadata for screenshots, galleries, videos, diagrams, and the downloadable CV; actual file bytes belong in Supabase Storage with separate access policies.
 - Contact submissions and notification delivery status, kept private from anonymous visitors.
 - Analytics configuration and aggregated reporting references; avoid storing unnecessary visitor-level personal data.
