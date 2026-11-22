@@ -9,8 +9,8 @@ import { getLocalizedProject } from "@/lib/portfolio/project-translations";
 
 const categories = ["All", ...Array.from(new Set(projects.map((project) => project.category)))];
 
-export function ProjectsExplorer() {
-  const [locale, setLocale] = useState<"en" | "fr" | "ha">("en");
+export function ProjectsExplorer({ initialLocale }: { initialLocale: "en" | "fr" | "ha" }) {
+  const [locale, setLocale] = useState<"en" | "fr" | "ha">(initialLocale);
   const labels = {
     en: { search: "Search projects, technologies, or topics", showing: "Showing", of: "of", none: "No projects found", try: "Try another search term or category.", clear: "Clear filters", details: "Read project details", searchLabel: "Search projects", clearSearch: "Clear search", filterLabel: "Filter projects by category", projectCount: "projects", all: "All", ai: "AI Products", tools: "Developer Tools", agents: "AI Agents" },
     fr: { search: "Rechercher des projets, technologies ou sujets", showing: "Affichage de", of: "sur", none: "Aucun projet trouvé", try: "Essayez un autre terme ou une autre catégorie.", clear: "Effacer les filtres", details: "Voir les détails du projet", searchLabel: "Rechercher des projets", clearSearch: "Effacer la recherche", filterLabel: "Filtrer les projets par catégorie", projectCount: "projets", all: "Tous", ai: "Produits IA", tools: "Outils pour développeurs", agents: "Agents IA" },
@@ -19,8 +19,6 @@ export function ProjectsExplorer() {
   const t = labels[locale];
   const localizedProjects = projects.map((project) => getLocalizedProject(project, locale));
   useEffect(() => {
-    const saved = window.localStorage.getItem("morphfolio-locale");
-    if (saved === "fr" || saved === "ha") setLocale(saved);
     const sync = (event: Event) => {
       const next = (event as CustomEvent<"en" | "fr" | "ha">).detail;
       if (next === "en" || next === "fr" || next === "ha") setLocale(next);
@@ -39,7 +37,7 @@ export function ProjectsExplorer() {
       const searchableText = [project.name, project.description, project.category, ...project.tags].join(" ").toLowerCase();
       return matchesCategory && (!normalizedQuery || searchableText.includes(normalizedQuery));
     });
-  }, [category, query]);
+  }, [category, query, localizedProjects]);
 
   return (
     <div>
