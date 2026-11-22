@@ -10,9 +10,8 @@ export default async function NotFound() {
 
   return (
     <>
-      <a href="#main-content" className="skip-link">{translate(locale, "skip")}</a>
       <SiteHeader />
-      <main id="main-content" className="shell flex min-h-[65vh flex-col justify-center py-20">
+      <main className="shell flex min-h-[65vh] flex-col justify-center py-20">
         <p className="eyebrow">404 / Not found</p>
         <h1 className="mt-5 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-[-.07em] sm:text-6xl">
           {translate(locale, "notFoundTitle")}
