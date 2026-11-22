@@ -32,14 +32,15 @@ export const projects = [
   {
     slug: "agentschat", number: "03", name: "AgentsChat", category: "AI Agents", status: "Experimental",
     description: "An experimental hosted AI-agent workspace that combines a conversational product experience with a separate agent-execution runtime.",
-    overview: "AgentsChat explores a product layer for working with AI agents through a familiar chat interface. The application owns user accounts, conversations, product data, and authorization, while Hermes is treated as an execution dependency behind a runtime boundary.",
+    overview: "AgentsChat is an experimental AI-agent workspace with a web application, authenticated API, persistent conversations, and a separate Hermes execution runtime. A signed-in user can submit a message, stream an agent reply, and have the exchange persisted to the conversation.",
     role: "Independent project", stage: "Experimental", tags: ["Next.js", "FastAPI", "Supabase", "AI agents", "Hermes runtime"],
     href: "", action: "View project details", featured: true,
     details: [
-      "The repository contains web and API applications, Supabase-backed authentication and user-owned conversation data.",
-      "The API exposes conversation operations and a runtime boundary with a Hermes adapter for agent execution.",
-      "The architecture separates product responsibilities from agent-runtime responsibilities rather than embedding the runtime directly into the user-facing application.",
-      "This remains an experimental project; a production release and hosted availability are not claimed."
+      "The web application supports sign-up, sign-in, sign-out, session detection, and a conversation interface backed by Supabase Auth.",
+      "The FastAPI service resolves the authenticated user and supports creating, listing, reading, renaming, and deleting conversations owned by that user.",
+      "Users can submit messages for execution through a runtime boundary and Hermes adapter; the conversation page streams the assistant reply and confirms the persisted message.",
+      "The product layer owns accounts, conversation data, authorization, and product operations, while Hermes remains a separate agent-execution dependency.",
+      "Important gaps remain: conversation history is not yet retrieved across visits, and there is no production deployment. AgentsChat is experimental, not a hosted production service."
     ],
     externalLabel: "View source on GitHub", externalHref: "https://github.com/victorikaraoha23/Agentschat"
   },
