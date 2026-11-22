@@ -17,7 +17,7 @@ export function ProjectsExplorer({ initialLocale }: { initialLocale: "en" | "fr"
     ha: { search: "Nemo ayyuka, fasahohi ko batutuwa", showing: "Ana nuna", of: "cikin", none: "Ba a sami aiki ba", try: "Gwada wata kalma ko rukuni.", clear: "Share matattara", details: "Karanta cikakken bayani", searchLabel: "Nemo ayyuka", clearSearch: "Share bincike", filterLabel: "Tace ayyuka bisa rukuni", projectCount: "ayyuka", all: "Duka", ai: "Kayayyakin AI", tools: "Kayan aikin masu haɓakawa", agents: "Wakilan AI" }
   } as const;
   const t = labels[locale];
-  const localizedProjects = projects.map((project) => getLocalizedProject(project, locale));
+  const localizedProjects = useMemo(() => projects.map((project) => getLocalizedProject(project, locale)), [locale]);
   useEffect(() => {
     const sync = (event: Event) => {
       const next = (event as CustomEvent<"en" | "fr" | "ha">).detail;
