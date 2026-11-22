@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
 
@@ -11,6 +11,20 @@ export default function LoginPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSending, setIsSending] = useState(false);
+
+  useEffect(() => {
+    const errorCode = new URLSearchParams(window.location.search).get("error");
+    const messages: Record<string, string> = {
+      auth: "The sign-in link is invalid or has expired. Request a new link.",
+      unauthorized: "This account is not authorized to manage this portfolio.",
+      "owner-claim": "Your owner account is recognized, but its database access has not been provisioned yet.",
+      profile: "Your profile could not be initialized. Please try signing in again.",
+    };
+
+    if (errorCode && messages[errorCode]) {
+      setError(messages[errorCode]);
+    }
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
