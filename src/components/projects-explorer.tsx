@@ -12,9 +12,9 @@ const categories = ["All", ...Array.from(new Set(projects.map((project) => proje
 export function ProjectsExplorer() {
   const [locale, setLocale] = useState<"en" | "fr" | "ha">("en");
   const labels = {
-    en: { search: "Search projects, technologies, or topics", showing: "Showing", of: "of", none: "No projects found", try: "Try another search term or category.", clear: "Clear filters", details: "Read project details" },
-    fr: { search: "Rechercher des projets, technologies ou sujets", showing: "Affichage de", of: "sur", none: "Aucun projet trouvé", try: "Essayez un autre terme ou une autre catégorie.", clear: "Effacer les filtres", details: "Voir les détails du projet" },
-    ha: { search: "Nemo ayyuka, fasahohi ko batutuwa", showing: "Ana nuna", of: "cikin", none: "Ba a sami aiki ba", try: "Gwada wata kalma ko rukuni.", clear: "Share matattara", details: "Karanta cikakken bayani" }
+    en: { search: "Search projects, technologies, or topics", showing: "Showing", of: "of", none: "No projects found", try: "Try another search term or category.", clear: "Clear filters", details: "Read project details", searchLabel: "Search projects", clearSearch: "Clear search", filterLabel: "Filter projects by category", projectCount: "projects", all: "All", ai: "AI Products", tools: "Developer Tools", agents: "AI Agents" },
+    fr: { search: "Rechercher des projets, technologies ou sujets", showing: "Affichage de", of: "sur", none: "Aucun projet trouvé", try: "Essayez un autre terme ou une autre catégorie.", clear: "Effacer les filtres", details: "Voir les détails du projet", searchLabel: "Rechercher des projets", clearSearch: "Effacer la recherche", filterLabel: "Filtrer les projets par catégorie", projectCount: "projets", all: "Tous", ai: "Produits IA", tools: "Outils pour développeurs", agents: "Agents IA" },
+    ha: { search: "Nemo ayyuka, fasahohi ko batutuwa", showing: "Ana nuna", of: "cikin", none: "Ba a sami aiki ba", try: "Gwada wata kalma ko rukuni.", clear: "Share matattara", details: "Karanta cikakken bayani", searchLabel: "Nemo ayyuka", clearSearch: "Share bincike", filterLabel: "Tace ayyuka bisa rukuni", projectCount: "ayyuka", all: "Duka", ai: "Kayayyakin AI", tools: "Kayan aikin masu haɓakawa", agents: "Wakilan AI" }
   } as const;
   const t = labels[locale];
   const localizedProjects = projects.map((project) => getLocalizedProject(project, locale));
