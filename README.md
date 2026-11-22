@@ -2,7 +2,7 @@
 
 **A personal AI-assisted developer portfolio for Victor Ikaraoha.**
 
-MorphFolio presents Victor's software development and AI engineering work through project case studies, skills, services, experience, education, and a professional resume. A private owner dashboard manages the public portfolio, while GitHub integration and AI assistance help organize evidence and draft content for owner review.
+MorphFolio is a personal developer portfolio documenting selected software products, experiments, technical interests, and the work-in-progress journey behind them. Public pages include project details, an About profile, areas of focus, services/collaboration interests, a development timeline, and contact links. The private owner dashboard is a separate management foundation; portfolio content is not yet automatically synchronized from GitHub.
 
 ## Product direction
 
@@ -42,7 +42,11 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Current implementation
 
-- Next.js application shell and dark MorphFolio landing page.
+- Responsive public portfolio experience with homepage, About, projects index and detail pages, services, resume, and contact pages.
+- Light and dark themes, English/French/Spanish localization, responsive navigation, and a visitor command palette.
+- Project catalog with lifecycle labels and evidence-based descriptions for AI Slop Checker, Blueprint AI, AgentsChat, Prismbyte, n8n workflow experiments, and an explicitly labelled RAG learning prototype.
+- Supplied GitHub, LinkedIn, and X profile links integrated into public contact surfaces.
+- Development timeline and collaboration/focus sections that avoid claiming unverified employment history or credentials.
 - CI workflow for linting, TypeScript checks, and production builds.
 - Server-only OpenRouter provider configuration.
 - Zod schemas for repository evidence packets and generated project profiles.
@@ -52,7 +56,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - Passwordless email-link sign-in, PKCE callback handling, profile upsert, and an authenticated dashboard with sign-out.
 - Initial Supabase schema migration prepared with owner-scoped RLS, evidence-linked project profiles, evolution runs, portfolio versions, and append-only approval history.
 
-The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. The initial schema and hardening migrations are applied to the dedicated Supabase project. All 11 tables have RLS enabled, anonymous table privileges are revoked, approval history is append-only, and security advisors report no findings. Composite foreign-key indexes are in place. GitHub installation flow, repository synchronization, persisted end-to-end analysis, and public publishing remain future milestones.
+The AI analyst is an internal service, not a public endpoint. It requires `OPENROUTER_API_KEY` and `OPENROUTER_ANALYSIS_MODEL`. The initial schema and hardening migrations are applied to the dedicated Supabase project. All 11 tables have RLS enabled, anonymous table privileges are revoked, approval history is append-only, and security advisors report no findings. Composite foreign-key indexes are in place. GitHub App installation flow, repository synchronization, persisted end-to-end analysis, and automated public publishing remain future milestones. The public portfolio currently uses maintained project data rather than a live GitHub synchronization pipeline.
 
 ## Environment variables
 
