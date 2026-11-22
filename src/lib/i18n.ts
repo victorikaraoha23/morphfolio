@@ -83,6 +83,9 @@ const messages = {
     projectVisit: "Visit live product",
     projectOpen: "Open AI Slop Checker",
     projectRepo: "View GitHub repository",
+    interestTag1: "Independent software projects",
+    interestTag2: "AI engineering",
+    interestTag3: "Continuous learning",
   },
   fr: {
     skip: "Aller au contenu", about: "À propos", projects: "Projets", services: "Collaboration", resume: "Parcours", contact: "Contact",
@@ -159,6 +162,9 @@ const messages = {
     projectVisit: "Visiter le produit",
     projectOpen: "Ouvrir AI Slop Checker",
     projectRepo: "Voir le dépôt GitHub",
+    interestTag1: "Projets logiciels indépendants",
+    interestTag2: "Ingénierie de l'IA",
+    interestTag3: "Apprentissage continu",
   },
   ha: {
     skip: "Tsallaka zuwa abun ciki", about: "Game da ni", projects: "Ayyuka", services: "Haɗin gwiwa", resume: "Tarihin aiki", contact: "Tuntuɓa",
@@ -241,3 +247,6 @@ export function translate(locale: Locale, key: keyof typeof messages.en): string
     projectVisit: "Ziyarci samfurin",
     projectOpen: "Buɗe AI Slop Checker",
     projectRepo: "Duba ma'ajiyar GitHub",
+    interestTag1: "Ayyukan software masu zaman kansu",
+    interestTag2: "Injiniyancin AI",
+    interestTag3: "Ci gaba da koyo",
