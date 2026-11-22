@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { projects } from "@/lib/portfolio/projects";
 import { getLocale, translate as tr } from "@/lib/i18n";
+import { getLocalizedProject } from "@/lib/portfolio/project-translations";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -16,7 +17,8 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const project = projects.find((item) => item.slug === slug);
+  const sourceProject = projects.find((item) => item.slug === slug);
+  const project = sourceProject ? getLocalizedProject(sourceProject, locale) : undefined;
   if (!project) return { title: "Project not found" };
   return {
     title: project.name,
