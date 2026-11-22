@@ -6,11 +6,11 @@ export const projects = [
     role: "Product builder", stage: "Live", tags: ["Next.js", "TypeScript", "AI analysis", "Content tooling"],
     href: "https://ai-slop-checker-five.vercel.app/", action: "Visit live product", featured: true,
     details: [
-      "Website analysis checks supported builder fingerprints, HTML and design signals, and on-page copy; an optional AI second opinion can add a separate review.",
-      "Text analysis combines eight weighted heuristic engines, with quick scoring, per-paragraph indicators, confidence labels, and a practical improvement plan.",
+      "Website analysis combines supported website-builder fingerprints with HTML, design, and on-page copy signals. An optional OpenRouter-powered second opinion is kept separate from the heuristic findings.",
+      "Text analysis combines eight weighted heuristic engines covering stock phrases, burstiness, vocabulary, repetition, readability, predictability, structure, and sentiment. Short samples are adjusted toward a neutral result, and confidence is reduced when evidence is limited or ambiguous.",
       "Document analysis extracts text from PDF, DOCX, TXT, and Markdown files before applying the text-analysis pipeline.",
-      "Screenshot analysis performs visual-signal checks in the browser, so screenshot pixels are not uploaded for that analysis path.",
-      "The API uses shared response envelopes, input and upload limits, rate limiting, and URL-fetch protections including redirect destination re-validation."
+      "Screenshot analysis performs visual-signal checks client-side in the browser; screenshot pixels are not uploaded on this analysis path.",
+      "The API uses a shared JSON response envelope, input and request-size limits, rate limiting, and URL-fetch protections that re-validate destinations after redirects to reduce SSRF risk."
     ],
     externalLabel: "View source on GitHub", externalHref: "https://github.com/victorikaraoha23/Ai-slop-checker"
   },
