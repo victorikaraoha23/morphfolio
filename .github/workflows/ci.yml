@@ -25,10 +25,6 @@ jobs:
           node-version: 26
           cache: npm
 
-      # Temporary bootstrap: regenerate the lockfile on a network-enabled runner.
-      - name: Resolve package lock
-        run: npm install --package-lock-only --ignore-scripts
-
       - name: Install dependencies
         run: npm ci
 
