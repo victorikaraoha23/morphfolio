@@ -11,13 +11,16 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "check": "npm run lint && npm run typecheck && npm run build"
+    "check": "npm run lint && npm run typecheck && npm run build",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.2.1",
     "@openrouter/ai-sdk-provider": "^3.1.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.1.0",
     "ai": "^7.0.144",
+    "drizzle-orm": "^0.45.4",
     "lucide-react": "^0.468.0",
     "next": "^16.0.0",
     "react": "^19.2.0",
@@ -30,6 +33,7 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "drizzle-kit": "^0.31.11",
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.0.0",
     "tailwindcss": "^4.0.0",

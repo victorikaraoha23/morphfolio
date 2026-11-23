@@ -1,0 +1,54 @@
+name: Temporary dependency bootstrap
+
+on:
+  push:
+    branches: [update-dev]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dependency-bootstrap-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  resolve-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          ref: update-dev
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 26
+          cache: npm
+
+      - name: Generate reproducible lockfile
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Install from generated lockfile
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Production build
+        run: npm run build
+
+      - name: Commit lockfile and remove temporary bootstrap
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git show 2eac7ec528ba2c5f950ecda38fa7b5e005922464:.github/workflows/ci.yml > .github/workflows/ci.yml
+          git add package-lock.json .github/workflows/ci.yml
+          git rm .github/workflows/bootstrap-dependencies.yml
+          git commit -m "chore: lock database runtime dependencies"
+          git push origin HEAD:update-dev
