@@ -22,4 +22,4 @@ The command runs `npm run db:migrate` only when `VERCEL_ENV=production`, then ru
 
 ## GitHub Actions secret
 
-The repository-level `DATABASE_URL` secret is not consumed by the current CI workflow. Production migrations run inside Vercel using the project's Production environment variable. Keep the GitHub secret only if a future GitHub Actions database job is deliberately introduced; otherwise it can be removed from repository secrets.
+The repository-level `DATABASE_URL` secret is used only by the manually triggered **Database verification** workflow; the standard CI workflow does not receive database credentials. Production migrations run inside Vercel using the project's Production environment variable. To run the verification, open GitHub Actions → Database verification → Run workflow, select the branch to verify, and start the workflow. It checks the live schema and security invariants inside a transaction, then rolls back every fixture row. Never print or paste the secret value into logs or chat.
