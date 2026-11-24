@@ -19,7 +19,8 @@
 - [x] Implement installation, repository, project, evidence snapshot, AI run, content version, override, webhook delivery, sync run, and owner audit tables.
 - [ ] Add repository/project state enums, unique constraints, indexes, and transactional publication operations.
 - [x] Add a server-only public data-access layer and published-project queries; owner-only queries remain pending.
-- [x] Add a manually triggered, rollback-only Neon verification suite for schema, publication approval, repository visibility, private README retention, cross-project version isolation, and webhook idempotency constraints.\n- [ ] Add application-level tests for overrides, transactional publication, and last-known-good behavior.
+- [x] Add a manually triggered, rollback-only Neon verification suite for schema, publication approval, repository visibility, private README retention, cross-project version isolation, and webhook idempotency constraints.
+- [ ] Add application-level tests for overrides, transactional publication, and last-known-good behavior.
 - [ ] Preserve existing hardcoded portfolio projects as published content during migration; match them to GitHub repositories by verified repository identity.
 
 ## Milestone 2 — GitHub App connection and repository discovery
