@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit",
     "check": "npm run lint && npm run typecheck && npm run build",
     "db:migrate": "drizzle-kit migrate",
-    "vercel-build": "if [ \"$VERCEL_ENV\" = \"production\" ]; then npm run db:migrate; fi && npm run build"
+    "vercel-build": "if [ \"$VERCEL_ENV\" = \"production\" ]; then npm run db:migrate; fi && npm run build",
+    "db:verify": "node scripts/verify-database.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.1",
