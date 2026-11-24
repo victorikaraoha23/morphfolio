@@ -18,9 +18,9 @@
 - [x] Add PostgreSQL connection and Drizzle configuration/migrations.
 - [x] Implement installation, repository, project, evidence snapshot, AI run, content version, override, webhook delivery, sync run, and owner audit tables.
 - [x] Add repository/project state enums, unique constraints, and indexes.
-- [ ] Implement transactional publication operations.
+- [x] Implement transactional publication operations (first approval, validated automatic update, and safe unpublishing).
 - [x] Add a server-only public data-access layer and published-project queries; owner-only queries remain pending.
-- [x] Add a manually triggered, rollback-only Neon verification suite for schema, publication approval, repository visibility, private README retention, cross-project version isolation, and webhook idempotency constraints.
+- [x] Add a manually triggered, rollback-only Neon verification suite for schema, publication approval, repository visibility, private README retention, cross-project version isolation, webhook idempotency, and transactional publication transitions.
 - [ ] Add application-level tests for overrides, transactional publication, and last-known-good behavior.
 - [ ] Preserve existing hardcoded portfolio projects as published content during migration; match them to GitHub repositories by verified repository identity.
 

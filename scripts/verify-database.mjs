@@ -206,13 +206,104 @@ try {
     );
   });
 
-  await check("Drizzle migration ledger contains the three initial migrations", async () => {
+
+  await check("first publication requires owner approval and atomically promotes its draft", async () => {
+    const repositoryId = await createRepository();
+    const ownerId = (BigInt(Date.now()) * 1000n + 1n).toString();
+    const project = await client.query(
+      `INSERT INTO projects (repository_id, slug, publication_status)
+       VALUES ($1, $2, 'pending_review') RETURNING id`,
+      [repositoryId, `approve-${randomUUID().slice(0, 8)}`]
+    );
+    const projectId = project.rows[0].id;
+    const draft = await client.query(
+      `INSERT INTO project_content_versions (project_id, version_number, content, status)
+       VALUES ($1, 1, '{"title":"Approved draft"}'::jsonb, 'draft') RETURNING id`,
+      [projectId]
+    );
+    const versionId = draft.rows[0].id;
+    await client.query("SELECT approve_and_publish_project($1, $2, $3)", [projectId, versionId, ownerId]);
+    const state = await client.query(
+      `SELECT p.publication_status, p.current_published_version_id, v.status AS version_status
+         FROM projects p JOIN project_content_versions v ON v.id = p.current_published_version_id
+        WHERE p.id = $1`,
+      [projectId]
+    );
+    assert.equal(state.rows[0].publication_status, "published");
+    assert.equal(state.rows[0].current_published_version_id, versionId);
+    assert.equal(state.rows[0].version_status, "published");
+    const audit = await client.query(
+      "SELECT 1 FROM owner_audit_events WHERE target_id = $1 AND action = 'project.first_published'",
+      [projectId]
+    );
+    assert.equal(audit.rowCount, 1);
+  });
+
+  await check("automatic publication atomically supersedes the previous version and preserves it on failure", async () => {
+    const repositoryId = await createRepository();
+    const { projectId, versionId: firstVersionId } = await createPublishedProject(
+      repositoryId, `auto-update-${randomUUID().slice(0, 8)}`
+    );
+    const draft = await client.query(
+      `INSERT INTO project_content_versions (project_id, version_number, content, status)
+       VALUES ($1, 2, '{"title":"Updated draft"}'::jsonb, 'draft') RETURNING id`,
+      [projectId]
+    );
+    const secondVersionId = draft.rows[0].id;
+    await client.query("SELECT publish_validated_project_update($1, $2)", [projectId, secondVersionId]);
+    const promoted = await client.query(
+      `SELECT p.current_published_version_id, old.status AS old_status, current.status AS current_status
+         FROM projects p
+         JOIN project_content_versions old ON old.id = $2
+         JOIN project_content_versions current ON current.id = p.current_published_version_id
+        WHERE p.id = $1`,
+      [projectId, firstVersionId]
+    );
+    assert.equal(promoted.rows[0].current_published_version_id, secondVersionId);
+    assert.equal(promoted.rows[0].old_status, "superseded");
+    assert.equal(promoted.rows[0].current_status, "published");
+
+    await client.query("UPDATE projects SET automatic_updates_enabled = false WHERE id = $1", [projectId]);
+    const third = await client.query(
+      `INSERT INTO project_content_versions (project_id, version_number, content, status)
+       VALUES ($1, 3, '{"title":"Must not publish"}'::jsonb, 'draft') RETURNING id`,
+      [projectId]
+    );
+    await expectSqlState(
+      () => client.query("SELECT publish_validated_project_update($1, $2)", [projectId, third.rows[0].id]),
+      "23514"
+    );
+    const preserved = await client.query(
+      "SELECT current_published_version_id FROM projects WHERE id = $1",
+      [projectId]
+    );
+    assert.equal(preserved.rows[0].current_published_version_id, secondVersionId);
+  });
+
+  await check("ineligible repository unpublishes its project without deleting the last published version", async () => {
+    const repositoryId = await createRepository();
+    const { projectId, versionId } = await createPublishedProject(
+      repositoryId, `unpublish-${randomUUID().slice(0, 8)}`
+    );
+    await client.query("UPDATE repositories SET visibility = 'private' WHERE id = $1", [repositoryId]);
+    const result = await client.query("SELECT unpublish_ineligible_project($1) AS unpublished", [projectId]);
+    assert.equal(result.rows[0].unpublished, true);
+    const state = await client.query(
+      `SELECT publication_status, current_published_version_id
+         FROM projects WHERE id = $1`,
+      [projectId]
+    );
+    assert.equal(state.rows[0].publication_status, "unpublished");
+    assert.equal(state.rows[0].current_published_version_id, versionId);
+  });
+
+  await check("Drizzle migration ledger contains all four persistence migrations", async () => {
     const result = await client.query(
       "SELECT to_regclass('drizzle.__drizzle_migrations') AS ledger"
     );
     assert.ok(result.rows[0].ledger, "Missing Drizzle migration ledger");
     const migrations = await client.query("SELECT count(*)::int AS count FROM drizzle.__drizzle_migrations");
-    assert.ok(migrations.rows[0].count >= 3, "Expected at least three applied migrations");
+    assert.ok(migrations.rows[0].count >= 4, "Expected at least four applied migrations");
   });
 
   await client.query("ROLLBACK");
