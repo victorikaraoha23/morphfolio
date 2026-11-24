@@ -17,7 +17,8 @@
 ## Milestone 1 — Repository foundation and data model
 - [x] Add PostgreSQL connection and Drizzle configuration/migrations.
 - [x] Implement installation, repository, project, evidence snapshot, AI run, content version, override, webhook delivery, sync run, and owner audit tables.
-- [ ] Add repository/project state enums, unique constraints, indexes, and transactional publication operations.
+- [x] Add repository/project state enums, unique constraints, and indexes.
+- [ ] Implement transactional publication operations.
 - [x] Add a server-only public data-access layer and published-project queries; owner-only queries remain pending.
 - [x] Add a manually triggered, rollback-only Neon verification suite for schema, publication approval, repository visibility, private README retention, cross-project version isolation, and webhook idempotency constraints.
 - [ ] Add application-level tests for overrides, transactional publication, and last-known-good behavior.
