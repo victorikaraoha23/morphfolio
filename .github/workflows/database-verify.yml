@@ -1,10 +1,27 @@
 name: Database verification
 
 on:
+  # Keep a manual fallback, and verify automatically when database-related
+  # changes reach production through main.
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/database-verify.yml"
+      - "drizzle/**"
+      - "drizzle.config.ts"
+      - "scripts/verify-database.mjs"
+      - "src/lib/db/schema.ts"
+      - "package.json"
+      - "package-lock.json"
 
 permissions:
   contents: read
+
+concurrency:
+  group: database-verification-main
+  cancel-in-progress: false
 
 jobs:
   verify-neon:
